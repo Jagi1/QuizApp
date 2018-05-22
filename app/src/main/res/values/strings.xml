@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">QuizApp</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="date">Set date of birth</string>
+    <string name="settings">Settings</string>
+    <string name="fast_game">Fast game</string>
+    <string name="invite_friend">Invite friend</string>
+    <string name="categories">Categories</string>
+    <string name="new_quiz">Make own quiz</string>
+    <string name="my_quizzes">Own quizzes</string>
+    <string name="challenges">Challenges</string>
+</resources>
