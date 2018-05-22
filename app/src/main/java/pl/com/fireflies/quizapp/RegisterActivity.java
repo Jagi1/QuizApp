@@ -27,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         initViews();
 
         date_button.setOnClickListener(new View.OnClickListener() {

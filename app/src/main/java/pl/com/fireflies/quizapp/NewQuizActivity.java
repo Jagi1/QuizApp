@@ -25,9 +25,10 @@ public class NewQuizActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colorMaterialGreen));
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu,menu);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorMaterialGreen));
         return super.onCreateOptionsMenu(menu);
     }
 
