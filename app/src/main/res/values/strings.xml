@@ -13,7 +13,10 @@
     <string name="my_quizzes">Own quizzes</string>
     <string name="challenges">Challenges</string>
     <string name="currency">currency</string>
-    <string name="level">level</string>
-    <string name="rank">rank</string>
+    <string name="level">Level</string>
+    <string name="rank">Rank</string>
     <string name="account">Account</string>
+    <string name="change">Change</string>
+    <string name="znajomi">Znajomi</string>
+    <string name="wyloguj">Wyloguj</string>
 </resources>

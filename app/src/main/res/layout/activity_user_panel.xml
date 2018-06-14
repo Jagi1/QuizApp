@@ -8,8 +8,7 @@
 
     <include
         android:id="@+id/user_bar"
-        layout="@layout/user_bar">
-    </include>
+        layout="@layout/user_bar"></include>
 
     <LinearLayout
         android:id="@+id/linear_01"
@@ -17,7 +16,7 @@
         android:layout_width="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/user_bar">
-        
+
         <android.support.v7.widget.CardView
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
@@ -39,14 +38,14 @@
                     android:layout_height="46dp"
                     android:background="@drawable/circle_background_red"
                     android:src="@drawable/ic_android_black_24dp"
-                    android:padding="10dp"/>
+                    android:padding="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_marginTop="5dp"
-                    android:text="@string/fast_game"/>
+                    android:text="@string/fast_game" />
 
             </LinearLayout>
 
@@ -73,14 +72,14 @@
                     android:layout_height="46dp"
                     android:background="@drawable/circle_background_purple"
                     android:src="@drawable/ic_android_black_24dp"
-                    android:padding="10dp"/>
+                    android:padding="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_marginTop="5dp"
-                    android:text="@string/invite_friend"/>
+                    android:text="@string/invite_friend" />
 
             </LinearLayout>
 
@@ -116,14 +115,14 @@
                     android:layout_height="46dp"
                     android:background="@drawable/circle_background_yellow"
                     android:src="@drawable/ic_android_black_24dp"
-                    android:padding="10dp"/>
+                    android:padding="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_marginTop="5dp"
-                    android:text="@string/categories"/>
+                    android:text="@string/categories" />
 
             </LinearLayout>
 
@@ -150,14 +149,14 @@
                     android:layout_height="46dp"
                     android:background="@drawable/circle_background_green"
                     android:src="@drawable/ic_android_black_24dp"
-                    android:padding="10dp"/>
+                    android:padding="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_marginTop="5dp"
-                    android:text="@string/new_quiz"/>
+                    android:text="@string/new_quiz" />
 
             </LinearLayout>
 
@@ -193,14 +192,14 @@
                     android:layout_height="46dp"
                     android:background="@drawable/circle_background_pink"
                     android:src="@drawable/ic_android_black_24dp"
-                    android:padding="10dp"/>
+                    android:padding="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_marginTop="5dp"
-                    android:text="@string/my_quizzes"/>
+                    android:text="@string/my_quizzes" />
 
             </LinearLayout>
 
@@ -227,14 +226,14 @@
                     android:layout_height="46dp"
                     android:background="@drawable/circle_background_violet"
                     android:src="@drawable/ic_android_black_24dp"
-                    android:padding="10dp"/>
+                    android:padding="10dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:layout_marginTop="5dp"
-                    android:text="@string/challenges"/>
+                    android:text="@string/challenges" />
 
             </LinearLayout>
 

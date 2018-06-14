@@ -2,26 +2,24 @@ package pl.com.fireflies.quizapp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.ContactsContract;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class UserPanelActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class UserPanelActivity extends AppCompatActivity implements View.OnClickListener {
     private Intent intent;
-    private CardView fast_game_card,invite_friend_card,categories_card,new_quiz_card,my_quizes_card,challenges_card;
+    private CardView fast_game_card, invite_friend_card, categories_card, new_quiz_card, my_quizes_card, challenges_card;
     private Toolbar toolbar;
     private AlertDialog.Builder friend_list_builder;
     private AlertDialog friend_list_dialog;
     private ImageButton avatar, settings;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_panel);
         initViews();
@@ -31,17 +29,15 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void onClick(View v)
-    {
-        switch(v.getId())
-        {
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.fast_game_card:
-                intent = new Intent(UserPanelActivity.this,QuizActivity.class);
+                intent = new Intent(UserPanelActivity.this, QuizActivity.class);
                 UserPanelActivity.this.startActivity(intent);
                 break;
 
             case R.id.invite_friend_card:
-                String[]PLACEHOLDER_FRIEND_LIST={"Friend 1","Friend 2","Friend 3"};
+                String[] PLACEHOLDER_FRIEND_LIST = {"Friend 1", "Friend 2", "Friend 3"};
                 friend_list_builder = new AlertDialog.Builder(UserPanelActivity.this);
                 friend_list_builder.setTitle("Friend list");
 
@@ -59,40 +55,39 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.categories_card:
-                intent = new Intent(UserPanelActivity.this,CategoriesActivity.class);
+                intent = new Intent(UserPanelActivity.this, CategoriesActivity.class);
                 UserPanelActivity.this.startActivity(intent);
                 break;
 
             case R.id.new_quiz_card:
-                intent = new Intent(UserPanelActivity.this,NewQuizActivity.class);
+                intent = new Intent(UserPanelActivity.this, NewQuizActivity.class);
                 UserPanelActivity.this.startActivity(intent);
                 break;
 
             case R.id.my_quizzes_card:
-                intent = new Intent(UserPanelActivity.this,MyQuizzesActivity.class);
+                intent = new Intent(UserPanelActivity.this, MyQuizzesActivity.class);
                 UserPanelActivity.this.startActivity(intent);
                 break;
 
             case R.id.challenges_card:
-                intent = new Intent(UserPanelActivity.this,ChallengesActivity.class);
+                intent = new Intent(UserPanelActivity.this, ChallengesActivity.class);
                 UserPanelActivity.this.startActivity(intent);
                 break;
 
             case R.id.avatar:
-                intent = new Intent(UserPanelActivity.this,AccountSettingsActivity.class);
+                intent = new Intent(UserPanelActivity.this, AccountSettingsActivity.class);
                 UserPanelActivity.this.startActivity(intent);
                 break;
 
             case R.id.settings_gear:
-                intent = new Intent(UserPanelActivity.this,SettingsActivity.class);
+                intent = new Intent(UserPanelActivity.this, SettingsActivity.class);
                 UserPanelActivity.this.startActivity(intent);
                 break;
         }
     }
 
-    protected void initViews()
-    {
-        toolbar = (Toolbar)findViewById(R.id.user_bar);
+    protected void initViews() {
+        toolbar = (Toolbar) findViewById(R.id.user_bar);
         fast_game_card = (CardView) findViewById(R.id.fast_game_card);
         invite_friend_card = (CardView) findViewById(R.id.invite_friend_card);
         categories_card = (CardView) findViewById(R.id.categories_card);

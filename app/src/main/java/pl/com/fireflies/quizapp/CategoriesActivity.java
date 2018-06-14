@@ -1,7 +1,7 @@
 package pl.com.fireflies.quizapp;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 public class CategoriesActivity extends AppCompatActivity {
 
@@ -12,8 +12,8 @@ public class CategoriesActivity extends AppCompatActivity {
         initViews();
 
     }
-    protected void initViews()
-    {
+
+    protected void initViews() {
 
     }
 }

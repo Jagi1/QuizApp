@@ -27,8 +27,7 @@
             app:layout_constraintStart_toEndOf="@+id/avatar"
             app:layout_constraintEnd_toStartOf="@+id/rank"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/rank"
@@ -40,8 +39,7 @@
             app:layout_constraintStart_toEndOf="@+id/level"
             app:layout_constraintEnd_toStartOf="@+id/currency"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/currency"
@@ -53,8 +51,7 @@
             app:layout_constraintStart_toEndOf="@+id/rank"
             app:layout_constraintEnd_toStartOf="@+id/settings_gear"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <ImageButton
             android:id="@+id/settings_gear"

@@ -1,12 +1,9 @@
 package pl.com.fireflies.quizapp;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 public class ChallengesActivity extends AppCompatActivity {
     android.support.design.widget.TabLayout tabLayout;
@@ -26,8 +23,8 @@ public class ChallengesActivity extends AppCompatActivity {
 
         viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        viewPagerAdapter.AddFragment(new ChallengeFragment(),"Current challenges");
-        viewPagerAdapter.AddFragment(new HistoryFragment(),"History");
+        viewPagerAdapter.AddFragment(new ChallengeFragment(), "Current challenges");
+        viewPagerAdapter.AddFragment(new HistoryFragment(), "History");
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

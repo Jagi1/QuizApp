@@ -46,14 +46,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_purple"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 1"/>
+                            android:text="Category 1" />
 
                         <View
                             android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -93,14 +93,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_pink"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 2"/>
+                            android:text="Category 2" />
 
                         <View
                             android:layout_width="match_parent"
@@ -114,7 +114,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -149,14 +149,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_green"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 3"/>
+                            android:text="Category 3" />
 
                         <View
                             android:layout_width="match_parent"
@@ -170,7 +170,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -196,14 +196,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_yellow"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 4"/>
+                            android:text="Category 4" />
 
                         <View
                             android:layout_width="match_parent"
@@ -217,7 +217,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -252,14 +252,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_red"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 5"/>
+                            android:text="Category 5" />
 
                         <View
                             android:layout_width="match_parent"
@@ -273,7 +273,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -299,14 +299,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_violet"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 6"/>
+                            android:text="Category 6" />
 
                         <View
                             android:layout_width="match_parent"
@@ -320,7 +320,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -355,14 +355,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_purple"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 7"/>
+                            android:text="Category 7" />
 
                         <View
                             android:layout_width="match_parent"
@@ -376,7 +376,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -402,14 +402,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_pink"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 8"/>
+                            android:text="Category 8" />
 
                         <View
                             android:layout_width="match_parent"
@@ -423,7 +423,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -458,14 +458,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_green"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 9"/>
+                            android:text="Category 9" />
 
                         <View
                             android:layout_width="match_parent"
@@ -479,7 +479,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -505,14 +505,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_yellow"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 10"/>
+                            android:text="Category 10" />
 
                         <View
                             android:layout_width="match_parent"
@@ -526,7 +526,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -561,14 +561,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_red"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 11"/>
+                            android:text="Category 11" />
 
                         <View
                             android:layout_width="match_parent"
@@ -582,7 +582,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -608,14 +608,14 @@
                             android:layout_height="64dp"
                             android:background="@drawable/circle_background_violet"
                             android:src="@drawable/ic_android_black_24dp"
-                            android:padding="10dp"/>
+                            android:padding="10dp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 12"/>
+                            android:text="Category 12" />
 
                         <View
                             android:layout_width="match_parent"
@@ -629,7 +629,7 @@
                             android:gravity="center"
                             android:text="Simple category description"
                             android:padding="5dp"
-                            android:textColor="@android:color/darker_gray"/>
+                            android:textColor="@android:color/darker_gray" />
 
                     </LinearLayout>
 
@@ -640,7 +640,6 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </android.support.constraint.ConstraintLayout>
