@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class ChallengesActivity extends AppCompatActivity {
-    TabLayout tabLayout;
+    android.support.design.widget.TabLayout tabLayout;
     ViewPager viewPager;
     ViewPagerAdapter viewPagerAdapter;
 
@@ -21,16 +21,16 @@ public class ChallengesActivity extends AppCompatActivity {
         /*
          * TODO TabLayout
          */
-//        tabLayout = (TabLayout) findViewById(R.id.tab_layout_help);
-//        viewPager = (ViewPager) findViewById(R.id.view_pager_help);
-//
-//        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-//
-//        viewPagerAdapter.AddFragment(new ChallengeFragment(),"Current challenges");
-//        viewPagerAdapter.AddFragment(new HistoryFragment(),"History");
-//
-//        viewPager.setAdapter(viewPagerAdapter);
-//        tabLayout.setupWithViewPager(viewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout_help);
+        viewPager = (ViewPager) findViewById(R.id.view_pager_help);
+
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        viewPagerAdapter.AddFragment(new ChallengeFragment(),"Current challenges");
+        viewPagerAdapter.AddFragment(new HistoryFragment(),"History");
+
+        viewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 }

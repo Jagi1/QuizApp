@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
-public class MyQuizzesActivity extends AppCompatActivity {
+public class MyQuizzesActivity extends AppCompatActivity implements View.OnClickListener {
     private Intent intent;
     private Toolbar toolbar;
+    private ImageButton avatar, settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,32 +22,25 @@ public class MyQuizzesActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(null);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch(item.getItemId())
-        {
-            case R.id.action_settings:
-                intent = new Intent(MyQuizzesActivity.this,settingsActivity.class);
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.settings_gear:
+                intent = new Intent(MyQuizzesActivity.this,SettingsActivity.class);
                 MyQuizzesActivity.this.startActivity(intent);
                 break;
-            default:
 
+            case R.id.avatar:
+                intent = new Intent(MyQuizzesActivity.this,AccountSettingsActivity.class);
+                MyQuizzesActivity.this.startActivity(intent);
+                break;
         }
-        return super.onOptionsItemSelected(item);
     }
 
-    protected void initViews()
-    {
+    protected void initViews() {
         toolbar = (Toolbar)findViewById(R.id.user_bar);
+        avatar = (ImageButton) findViewById(R.id.avatar);
+        settings = (ImageButton) findViewById(R.id.settings_gear);
     }
 }

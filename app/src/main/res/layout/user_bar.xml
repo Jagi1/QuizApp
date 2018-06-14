@@ -1,6 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="40dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/user_avatar"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="TODO" />
+
+        <TextView
+            android:id="@+id/level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="60dp"
+            android:text="@string/level"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/avatar"
+            app:layout_constraintEnd_toStartOf="@+id/rank"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="60dp"
+            android:text="@string/rank"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/level"
+            app:layout_constraintEnd_toStartOf="@+id/currency"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="60dp"
+            android:text="@string/currency"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/rank"
+            app:layout_constraintEnd_toStartOf="@+id/settings_gear"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <ImageButton
+            android:id="@+id/settings_gear"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/settings"
+            android:scaleType="fitXY"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="TODO" />
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.Toolbar>

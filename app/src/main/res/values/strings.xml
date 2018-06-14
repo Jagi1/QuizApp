@@ -12,4 +12,8 @@
     <string name="new_quiz">Make own quiz</string>
     <string name="my_quizzes">Own quizzes</string>
     <string name="challenges">Challenges</string>
+    <string name="currency">currency</string>
+    <string name="level">level</string>
+    <string name="rank">rank</string>
+    <string name="account">Account</string>
 </resources>

@@ -9,7 +9,6 @@
     <include
         android:id="@+id/user_bar"
         layout="@layout/user_bar">
-
     </include>
 
     <LinearLayout

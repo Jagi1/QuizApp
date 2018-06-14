@@ -18,12 +18,13 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".UserPanelActivity" />
-        <activity android:name=".settingsActivity" />
+        <activity android:name=".SettingsActivity" />
         <activity android:name=".QuizActivity" />
         <activity android:name=".CategoriesActivity" />
         <activity android:name=".ChallengesActivity" />
         <activity android:name=".MyQuizzesActivity" />
-        <activity android:name=".NewQuizActivity"></activity>
+        <activity android:name=".NewQuizActivity" />
+        <activity android:name=".AccountSettingsActivity"></activity>
     </application>
 
 </manifest>
