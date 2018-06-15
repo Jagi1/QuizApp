@@ -26,6 +26,8 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
+
+
     }
 
     @Override
