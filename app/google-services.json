@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "816375273908",
+    "firebase_url": "https://quiza2018.firebaseio.com",
+    "project_id": "quiza2018",
+    "storage_bucket": "quiza2018.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:816375273908:android:7d7e7ac65747a0a5",
+        "android_client_info": {
+          "package_name": "pl.com.fireflies.quizapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "816375273908-r2vrnesm4a7fqbv5od5gk1bithm7qevg.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "816375273908-r2vrnesm4a7fqbv5od5gk1bithm7qevg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDoBL-GSTX6yHX7mrKrhED9PdItz4Pjc4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
