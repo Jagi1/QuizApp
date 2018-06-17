@@ -62,9 +62,18 @@ public class RegisterActivity extends AppCompatActivity {
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(email_edit.getText()) && !TextUtils.isEmpty(login_edit.getText()) && !TextUtils.isEmpty(password_edit.getText())) {
-                    if (isNetworkConnected()) {
-                        registry(email_edit.getText().toString(), password_edit.getText().toString());
+                if (!TextUtils.isEmpty(email_edit.getText()) && !TextUtils.isEmpty(login_edit.getText()) && !TextUtils.isEmpty(password_edit.getText()))
+                {
+                    if (isNetworkConnected())
+                    {
+                        if(Calendar.getInstance().get(Calendar.YEAR)-year>16)
+                        {
+                            registry(email_edit.getText().toString(), password_edit.getText().toString());
+                        }
+                        else
+                        {
+                            Toast.makeText(RegisterActivity.this, "You're too young kido for this app ;)", Toast.LENGTH_LONG).show();
+                        }
                     } else {
                         Toast.makeText(RegisterActivity.this, "Brak połączenia z internetem.", Toast.LENGTH_SHORT).show();
                     }
@@ -78,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
                 month = month + 1;
                 Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month + "/" + dayOfMonth + "/" + year);
                 date = month + "/" + dayOfMonth + "/" + year;
-                Toast.makeText(RegisterActivity.this, date, Toast.LENGTH_LONG).show();
+                date_button.setText(date);
             }
         };
 

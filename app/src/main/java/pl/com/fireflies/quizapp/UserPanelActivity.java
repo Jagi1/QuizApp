@@ -10,6 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+
 public class UserPanelActivity extends AppCompatActivity implements View.OnClickListener {
     private Intent intent;
     private CardView fast_game_card, invite_friend_card, categories_card, new_quiz_card, my_quizes_card, challenges_card;
@@ -27,7 +30,18 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
 
+        DataHolder.getInstance().setFirebaseUser(FirebaseAuth.getInstance().getCurrentUser());
+        DataHolder.getInstance().setFirebaseAuth(FirebaseAuth.getInstance());
+        DataHolder.getInstance().setStorageReference(FirebaseStorage.getInstance().getReference());
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(DataHolder.getInstance().getFirebaseUser()==null)
+        {
+            finish();
+        }
     }
 
     @Override
