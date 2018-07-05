@@ -13,6 +13,14 @@ public class ChallengesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(DataHolder.getInstance().dark_theme)
+        {
+            setTheme(R.style.DarkAppTheme);
+        }
+        else
+        {
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_challenges);
 
         /*
@@ -29,5 +37,15 @@ public class ChallengesActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(DataHolder.getInstance().theme_changed)
+        {
+            DataHolder.getInstance().theme_changed = false;
+            recreate();
+        }
     }
 }

@@ -17,4 +17,7 @@
     <color name="colorMaterialGreen">#00bfa5</color>
     <color name="colorMaterialRed">#E94F37</color>
     <color name="colorMaterialViolet">#ACB0BD</color>
+    <color name="colorMaterialDark1">#160C28</color>
+    <color name="colorMaterialDark2">#01110A</color>
+    <color name="colorMaterialDark3">#5A5A66</color>
 </resources>

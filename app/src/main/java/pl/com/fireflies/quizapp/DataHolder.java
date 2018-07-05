@@ -2,47 +2,33 @@ package pl.com.fireflies.quizapp;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 /**
  * Klasa w której trzymane są zmienne wykorzystywane w wielu aktywnościach.
- * Taki pojemnik na zmienne globalne.
+ * Taki pojemnik na zmienne globalne (Singleton).
  * */
 
 public class DataHolder
 {
-    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    private FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    private StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-    private static final DataHolder holder = new DataHolder();
-
+    private static final DataHolder singleton = new DataHolder();
     public static final DataHolder getInstance()
     {
-        return holder;
+        return singleton;
     }
 
-    public FirebaseAuth getFirebaseAuth() {
-        return firebaseAuth;
-    }
-
-    public void setFirebaseAuth(FirebaseAuth firebaseAuth) {
-        this.firebaseAuth = firebaseAuth;
-    }
-
-    public FirebaseUser getFirebaseUser() {
-        return firebaseUser;
-    }
-
-    public void setFirebaseUser(FirebaseUser firebaseUser) {
-        this.firebaseUser = firebaseUser;
-    }
-
-    public StorageReference getStorageReference() {
-        return storageReference;
-    }
-
-    public void setStorageReference(StorageReference storageReference) {
-        this.storageReference = storageReference;
-    }
+    // Autoryzacja logowania
+    public FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    // Pobieranie informacji o zalogowanym uzytkowniku
+    public FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+    // Wskaznik do Storage w Firebase (informacje o uzytkownikach)
+    public StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    // Wskaznik do Database w Firebase (baza z quizami)
+    public DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+    // Wybór motywu aplikacji
+    public boolean dark_theme = false;
+    public boolean theme_changed = false;
 }

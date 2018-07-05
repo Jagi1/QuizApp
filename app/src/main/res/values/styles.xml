@@ -6,6 +6,17 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:background">@color/colorMaterialBackground</item>
+        <item name="android:button">@color/colorMaterialDeepPurple</item>
+    </style>
+
+    <style name="DarkAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorMaterialDark2</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:background">@color/colorMaterialDark3</item>
+        <item name="android:button">@color/colorMaterialDark2</item>
     </style>
 
     <style name="Theme.ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
