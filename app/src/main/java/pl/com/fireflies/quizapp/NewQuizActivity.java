@@ -23,6 +23,14 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(DataHolder.getInstance().dark_theme)
+        {
+            setTheme(R.style.DarkAppTheme);
+        }
+        else
+        {
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_new_quiz);
         initViews();
 

@@ -18,6 +18,7 @@
         <item name="android:background">@color/colorMaterialDark3</item>
         <item name="android:colorButtonNormal">@color/customColor1</item>
         <item name="android:textColorHint">@color/colorMaterialYellow</item>
+        <item name="android:colorEdgeEffect">@color/colorMaterialRed</item>
     </style>
 
     <style name="Theme.ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">

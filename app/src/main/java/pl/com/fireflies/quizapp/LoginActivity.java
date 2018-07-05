@@ -32,6 +32,12 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        sharedPreferences = getSharedPreferences(PREF_VAR, 0);
+        editor = sharedPreferences.edit();
+
+        DataHolder.getInstance().dark_theme = sharedPreferences.getBoolean("dark_theme",false);
+
         if(DataHolder.getInstance().dark_theme)
         {
             setTheme(R.style.DarkAppTheme);
@@ -83,8 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         checkBox = (CheckBox) findViewById(R.id.remember_check_box);
         progressDialog = new ProgressDialog(this);
 
-        sharedPreferences = getSharedPreferences(PREF_VAR, 0);
-        editor = sharedPreferences.edit();
+        checkBox.setChecked(sharedPreferences.getBoolean("pass_checked",false));
 
         login_edit.setText(sharedPreferences.getString("login", ""));
         password_edit.setText(sharedPreferences.getString("password", ""));
@@ -110,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                             {
                                 editor.putString("login", login_edit.getText().toString());
                                 editor.putString("password", password_edit.getText().toString());
+                                editor.putBoolean("pass_checked",true);
                                 editor.commit();
                             }
                             else
