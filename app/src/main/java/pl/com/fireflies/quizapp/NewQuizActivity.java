@@ -2,6 +2,7 @@ package pl.com.fireflies.quizapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -17,8 +18,6 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     private Intent intent;
     private Toolbar toolbar;
     private ImageButton avatar, settings;
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,23 +49,23 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
         addquiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDatabase.child("quizy").child(namequiz.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child("category").setValue(categoryquiz.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz1.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz1.getText().toString()).child("okodp").setValue(okodp1.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz1.getText().toString()).child("otherodp").setValue(otherodp1.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz2.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz2.getText().toString()).child("okodp").setValue(okodp2.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz2.getText().toString()).child("otherodp").setValue(otherodp2.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz3.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz3.getText().toString()).child("okodp").setValue(okodp3.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz3.getText().toString()).child("otherodp").setValue(otherodp3.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz4.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz4.getText().toString()).child("okodp").setValue(okodp4.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz4.getText().toString()).child("otherodp").setValue(otherodp4.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz5.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz5.getText().toString()).child("okodp").setValue(okodp5.getText().toString());
-                mDatabase.child("quizy").child(namequiz.getText().toString()).child(questionquiz5.getText().toString()).child("otherodp").setValue(otherodp5.getText().toString());
+                DatabaseReference pathName = DataHolder.getInstance().firebaseDatabase.child("quizy").child(namequiz.getText().toString());
+                pathName.child("category").setValue(categoryquiz.getText().toString());
+                pathName.child(questionquiz1.getText().toString());
+                pathName.child(questionquiz1.getText().toString()).child("okodp").setValue(okodp1.getText().toString());
+                pathName.child(questionquiz1.getText().toString()).child("otherodp").setValue(otherodp1.getText().toString());
+                pathName.child(questionquiz2.getText().toString());
+                pathName.child(questionquiz2.getText().toString()).child("okodp").setValue(okodp2.getText().toString());
+                pathName.child(questionquiz2.getText().toString()).child("otherodp").setValue(otherodp2.getText().toString());
+                pathName.child(questionquiz3.getText().toString());
+                pathName.child(questionquiz3.getText().toString()).child("okodp").setValue(okodp3.getText().toString());
+                pathName.child(questionquiz3.getText().toString()).child("otherodp").setValue(otherodp3.getText().toString());
+                pathName.child(questionquiz4.getText().toString());
+                pathName.child(questionquiz4.getText().toString()).child("okodp").setValue(okodp4.getText().toString());
+                pathName.child(questionquiz4.getText().toString()).child("otherodp").setValue(otherodp4.getText().toString());
+                pathName.child(questionquiz5.getText().toString());
+                pathName.child(questionquiz5.getText().toString()).child("okodp").setValue(okodp5.getText().toString());
+                pathName.child(questionquiz5.getText().toString()).child("otherodp").setValue(otherodp5.getText().toString());
                 Toast.makeText(getApplicationContext(),
                         "Pomyslnie dodano Quiz!", Toast.LENGTH_LONG).show();
                 namequiz.getText().clear();

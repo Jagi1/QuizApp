@@ -29,17 +29,12 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
-
-        DataHolder.getInstance().setFirebaseUser(FirebaseAuth.getInstance().getCurrentUser());
-        DataHolder.getInstance().setFirebaseAuth(FirebaseAuth.getInstance());
-        DataHolder.getInstance().setStorageReference(FirebaseStorage.getInstance().getReference());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(DataHolder.getInstance().getFirebaseUser()==null)
-        {
+        if(DataHolder.getInstance().firebaseAuth==null) {
             finish();
         }
     }

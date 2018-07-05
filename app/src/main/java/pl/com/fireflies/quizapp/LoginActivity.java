@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login(String login, String password) {
         progressDialog.setMessage("Trwa logowanie...");
         progressDialog.show();
-        DataHolder.getInstance().getFirebaseAuth().signInWithEmailAndPassword(login, password)
+        DataHolder.getInstance().firebaseAuth.signInWithEmailAndPassword(login, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

@@ -27,7 +27,6 @@
         <activity android:name=".MyQuizzesActivity" />
         <activity android:name=".NewQuizActivity" />
         <activity android:name=".AccountSettingsActivity" />
-        <activity android:name=".createNewQuiz"></activity>
     </application>
 
 </manifest>

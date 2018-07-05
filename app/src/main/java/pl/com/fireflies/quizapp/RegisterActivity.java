@@ -20,7 +20,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
 
@@ -31,7 +30,6 @@ public class RegisterActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener date_listener;
     private String date;
     private Integer year, month, day;
-    final FirebaseAuth auth = FirebaseAuth.getInstance();
     static private Intent intent;
 
     @Override
@@ -107,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registry(String login, String password) {
-        auth.createUserWithEmailAndPassword(login, password)
+        DataHolder.getInstance().firebaseAuth.createUserWithEmailAndPassword(login, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

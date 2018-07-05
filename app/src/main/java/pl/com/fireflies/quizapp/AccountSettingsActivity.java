@@ -53,12 +53,12 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_account_settings);
         initViews();
 
-        if (DataHolder.getInstance().getFirebaseUser() != null) {
-            String name = DataHolder.getInstance().getFirebaseUser().getDisplayName();
-            String email = DataHolder.getInstance().getFirebaseUser().getEmail();
+        if (DataHolder.getInstance().firebaseUser != null) {
+            String name = DataHolder.getInstance().firebaseUser.getDisplayName();
+            String email = DataHolder.getInstance().firebaseUser.getEmail();
 
             // Check if user's email is verified
-            boolean emailVerified = DataHolder.getInstance().getFirebaseUser().isEmailVerified();
+            boolean emailVerified = DataHolder.getInstance().firebaseUser.isEmailVerified();
 
             loginText.setText(name);
             emailText.setText(email + " " + emailVerified);
@@ -73,7 +73,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
             case R.id.change_email:
                 String stringNewEmail = String.valueOf(newEmail.getText());
 
-                DataHolder.getInstance().getFirebaseUser().updateEmail(stringNewEmail)
+                DataHolder.getInstance().firebaseUser.updateEmail(stringNewEmail)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -84,8 +84,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                         });
                 break;
             case R.id.logout_button:
-                DataHolder.getInstance().getFirebaseAuth().signOut();
-                DataHolder.getInstance().setFirebaseUser(null);
+                DataHolder.getInstance().firebaseAuth.signOut();
+                DataHolder.getInstance().firebaseUser = null;
                 finish();
                 break;
             case R.id.change_avatar:
@@ -151,11 +151,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
             progressDialog.setMessage("Uploading...");
             progressDialog.show();
             final Uri uri = data.getData();
-            final StorageReference filepath = DataHolder.getInstance()
-                    .getStorageReference().child("user")
-                    .child(DataHolder.getInstance()
-                            .getFirebaseUser()
-                            .getUid())
+            final StorageReference filepath = DataHolder.getInstance().storageReference.child("user")
+                    .child(DataHolder.getInstance().firebaseUser.getUid())
                     .child(uri.getLastPathSegment());
             UploadTask uploadTask = filepath.putFile(uri);
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
