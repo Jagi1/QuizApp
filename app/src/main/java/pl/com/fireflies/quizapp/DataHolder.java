@@ -31,4 +31,6 @@ public class DataHolder
     // Wybór motywu aplikacji
     public boolean dark_theme = false;
     public boolean theme_changed = false;
+    //
+
 }

@@ -2,6 +2,7 @@ package pl.com.fireflies.quizapp;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -18,6 +19,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private ListView settings_list;
     private Switch theme_switch;
     private CardView help_cardView, info_card, set_card;
+    private SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    public static final String PREF_VAR = "pref_vars";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +43,15 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 if(isChecked)
                 {
                     DataHolder.getInstance().dark_theme = true;
+                    editor.putBoolean("dark_theme",true);
                 }
                 else
                 {
                     DataHolder.getInstance().dark_theme = false;
+                    editor.putBoolean("dark_theme",false);
                 }
                 DataHolder.getInstance().theme_changed = true;
+                editor.commit();
                 recreate();
             }
         });
@@ -86,6 +93,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         help_cardView.setOnClickListener(this);
         set_card.setOnClickListener(this);
         info_card.setOnClickListener(this);
+        sharedPreferences = getSharedPreferences(PREF_VAR, 0);
+        editor = sharedPreferences.edit();
+        theme_switch.setChecked(sharedPreferences.getBoolean("dark_theme",false));
         if(DataHolder.getInstance().dark_theme)
         {
             theme_switch.setChecked(true);
