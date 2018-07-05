@@ -4,9 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="pl.com.fireflies.quizapp.QuizActivity">
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fast Quiz" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Losowanie Quizu                           Proszę Czekać...."
+        android:gravity="center"
+        android:textSize="24sp" />
 </android.support.constraint.ConstraintLayout>

@@ -26,6 +26,14 @@ public class CategoriesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(DataHolder.getInstance().dark_theme)
+        {
+            setTheme(R.style.DarkAppTheme);
+        }
+        else
+        {
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_categories);
         CardView cardview = (CardView) findViewById(R.id.matematyka);
         cardview.setOnClickListener(new View.OnClickListener() {
