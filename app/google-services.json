@@ -15,8 +15,12 @@
       },
       "oauth_client": [
         {
-          "client_id": "816375273908-r2vrnesm4a7fqbv5od5gk1bithm7qevg.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "816375273908-ng52fgs0qft3a89orlp06f45jffq8k5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.com.fireflies.quizapp",
+            "certificate_hash": "9136237e6a1e9d0c10af33a963c61bd080d36ace"
+          }
         },
         {
           "client_id": "816375273908-r2vrnesm4a7fqbv5od5gk1bithm7qevg.apps.googleusercontent.com",
@@ -33,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "816375273908-r2vrnesm4a7fqbv5od5gk1bithm7qevg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

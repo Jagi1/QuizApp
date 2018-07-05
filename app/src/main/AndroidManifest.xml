@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pl.com.fireflies.quizapp">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -26,7 +26,8 @@
         <activity android:name=".ChallengesActivity" />
         <activity android:name=".MyQuizzesActivity" />
         <activity android:name=".NewQuizActivity" />
-        <activity android:name=".AccountSettingsActivity"/>
+        <activity android:name=".AccountSettingsActivity" />
+        <activity android:name=".createNewQuiz"></activity>
     </application>
 
 </manifest>

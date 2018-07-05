@@ -31,6 +31,7 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
                 MyQuizzesActivity.this.startActivity(intent);
                 break;
 
+
             case R.id.avatar:
                 intent = new Intent(MyQuizzesActivity.this, AccountSettingsActivity.class);
                 MyQuizzesActivity.this.startActivity(intent);
