@@ -35,6 +35,14 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(DataHolder.getInstance().dark_theme)
+        {
+            setTheme(R.style.DarkAppTheme);
+        }
+        else
+        {
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_register);
 
         initViews();
@@ -89,6 +97,15 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(DataHolder.getInstance().theme_changed)
+        {
+            recreate();
+        }
     }
 
     private boolean isNetworkConnected() {

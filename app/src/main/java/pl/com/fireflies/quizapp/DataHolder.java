@@ -28,5 +28,7 @@ public class DataHolder
     public StorageReference storageReference = FirebaseStorage.getInstance().getReference();
     // Wskaznik do Database w Firebase (baza z quizami)
     public DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference();
-
+    // Wybór motywu aplikacji
+    public boolean dark_theme = false;
+    public boolean theme_changed = false;
 }

@@ -50,6 +50,14 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(DataHolder.getInstance().dark_theme)
+        {
+            setTheme(R.style.DarkAppTheme);
+        }
+        else
+        {
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_account_settings);
         initViews();
 
@@ -64,7 +72,15 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
             emailText.setText(email + " " + emailVerified);
 
         }
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(DataHolder.getInstance().theme_changed)
+        {
+            recreate();
+        }
     }
 
     @Override

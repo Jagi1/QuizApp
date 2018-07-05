@@ -2,7 +2,6 @@ package pl.com.fireflies.quizapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class NewQuizActivity extends AppCompatActivity implements View.OnClickListener {
     private Intent intent;
@@ -22,6 +20,14 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(DataHolder.getInstance().dark_theme)
+        {
+            setTheme(R.style.DarkAppTheme);
+        }
+        else
+        {
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_new_quiz);
         initViews();
 
@@ -87,6 +93,16 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                 otherodp5.getText().clear();
             }
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(DataHolder.getInstance().theme_changed)
+        {
+            DataHolder.getInstance().theme_changed = false;
+            recreate();
+        }
     }
 
     @Override

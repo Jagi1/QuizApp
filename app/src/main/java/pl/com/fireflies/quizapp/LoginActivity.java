@@ -24,14 +24,22 @@ public class LoginActivity extends AppCompatActivity {
     private Button login_button, register_button;
     static private Intent intent;
     private ProgressDialog progressDialog;
+    private CheckBox checkBox;
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-    private CheckBox checkBox;
     public static final String PREF_VAR = "pref_vars";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(DataHolder.getInstance().dark_theme)
+        {
+            setTheme(R.style.DarkAppTheme);
+        }
+        else
+        {
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_login);
         initViews();
 
@@ -56,6 +64,15 @@ public class LoginActivity extends AppCompatActivity {
                 LoginActivity.this.startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(DataHolder.getInstance().theme_changed)
+        {
+            recreate();
+        }
     }
 
     protected void initViews() {
