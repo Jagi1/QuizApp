@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context="pl.com.fireflies.quizapp.LoginActivity">
 
+    <android.support.v7.widget.AppCompatImageView
+        android:src="@drawable/question_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/login_edit"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
     <EditText
         android:id="@+id/login_edit"
         android:layout_width="match_parent"
