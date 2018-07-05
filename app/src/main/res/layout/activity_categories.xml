@@ -30,7 +30,7 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
-                    android:id="@+id/card_view1"
+                    android:id="@+id/matematyka"
                     android:layout_width="160dp"
                     android:layout_height="190dp"
                     android:layout_margin="10dp">
@@ -53,7 +53,7 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 1" />
+                            android:text="Matematyka" />
 
                         <View
                             android:layout_width="match_parent"
@@ -65,7 +65,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Simple category description"
+                            android:text="Zadania z Matematyki"
                             android:padding="5dp"
                             android:textColor="@android:color/darker_gray" />
 
@@ -77,7 +77,7 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
-
+                    android:id="@+id/sport"
                     android:layout_width="160dp"
                     android:layout_height="190dp"
                     android:layout_margin="10dp">
@@ -100,7 +100,7 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 2" />
+                            android:text="Sport" />
 
                         <View
                             android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Simple category description"
+                            android:text="Zadania Sportowe"
                             android:padding="5dp"
                             android:textColor="@android:color/darker_gray" />
 
@@ -133,7 +133,7 @@
                     android:foreground="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:focusable="true"
-
+                    android:id="@+id/inne"
                     android:layout_width="160dp"
                     android:layout_height="190dp"
                     android:layout_margin="10dp">
@@ -156,7 +156,7 @@
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
                             android:layout_marginTop="10dp"
-                            android:text="Category 3" />
+                            android:text="Inne" />
 
                         <View
                             android:layout_width="match_parent"
@@ -168,7 +168,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Simple category description"
+                            android:text="Rożne Quizy"
                             android:padding="5dp"
                             android:textColor="@android:color/darker_gray" />
 
