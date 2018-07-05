@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="pl.com.fireflies.quizapp.QuizActivity">
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"

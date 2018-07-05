@@ -26,7 +26,7 @@ import java.util.Calendar;
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "RegisterActivity";
     private Button date_button, register_button;
-    private EditText email_edit, password_edit, login_edit;
+    private EditText email_edit, password_edit;
     private DatePickerDialog.OnDateSetListener date_listener;
     private String date;
     private Integer year, month, day;
@@ -35,12 +35,9 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(DataHolder.getInstance().dark_theme)
-        {
+        if (DataHolder.getInstance().dark_theme) {
             setTheme(R.style.DarkAppTheme);
-        }
-        else
-        {
+        } else {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_register);
@@ -68,18 +65,13 @@ public class RegisterActivity extends AppCompatActivity {
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(email_edit.getText()) && !TextUtils.isEmpty(login_edit.getText()) && !TextUtils.isEmpty(password_edit.getText()))
-                {
-                    if (isNetworkConnected())
-                    {
-                        if(Calendar.getInstance().get(Calendar.YEAR)-year>16)
-                        {
-                            registry(email_edit.getText().toString(), password_edit.getText().toString());
-                        }
-                        else
-                        {
-                            Toast.makeText(RegisterActivity.this, "You're too young kido for this app ;)", Toast.LENGTH_LONG).show();
-                        }
+                if (!TextUtils.isEmpty(email_edit.getText()) && !TextUtils.isEmpty(password_edit.getText())) {
+                    if (isNetworkConnected()) {
+//                        if (Calendar.getInstance().get(Calendar.YEAR) - year > 16) {
+                        registry(email_edit.getText().toString(), password_edit.getText().toString());
+//                        } else {
+//                            Toast.makeText(RegisterActivity.this, "You're too young kido for this app ;)", Toast.LENGTH_LONG).show();
+//                        }
                     } else {
                         Toast.makeText(RegisterActivity.this, "Brak połączenia z internetem.", Toast.LENGTH_SHORT).show();
                     }
@@ -102,8 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        if(DataHolder.getInstance().theme_changed)
-        {
+        if (DataHolder.getInstance().theme_changed) {
             recreate();
         }
     }
@@ -115,7 +106,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     protected void initViews() {
         email_edit = (EditText) findViewById(R.id.email_edit);
-        login_edit = (EditText) findViewById(R.id.login_edit);
         password_edit = (EditText) findViewById(R.id.password_edit);
         date_button = (Button) findViewById(R.id.date_button);
         register_button = (Button) findViewById(R.id.register_button);

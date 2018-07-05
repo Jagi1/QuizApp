@@ -7,7 +7,8 @@ package pl.com.fireflies.quizapp;
 public class AandQ {
     public String question;
     String[] odp;
-    public AandQ(){
+
+    public AandQ() {
         odp = new String[2];
     }
 }

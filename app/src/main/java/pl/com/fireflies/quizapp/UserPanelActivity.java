@@ -21,12 +21,9 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(DataHolder.getInstance().dark_theme)
-        {
+        if (DataHolder.getInstance().dark_theme) {
             setTheme(R.style.DarkAppTheme);
-        }
-        else
-        {
+        } else {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_user_panel);
@@ -39,8 +36,7 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onRestart() {
         super.onRestart();
-        if(DataHolder.getInstance().theme_changed)
-        {
+        if (DataHolder.getInstance().theme_changed) {
             recreate();
         }
     }
@@ -48,7 +44,7 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onStart() {
         super.onStart();
-        if(DataHolder.getInstance().firebaseAuth==null) {
+        if (DataHolder.getInstance().firebaseAuth == null) {
             finish();
         }
     }
@@ -129,5 +125,7 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
         challenges_card.setOnClickListener(this);
         avatar.setOnClickListener(this);
         settings.setOnClickListener(this);
+
+        avatar.setImageBitmap(DataHolder.avatarBitmap);
     }
 }

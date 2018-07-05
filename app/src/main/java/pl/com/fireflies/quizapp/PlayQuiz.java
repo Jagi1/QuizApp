@@ -1,9 +1,9 @@
 package pl.com.fireflies.quizapp;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,10 +17,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
 public class PlayQuiz extends AppCompatActivity {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +50,14 @@ public class PlayQuiz extends AppCompatActivity {
         mDatabase.child("quizy").child(category).child(names).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int il=0;
-                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                    int i=0;
+                int il = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    int i = 0;
                     String key = snapshot.getKey().toString();
                     //Toast.makeText(PlayQuiz.this, "key: "+key, Toast.LENGTH_SHORT).show();
                     aq[0] = new AandQ();
                     aq[0].question = key;
-                    for(DataSnapshot snapshot1:snapshot.getChildren()){
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                         String value = snapshot1.getValue().toString();
                         //Toast.makeText(PlayQuiz.this, "value: "+value, Toast.LENGTH_SHORT).show();
                         aq[0].odp[i] = value;
@@ -83,48 +82,49 @@ public class PlayQuiz extends AppCompatActivity {
                 yodp5.setText(tab[4].odp[0].toString());
                 nodp5.setText(tab[4].odp[1].toString());
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(PlayQuiz.this,databaseError.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlayQuiz.this, databaseError.toString(), Toast.LENGTH_SHORT).show();
             }
         });
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(yodp1.isChecked()){
-                    nodp1.setTextColor(Color.rgb(200,0,0));
-                    yodp1.setTextColor(Color.rgb(0,200,0));
-                }else{
-                    nodp1.setTextColor(Color.rgb(200,0,0));
-                    yodp1.setTextColor(Color.rgb(0,200,0));
+                if (yodp1.isChecked()) {
+                    nodp1.setTextColor(Color.rgb(200, 0, 0));
+                    yodp1.setTextColor(Color.rgb(0, 200, 0));
+                } else {
+                    nodp1.setTextColor(Color.rgb(200, 0, 0));
+                    yodp1.setTextColor(Color.rgb(0, 200, 0));
                 }
-                if(yodp2.isChecked()){
-                    nodp2.setTextColor(Color.rgb(200,0,0));
-                    yodp2.setTextColor(Color.rgb(0,200,0));
-                }else{
-                    nodp2.setTextColor(Color.rgb(200,0,0));
-                    yodp2.setTextColor(Color.rgb(0,200,0));
+                if (yodp2.isChecked()) {
+                    nodp2.setTextColor(Color.rgb(200, 0, 0));
+                    yodp2.setTextColor(Color.rgb(0, 200, 0));
+                } else {
+                    nodp2.setTextColor(Color.rgb(200, 0, 0));
+                    yodp2.setTextColor(Color.rgb(0, 200, 0));
                 }
-                if(yodp3.isChecked()){
-                    nodp3.setTextColor(Color.rgb(200,0,0));
-                    yodp3.setTextColor(Color.rgb(0,200,0));
-                }else{
-                    nodp3.setTextColor(Color.rgb(200,0,0));
-                    yodp3.setTextColor(Color.rgb(0,200,0));
+                if (yodp3.isChecked()) {
+                    nodp3.setTextColor(Color.rgb(200, 0, 0));
+                    yodp3.setTextColor(Color.rgb(0, 200, 0));
+                } else {
+                    nodp3.setTextColor(Color.rgb(200, 0, 0));
+                    yodp3.setTextColor(Color.rgb(0, 200, 0));
                 }
-                if(yodp4.isChecked()){
-                    nodp4.setTextColor(Color.rgb(200,0,0));
-                    yodp4.setTextColor(Color.rgb(0,200,0));
-                }else{
-                    nodp4.setTextColor(Color.rgb(200,0,0));
-                    yodp4.setTextColor(Color.rgb(0,200,0));
+                if (yodp4.isChecked()) {
+                    nodp4.setTextColor(Color.rgb(200, 0, 0));
+                    yodp4.setTextColor(Color.rgb(0, 200, 0));
+                } else {
+                    nodp4.setTextColor(Color.rgb(200, 0, 0));
+                    yodp4.setTextColor(Color.rgb(0, 200, 0));
                 }
-                if(yodp5.isChecked()){
-                    nodp5.setTextColor(Color.rgb(200,0,0));
-                    yodp5.setTextColor(Color.rgb(0,200,0));
-                }else{
-                    nodp5.setTextColor(Color.rgb(200,0,0));
-                    yodp5.setTextColor(Color.rgb(0,200,0));
+                if (yodp5.isChecked()) {
+                    nodp5.setTextColor(Color.rgb(200, 0, 0));
+                    yodp5.setTextColor(Color.rgb(0, 200, 0));
+                } else {
+                    nodp5.setTextColor(Color.rgb(200, 0, 0));
+                    yodp5.setTextColor(Color.rgb(0, 200, 0));
                 }
             }
         });

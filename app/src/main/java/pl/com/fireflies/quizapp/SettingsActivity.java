@@ -26,12 +26,9 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(DataHolder.getInstance().dark_theme)
-        {
+        if (DataHolder.getInstance().dark_theme) {
             setTheme(R.style.DarkAppTheme);
-        }
-        else
-        {
+        } else {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_settings);
@@ -40,15 +37,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         theme_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
+                if (isChecked) {
                     DataHolder.getInstance().dark_theme = true;
-                    editor.putBoolean("dark_theme",true);
-                }
-                else
-                {
+                } else {
                     DataHolder.getInstance().dark_theme = false;
-                    editor.putBoolean("dark_theme",false);
+                    editor.putBoolean("dark_theme", false);
                 }
                 DataHolder.getInstance().theme_changed = true;
                 editor.commit();
@@ -60,8 +53,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        switch(v.getId())
-        {
+        switch (v.getId()) {
             case R.id.card5:
                 new AlertDialog.Builder(this)
                         .setMessage("W razie jakichkolwiek pytań skontaktuj się z działem pomocy klienta pod adresem: bandurski.sebastian@gmail.com")
@@ -84,20 +76,19 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    protected void initViews()
-    {
-        help_cardView = (CardView)findViewById(R.id.card5);
-        set_card = (CardView)findViewById(R.id.card1);
-        info_card = (CardView)findViewById(R.id.card4);
-        theme_switch = (Switch)findViewById(R.id.theme);
+    protected void initViews() {
+        help_cardView = (CardView) findViewById(R.id.card5);
+        set_card = (CardView) findViewById(R.id.card1);
+        info_card = (CardView) findViewById(R.id.card4);
+        theme_switch = (Switch) findViewById(R.id.theme);
         help_cardView.setOnClickListener(this);
         set_card.setOnClickListener(this);
         info_card.setOnClickListener(this);
         sharedPreferences = getSharedPreferences(PREF_VAR, 0);
         editor = sharedPreferences.edit();
-        theme_switch.setChecked(sharedPreferences.getBoolean("dark_theme",false));
-        if(DataHolder.getInstance().dark_theme)
-        {
+        theme_switch.setChecked(sharedPreferences.getBoolean("dark_theme", false));
+
+        if (DataHolder.getInstance().dark_theme) {
             theme_switch.setChecked(true);
         }
     }
