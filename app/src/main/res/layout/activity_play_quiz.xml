@@ -17,9 +17,12 @@
 
             <TextView
                 android:id="@+id/nameQuiz"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Quiz" />
+                android:text="Quiz"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
             <TextView
                 android:id="@+id/textView78"
@@ -29,61 +32,70 @@
                 android:text="Pytanie 1"
                 app:layout_constraintTop_toBottomOf="@id/nameQuiz"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/questionquiz1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:textColor="@color/colorMaterialGreen"
+                android:textSize="20sp"
                 android:focusable="false"
                 android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/textView78"/>
 
-            <RadioButton
-                android:id="@+id/yodp1"
-                android:layout_width="match_parent"
+            <RadioGroup
+                android:id="@+id/radio_group1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/questionquiz1"/>
+                app:layout_constraintTop_toBottomOf="@id/questionquiz1">
+                <RadioButton
+                    android:id="@+id/yodp1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+                <RadioButton
+                    android:id="@+id/nodp1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+            </RadioGroup>
 
-            <RadioButton
-                android:id="@+id/nodp1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/yodp1"/>
 
             <TextView
                 android:id="@+id/textView71"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/nodp1"/>
+                android:text="Pytanie 2"
+                app:layout_constraintTop_toBottomOf="@id/radio_group1"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/questionquiz2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:textColor="@color/colorMaterialGreen"
+                android:textSize="20sp"
                 android:focusable="false"
                 android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/textView71"/>
 
-            <RadioButton
-                android:id="@+id/nodp2"
-                android:layout_width="match_parent"
+            <RadioGroup
+                android:id="@+id/radio_group2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/questionquiz2"/>
-
-            <RadioButton
-                android:id="@+id/yodp2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/nodp2"/>
+                app:layout_constraintTop_toBottomOf="@id/questionquiz2">
+                <RadioButton
+                    android:id="@+id/nodp2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+                <RadioButton
+                    android:id="@+id/yodp2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+            </RadioGroup>
 
             <TextView
                 android:id="@+id/textView72"
@@ -91,31 +103,36 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Pytanie 3"
-                app:layout_constraintTop_toBottomOf="@id/yodp2"/>
+                app:layout_constraintTop_toBottomOf="@id/radio_group2"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/questionquiz3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:textColor="@color/colorMaterialGreen"
+                android:textSize="20sp"
                 android:focusable="false"
                 android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/textView72"/>
 
-            <RadioButton
-                android:id="@+id/yodp3"
-                android:layout_width="match_parent"
+            <RadioGroup
+                android:id="@+id/radio_group3"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/questionquiz3"/>
+                app:layout_constraintTop_toBottomOf="@id/questionquiz3">
+                <RadioButton
+                    android:id="@+id/yodp3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+                <RadioButton
+                    android:id="@+id/nodp3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+            </RadioGroup>
 
-            <RadioButton
-                android:id="@+id/nodp3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/yodp3"/>
 
             <TextView
                 android:id="@+id/textView73"
@@ -123,31 +140,35 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Pytanie 4"
-                app:layout_constraintTop_toBottomOf="@id/nodp3"/>
+                app:layout_constraintTop_toBottomOf="@id/radio_group3"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/questionquiz4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:textColor="@color/colorMaterialGreen"
+                android:textSize="20sp"
                 android:focusable="false"
                 android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/textView73"/>
 
-            <RadioButton
-                android:id="@+id/nodp4"
-                android:layout_width="match_parent"
+            <RadioGroup
+                android:id="@+id/radio_group4"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/questionquiz4"/>
-
-            <RadioButton
-                android:id="@+id/yodp4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/nodp4"/>
+                app:layout_constraintTop_toBottomOf="@id/questionquiz4">
+                <RadioButton
+                    android:id="@+id/nodp4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+                <RadioButton
+                    android:id="@+id/yodp4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+            </RadioGroup>
 
             <TextView
                 android:id="@+id/textView74"
@@ -155,38 +176,42 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Pytanie 5"
-                app:layout_constraintTop_toBottomOf="@id/yodp4"/>
+                app:layout_constraintTop_toBottomOf="@id/radio_group4"/>
 
-            <EditText
+            <TextView
                 android:id="@+id/questionquiz5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName"
+                android:textColor="@color/colorMaterialGreen"
+                android:textSize="20sp"
                 android:focusable="false"
                 android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@id/textView74"/>
 
-            <RadioButton
-                android:id="@+id/nodp5"
-                android:layout_width="match_parent"
+            <RadioGroup
+                android:id="@+id/radio_group5"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/questionquiz5"/>
-
-            <RadioButton
-                android:id="@+id/yodp5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                app:layout_constraintTop_toBottomOf="@id/nodp5"/>
+                app:layout_constraintTop_toBottomOf="@id/questionquiz5">
+                <RadioButton
+                    android:id="@+id/nodp5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+                <RadioButton
+                    android:id="@+id/yodp5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""/>
+            </RadioGroup>
 
             <Button
                 android:id="@+id/checkQuiz"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sprawdź."
-                app:layout_constraintTop_toBottomOf="@id/yodp5"/>
+                app:layout_constraintTop_toBottomOf="@id/radio_group5"/>
 
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
