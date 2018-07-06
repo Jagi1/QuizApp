@@ -82,6 +82,9 @@ public class QuizActivity extends AppCompatActivity {
         {
             finish();
         }
-        recreate();
+        else
+        {
+            recreate();
+        }
     }
 }
