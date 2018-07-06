@@ -43,6 +43,8 @@ public class DataHolder {
     public boolean theme_changed = false;
     // Czy chcemy ponownie zagrać
     public boolean play_again = false;
+    // Czy zuploadowano nowe zdjecie
+    public boolean avatar_uploaded = false;
     // zmienna Bitmap przechowuje zdjecie zaladowane z serwera
     public Bitmap avatarBitmap;
 
@@ -52,7 +54,7 @@ public class DataHolder {
 
     // ustawianie zmiennej Bitmap (pobieranie obrazka ze Storage) TODO (raz dziala, a raz nie)
     public static void setAvatarImage() {
-        final long ONE_MEGABYTE = 1024 * 1024;
+        final long ONE_MEGABYTE = 1024 * 1024 * 5;
         final StorageReference refStoragePath = storageReference.child("user")
                 .child(firebaseUser.getUid()).child("avatarImage.jpg");
 

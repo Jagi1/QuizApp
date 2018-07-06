@@ -156,6 +156,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                             progressDialog.setMessage("Uploaded " + (int) progress + "%");
                         }
                     });
+            DataHolder.getInstance().avatar_uploaded = true;
         }
     }
 
