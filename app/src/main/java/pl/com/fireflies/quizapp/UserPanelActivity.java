@@ -38,11 +38,6 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
         if (DataHolder.getInstance().theme_changed) {
             recreate();
         }
-        if (DataHolder.getInstance().avatar_uploaded)
-        {
-            DataHolder.getInstance().avatar_uploaded = false;
-            recreate();
-        }
     }
 
     @Override
