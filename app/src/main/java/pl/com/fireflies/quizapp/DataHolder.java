@@ -52,7 +52,7 @@ public class DataHolder {
 
     // ustawianie zmiennej Bitmap (pobieranie obrazka ze Storage) TODO (raz dziala, a raz nie)
     public static void setAvatarImage() {
-        final long ONE_MEGABYTE = 1024 * 1024 * 5;
+        final long ONE_MEGABYTE = 1024 * 1024;
         final StorageReference refStoragePath = storageReference.child("user")
                 .child(firebaseUser.getUid()).child("avatarImage.jpg");
 

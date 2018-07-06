@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -120,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
                             DataHolder.setAvatarImage();
                             progressDialog.dismiss();
                             intent = new Intent(LoginActivity.this, UserPanelActivity.class);
-                            while(DataHolder.getInstance().avatarBitmap!=null) { }
                             LoginActivity.this.startActivity(intent);
                         }
                     }
