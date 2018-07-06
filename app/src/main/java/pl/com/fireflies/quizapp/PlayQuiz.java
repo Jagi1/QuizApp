@@ -39,7 +39,7 @@ public class PlayQuiz extends AppCompatActivity {
         final AandQ[] tab = new AandQ[5];
         final AandQ[] aq = new AandQ[1];
         final EditText question1 = (EditText) findViewById(R.id.questionquiz1);
-        imageQuestion1 = (ImageView) findViewById(R.id.question1_image1);
+//        imageQuestion1 = (ImageView) findViewById(R.id.question1_image1);
         final RadioButton yodp1 = (RadioButton) findViewById(R.id.yodp1);
         final RadioButton nodp1 = (RadioButton) findViewById(R.id.nodp1);
         final EditText question2 = (EditText) findViewById(R.id.questionquiz2);
