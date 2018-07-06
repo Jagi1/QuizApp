@@ -46,6 +46,36 @@ public class CategoriesActivity extends AppCompatActivity {
             }
         });
         initViews();
+        CardView cardview4 = (CardView) findViewById(R.id.filmy);
+        cardview4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(CategoriesActivity.this, SelectCategories.class);
+                intent.putExtra("category", "filmy");
+                CategoriesActivity.this.startActivity(intent);
+            }
+        });
+        CardView cardview5 = (CardView) findViewById(R.id.muzyka);
+        cardview5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(CategoriesActivity.this, SelectCategories.class);
+                intent.putExtra("category", "muzyka");
+                CategoriesActivity.this.startActivity(intent);
+            }
+        });
+        CardView cardview6 = (CardView) findViewById(R.id.angielski);
+        cardview6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(CategoriesActivity.this, SelectCategories.class);
+                intent.putExtra("category", "angielski");
+                CategoriesActivity.this.startActivity(intent);
+            }
+        });
+        initViews();
+        initViews();
+        initViews();
     }
 
     protected void initViews() {
