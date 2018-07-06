@@ -15,8 +15,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class SelectCategories extends AppCompatActivity {
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private DatabaseReference firebaseDatabase = DataHolder.firebaseDatabase;
     private Intent intent;
+    private String st;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,8 @@ public class SelectCategories extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_select_categories);
-        final String st = getIntent().getStringExtra("category");
+
+        st = getIntent().getStringExtra("category");
         final View.OnClickListener btnclick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,20 +40,20 @@ public class SelectCategories extends AppCompatActivity {
                 SelectCategories.this.startActivity(intent);
             }
         };
-        mDatabase.child("quizy").child(st).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseDatabase.child("quizy").child(st).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int i = 1;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key = snapshot.getKey().toString();
-                    LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
+                    String key = snapshot.getKey();
+                    LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear);
                     Button btn = new Button(SelectCategories.this);
                     btn.setText(key);
                     btn.setTag(key);
                     btn.setId(i);
                     btn.setOnClickListener(btnclick);
                     btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                    ll.addView(btn);
+                    linearLayout.addView(btn);
                     i++;
                 }
             }

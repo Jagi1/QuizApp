@@ -2,12 +2,14 @@ package pl.com.fireflies.quizapp;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PlayQuiz extends AppCompatActivity {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
+    private ImageView imageQuestion1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,7 @@ public class PlayQuiz extends AppCompatActivity {
         final AandQ[] tab = new AandQ[5];
         final AandQ[] aq = new AandQ[1];
         final EditText question1 = (EditText) findViewById(R.id.questionquiz1);
+        imageQuestion1 = (ImageView) findViewById(R.id.question1_image1);
         final RadioButton yodp1 = (RadioButton) findViewById(R.id.yodp1);
         final RadioButton nodp1 = (RadioButton) findViewById(R.id.nodp1);
         final EditText question2 = (EditText) findViewById(R.id.questionquiz2);
@@ -59,7 +62,7 @@ public class PlayQuiz extends AppCompatActivity {
                 int il = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     int i = 0;
-                    String key = snapshot.getKey().toString();
+                    String key = snapshot.getKey();
                     //Toast.makeText(PlayQuiz.this, "key: "+key, Toast.LENGTH_SHORT).show();
                     aq[0] = new AandQ();
                     aq[0].question = key;
@@ -146,7 +149,7 @@ public class PlayQuiz extends AppCompatActivity {
                 Button play_again = (Button)view1.findViewById(R.id.play_again);
                 Button back = (Button)view1.findViewById(R.id.back);
 
-                punktacja.setText(score.toString());
+                punktacja.setText(score);
 
                 play_again.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -170,4 +173,5 @@ public class PlayQuiz extends AppCompatActivity {
             }
         });
     }
+
 }
