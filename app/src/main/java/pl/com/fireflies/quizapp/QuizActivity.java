@@ -78,8 +78,10 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (DataHolder.getInstance().theme_changed) {
-            recreate();
+        if(!DataHolder.getInstance().play_again)
+        {
+            finish();
         }
+        recreate();
     }
 }

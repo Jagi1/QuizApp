@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/quiz_result"
+        android:text="Twój wynik to:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/punktacja"
+        android:text="placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@id/quiz_result"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/play_again"
+        android:layout_width="150sp"
+        android:layout_height="wrap_content"
+        android:text="Play again"
+        app:layout_constraintTop_toBottomOf="@id/punktacja"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/back"/>
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="150sp"
+        android:layout_height="wrap_content"
+        android:text="Back to menu"
+        app:layout_constraintTop_toBottomOf="@id/punktacja"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/play_again"/>
+
+</android.support.constraint.ConstraintLayout>

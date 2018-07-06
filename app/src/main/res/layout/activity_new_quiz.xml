@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="pl.com.fireflies.quizapp.NewQuizActivity">
 
     <include
@@ -16,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="60dp">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -32,223 +33,257 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/namequiz"/>
 
             <TextView
                 android:id="@+id/categoryquizz"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kategoria Quizu:" />
+                android:text="Kategoria Quizu:"
+                app:layout_constraintTop_toBottomOf="@id/nameQuiz"/>
 
             <EditText
                 android:id="@+id/categoryQuiz"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/categoryquizz"/>
 
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pytanie 1" />
+                android:text="Pytanie 1"
+                app:layout_constraintTop_toBottomOf="@id/categoryQuiz"/>
 
             <EditText
                 android:id="@+id/questionQuiz1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView7"/>
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Poprawna Odpowiedz:" />
+                android:text="Poprawna Odpowiedz:"
+                app:layout_constraintTop_toBottomOf="@id/questionQuiz1"/>
 
             <EditText
                 android:id="@+id/okodp1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView8"/>
 
             <TextView
                 android:id="@+id/textView10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Inna Odpowiedz:" />
+                android:text="Inna Odpowiedz:"
+                app:layout_constraintTop_toBottomOf="@id/okodp1"/>
 
             <EditText
                 android:id="@+id/otherodp1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView10"/>
 
             <TextView
                 android:id="@+id/textView13"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pytanie 2" />
+                android:text="Pytanie 2"
+                app:layout_constraintTop_toBottomOf="@id/otherodp1"/>
 
             <EditText
                 android:id="@+id/questionQuiz2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView13"/>
 
             <TextView
                 android:id="@+id/textView14"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Poprawna Odpowiedz:" />
+                android:text="Poprawna Odpowiedz:"
+                app:layout_constraintTop_toBottomOf="@id/questionQuiz2"/>
 
             <EditText
                 android:id="@+id/okodp2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView14"/>
 
             <TextView
                 android:id="@+id/textView15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Inna Odpowiedz:" />
+                android:text="Inna Odpowiedz:"
+                app:layout_constraintTop_toBottomOf="@id/okodp2"/>
 
             <EditText
                 android:id="@+id/otherodp2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView15"/>
 
             <TextView
                 android:id="@+id/textView18"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pytanie 3" />
+                android:text="Pytanie 3"
+                app:layout_constraintTop_toBottomOf="@id/otherodp2"/>
 
             <EditText
                 android:id="@+id/questionQuiz3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView18"/>
 
             <TextView
                 android:id="@+id/textView19"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Poprawna Odpowiedz:" />
+                android:text="Poprawna Odpowiedz:"
+                app:layout_constraintTop_toBottomOf="@id/questionQuiz3"/>
 
             <EditText
                 android:id="@+id/okodp3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView19"/>
 
             <TextView
                 android:id="@+id/textView20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Inna Odpowiedz:" />
+                android:text="Inna Odpowiedz:"
+                app:layout_constraintTop_toBottomOf="@id/okodp3"/>
 
             <EditText
                 android:id="@+id/otherodp3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView20"/>
 
             <TextView
                 android:id="@+id/textView22"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pytanie 4" />
+                android:text="Pytanie 4"
+                app:layout_constraintTop_toBottomOf="@id/otherodp3"/>
 
             <EditText
                 android:id="@+id/questionQuiz4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView22"/>
 
             <TextView
                 android:id="@+id/textView23"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Poprawna Odpowiedz:" />
+                android:text="Poprawna Odpowiedz:"
+                app:layout_constraintTop_toBottomOf="@id/questionQuiz4"/>
 
             <EditText
                 android:id="@+id/okodp4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView23"/>
 
             <TextView
                 android:id="@+id/textView24"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Inna Odpowiedz:" />
+                android:text="Inna Odpowiedz:"
+                app:layout_constraintTop_toBottomOf="@id/okodp4"/>
 
             <EditText
                 android:id="@+id/otherodp4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView24"/>
 
             <TextView
                 android:id="@+id/textView26"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pytanie 5" />
+                android:text="Pytanie 5"
+                app:layout_constraintTop_toBottomOf="@id/otherodp4"/>
 
             <EditText
                 android:id="@+id/questionQuiz5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView26"/>
 
             <TextView
                 android:id="@+id/textView27"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Poprawna Odpowiedz:" />
+                android:text="Poprawna Odpowiedz:"
+                app:layout_constraintTop_toBottomOf="@id/questionQuiz5"/>
 
             <EditText
                 android:id="@+id/okodp5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView27"/>
 
             <TextView
                 android:id="@+id/textView28"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Inna Odpowiedz:" />
+                android:text="Inna Odpowiedz:"
+                app:layout_constraintTop_toBottomOf="@id/okodp5"/>
 
             <EditText
                 android:id="@+id/otherodp5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                app:layout_constraintTop_toBottomOf="@id/textView28"/>
 
             <Button
                 android:id="@+id/add_quiz"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dodaj Quiz" />
+                android:text="Dodaj Quiz"
+                app:layout_constraintTop_toBottomOf="@id/otherodp5"/>
 
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

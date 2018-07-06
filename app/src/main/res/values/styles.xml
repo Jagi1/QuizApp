@@ -20,6 +20,7 @@
         <item name="android:textColorHint">@color/colorMaterialYellow</item>
         <item name="android:colorEdgeEffect">@color/colorMaterialRed</item>
         <item name="android:textColor">#E5FFDE</item>
+        <item name="android:editTextColor">#E5FFDE</item>
     </style>
 
     <style name="Theme.ToolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">

@@ -41,6 +41,8 @@ public class DataHolder {
     // Wybór motywu aplikacji
     public boolean dark_theme = false;
     public boolean theme_changed = false;
+    // Czy chcemy ponownie zagrać
+    public boolean play_again = false;
     // zmienna Bitmap przechowuje zdjecie zaladowane z serwera
     public static Bitmap avatarBitmap;
 

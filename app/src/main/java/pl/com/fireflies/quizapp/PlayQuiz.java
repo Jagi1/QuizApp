@@ -3,6 +3,7 @@ package pl.com.fireflies.quizapp;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,11 @@ public class PlayQuiz extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (DataHolder.getInstance().dark_theme) {
+            setTheme(R.style.DarkAppTheme);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_play_quiz);
         String names = getIntent().getStringExtra("name");
         String category = getIntent().getStringExtra("category");
@@ -91,7 +97,9 @@ public class PlayQuiz extends AppCompatActivity {
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Integer score = 0;
                 if (yodp1.isChecked()) {
+                    ++score;
                     nodp1.setTextColor(Color.rgb(200, 0, 0));
                     yodp1.setTextColor(Color.rgb(0, 200, 0));
                 } else {
@@ -99,6 +107,7 @@ public class PlayQuiz extends AppCompatActivity {
                     yodp1.setTextColor(Color.rgb(0, 200, 0));
                 }
                 if (yodp2.isChecked()) {
+                    ++score;
                     nodp2.setTextColor(Color.rgb(200, 0, 0));
                     yodp2.setTextColor(Color.rgb(0, 200, 0));
                 } else {
@@ -106,6 +115,7 @@ public class PlayQuiz extends AppCompatActivity {
                     yodp2.setTextColor(Color.rgb(0, 200, 0));
                 }
                 if (yodp3.isChecked()) {
+                    ++score;
                     nodp3.setTextColor(Color.rgb(200, 0, 0));
                     yodp3.setTextColor(Color.rgb(0, 200, 0));
                 } else {
@@ -113,6 +123,7 @@ public class PlayQuiz extends AppCompatActivity {
                     yodp3.setTextColor(Color.rgb(0, 200, 0));
                 }
                 if (yodp4.isChecked()) {
+                    ++score;
                     nodp4.setTextColor(Color.rgb(200, 0, 0));
                     yodp4.setTextColor(Color.rgb(0, 200, 0));
                 } else {
@@ -120,12 +131,42 @@ public class PlayQuiz extends AppCompatActivity {
                     yodp4.setTextColor(Color.rgb(0, 200, 0));
                 }
                 if (yodp5.isChecked()) {
+                    ++score;
                     nodp5.setTextColor(Color.rgb(200, 0, 0));
                     yodp5.setTextColor(Color.rgb(0, 200, 0));
                 } else {
                     nodp5.setTextColor(Color.rgb(200, 0, 0));
                     yodp5.setTextColor(Color.rgb(0, 200, 0));
                 }
+                AlertDialog alertDialog;
+                AlertDialog.Builder builder = new AlertDialog.Builder(PlayQuiz.this);
+                View view1 = getLayoutInflater().inflate(R.layout.dialog_quiz_result,null);
+
+                TextView punktacja = (TextView)view1.findViewById(R.id.punktacja);
+                Button play_again = (Button)view1.findViewById(R.id.play_again);
+                Button back = (Button)view1.findViewById(R.id.back);
+
+                punktacja.setText(score.toString());
+
+                play_again.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DataHolder.getInstance().play_again = true;
+                        finish();
+                    }
+                });
+
+                back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DataHolder.getInstance().play_again = false;
+                        finish();
+                    }
+                });
+
+                builder.setView(view1);
+                alertDialog = builder.create();
+                alertDialog.show();
             }
         });
     }

@@ -39,6 +39,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     DataHolder.getInstance().dark_theme = true;
+                    editor.putBoolean("dark_theme",true);
                 } else {
                     DataHolder.getInstance().dark_theme = false;
                     editor.putBoolean("dark_theme", false);
