@@ -116,6 +116,7 @@ public class LoginActivity extends AppCompatActivity {
 //                                editor.clear();
 //                                editor.commit();
                             }
+                            DataHolder.setAvatarImage();
                             progressDialog.dismiss();
                             intent = new Intent(LoginActivity.this, UserPanelActivity.class);
                             LoginActivity.this.startActivity(intent);

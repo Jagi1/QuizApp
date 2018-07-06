@@ -216,7 +216,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
         logout_button = (Button) findViewById(R.id.logout_button);
         changeAvatar = (Button) findViewById(R.id.change_avatar);
         avatar_image = (ImageView) findViewById(R.id.avatar);
-        avatar_image.setImageBitmap(DataHolder.avatarBitmap);
+        avatar_image.setImageBitmap(DataHolder.getInstance().avatarBitmap);
 
         changeEmail.setOnClickListener(this);
         changePassword.setOnClickListener(this);

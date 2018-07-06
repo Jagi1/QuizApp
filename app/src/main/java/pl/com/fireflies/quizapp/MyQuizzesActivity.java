@@ -56,6 +56,6 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
         toolbar = (Toolbar) findViewById(R.id.user_bar);
         avatar = (ImageButton) findViewById(R.id.avatar);
         settings = (ImageButton) findViewById(R.id.settings_gear);
-        avatar.setImageBitmap(DataHolder.avatarBitmap);
+        avatar.setImageBitmap(DataHolder.getInstance().avatarBitmap);
     }
 }

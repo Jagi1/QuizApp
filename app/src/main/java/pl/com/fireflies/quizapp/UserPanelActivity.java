@@ -28,7 +28,6 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
         }
         setContentView(R.layout.activity_user_panel);
         initViews();
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
     }
@@ -115,8 +114,10 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
         new_quiz_card = (CardView) findViewById(R.id.new_quiz_card);
         my_quizes_card = (CardView) findViewById(R.id.my_quizzes_card);
         challenges_card = (CardView) findViewById(R.id.challenges_card);
-        avatar = (ImageButton) findViewById(R.id.avatar);
         settings = (ImageButton) findViewById(R.id.settings_gear);
+        avatar = (ImageButton) findViewById(R.id.avatar);
+        avatar.setImageBitmap(DataHolder.getInstance().avatarBitmap);
+
         fast_game_card.setOnClickListener(this);
         invite_friend_card.setOnClickListener(this);
         categories_card.setOnClickListener(this);
@@ -125,7 +126,5 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
         challenges_card.setOnClickListener(this);
         avatar.setOnClickListener(this);
         settings.setOnClickListener(this);
-
-        avatar.setImageBitmap(DataHolder.avatarBitmap);
     }
 }

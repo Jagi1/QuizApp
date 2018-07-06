@@ -93,7 +93,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
         avatar = (ImageButton) findViewById(R.id.avatar);
         settings = (ImageButton) findViewById(R.id.settings_gear);
         addQuizButton = (Button) findViewById(R.id.add_quiz);
-        avatar.setImageBitmap(DataHolder.avatarBitmap);
+        avatar.setImageBitmap(DataHolder.getInstance().avatarBitmap);
         avatar.setOnClickListener(this);
         settings.setOnClickListener(this);
         addQuizButton.setOnClickListener(this);

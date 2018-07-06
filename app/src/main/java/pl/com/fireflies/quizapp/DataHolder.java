@@ -44,7 +44,7 @@ public class DataHolder {
     // Czy chcemy ponownie zagrać
     public boolean play_again = false;
     // zmienna Bitmap przechowuje zdjecie zaladowane z serwera
-    public static Bitmap avatarBitmap;
+    public Bitmap avatarBitmap;
 
     public static final DataHolder getInstance() {
         return singleton;
@@ -59,7 +59,7 @@ public class DataHolder {
         refStoragePath.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
-                avatarBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                DataHolder.getInstance().avatarBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                 // imageView.setImageBitmap(bmp);
             }
         }).addOnFailureListener(new OnFailureListener() {
