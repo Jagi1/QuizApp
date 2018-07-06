@@ -8,15 +8,13 @@ import android.view.View;
 
 public class CategoriesActivity extends AppCompatActivity {
     private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(DataHolder.getInstance().dark_theme)
-        {
+        if (DataHolder.getInstance().dark_theme) {
             setTheme(R.style.DarkAppTheme);
-        }
-        else
-        {
+        } else {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_categories);
@@ -25,7 +23,7 @@ public class CategoriesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(CategoriesActivity.this, SelectCategories.class);
-                intent.putExtra("category","matematyka");
+                intent.putExtra("category", "matematyka");
                 CategoriesActivity.this.startActivity(intent);
             }
         });
@@ -34,7 +32,7 @@ public class CategoriesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(CategoriesActivity.this, SelectCategories.class);
-                intent.putExtra("category","sport");
+                intent.putExtra("category", "sport");
                 CategoriesActivity.this.startActivity(intent);
             }
         });
@@ -43,12 +41,13 @@ public class CategoriesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(CategoriesActivity.this, SelectCategories.class);
-                intent.putExtra("category","inne");
+                intent.putExtra("category", "inne");
                 CategoriesActivity.this.startActivity(intent);
             }
         });
         initViews();
     }
+
     protected void initViews() {
 
     }

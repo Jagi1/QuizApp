@@ -36,14 +36,11 @@ public class LoginActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(PREF_VAR, 0);
         editor = sharedPreferences.edit();
 
-        DataHolder.getInstance().dark_theme = sharedPreferences.getBoolean("dark_theme",false);
+        DataHolder.getInstance().dark_theme = sharedPreferences.getBoolean("dark_theme", false);
 
-        if(DataHolder.getInstance().dark_theme)
-        {
+        if (DataHolder.getInstance().dark_theme) {
             setTheme(R.style.DarkAppTheme);
-        }
-        else
-        {
+        } else {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_login);
@@ -75,8 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        if(DataHolder.getInstance().theme_changed)
-        {
+        if (DataHolder.getInstance().theme_changed) {
             recreate();
         }
     }
@@ -89,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         checkBox = (CheckBox) findViewById(R.id.remember_check_box);
         progressDialog = new ProgressDialog(this);
 
-        checkBox.setChecked(sharedPreferences.getBoolean("pass_checked",false));
+        checkBox.setChecked(sharedPreferences.getBoolean("pass_checked", false));
 
         login_edit.setText(sharedPreferences.getString("login", ""));
         password_edit.setText(sharedPreferences.getString("password", ""));
@@ -111,18 +107,12 @@ public class LoginActivity extends AppCompatActivity {
                             progressDialog.dismiss();
                             Toast.makeText(LoginActivity.this, "Logowanie nie powiodło się.", Toast.LENGTH_SHORT).show();
                         } else {
-                            if(checkBox.isChecked())
-                            {
+                            if (checkBox.isChecked()) {
                                 editor.putString("login", login_edit.getText().toString());
                                 editor.putString("password", password_edit.getText().toString());
-                                editor.putBoolean("pass_checked",true);
+                                editor.putBoolean("pass_checked", true);
                                 editor.commit();
-                            }
-                            else
-                            {
-                                /**
-                                 * Kasuje zapisane dane logowania.
-                                 * */
+                            } else { // Kasuje zapisane dane logowania.
 //                                editor.clear();
 //                                editor.commit();
                             }

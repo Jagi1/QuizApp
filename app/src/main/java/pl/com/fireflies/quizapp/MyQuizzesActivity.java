@@ -15,12 +15,9 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(DataHolder.getInstance().dark_theme)
-        {
+        if (DataHolder.getInstance().dark_theme) {
             setTheme(R.style.DarkAppTheme);
-        }
-        else
-        {
+        } else {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_my_quizzes);
@@ -33,8 +30,7 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onRestart() {
         super.onRestart();
-        if(DataHolder.getInstance().theme_changed)
-        {
+        if (DataHolder.getInstance().theme_changed) {
             recreate();
         }
     }
@@ -60,5 +56,6 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
         toolbar = (Toolbar) findViewById(R.id.user_bar);
         avatar = (ImageButton) findViewById(R.id.avatar);
         settings = (ImageButton) findViewById(R.id.settings_gear);
+        avatar.setImageBitmap(DataHolder.avatarBitmap);
     }
 }

@@ -17,15 +17,13 @@ import com.google.firebase.database.ValueEventListener;
 public class SelectCategories extends AppCompatActivity {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     private Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(DataHolder.getInstance().dark_theme)
-        {
+        if (DataHolder.getInstance().dark_theme) {
             setTheme(R.style.DarkAppTheme);
-        }
-        else
-        {
+        } else {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_select_categories);
@@ -35,18 +33,18 @@ public class SelectCategories extends AppCompatActivity {
             public void onClick(View view) {
                 //Toast.makeText(SelectCategories.this,view.getId()+view.getTag().toString(),Toast.LENGTH_LONG).show();
                 intent = new Intent(SelectCategories.this, PlayQuiz.class);
-                intent.putExtra("name",view.getTag().toString());
-                intent.putExtra("category",st);
+                intent.putExtra("name", view.getTag().toString());
+                intent.putExtra("category", st);
                 SelectCategories.this.startActivity(intent);
             }
         };
         mDatabase.child("quizy").child(st).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                int i=1;
-                for (DataSnapshot snapshot:dataSnapshot.getChildren()) {
-                    String key= snapshot.getKey().toString();
-                    LinearLayout ll = (LinearLayout)findViewById(R.id.linear);
+                int i = 1;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key = snapshot.getKey().toString();
+                    LinearLayout ll = (LinearLayout) findViewById(R.id.linear);
                     Button btn = new Button(SelectCategories.this);
                     btn.setText(key);
                     btn.setTag(key);
@@ -57,9 +55,10 @@ public class SelectCategories extends AppCompatActivity {
                     i++;
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(SelectCategories.this,databaseError.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(SelectCategories.this, databaseError.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
