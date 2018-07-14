@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
     private TextView loginText, emailText;
     private EditText newEmail;
     private Button changePassword, changeEmail, logout_button, changeAvatar;
+    private CardView change_image_card, email_card, manage_account_card, other_stuff_card;
     private ImageView avatar_image;
     private ProgressDialog progressDialog;
     private Uri uriFilePath;
@@ -45,6 +47,10 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_account_settings);
+
+        if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
+        else getWindow().setBackgroundDrawableResource(R.drawable.background);
+
         initViews();
     }
 
@@ -126,7 +132,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
 
     private void uploadImage() {
         if (uriFilePath != null) {
-            final ProgressDialog progressDialog = new ProgressDialog(this);
+            if(DataHolder.getInstance().dark_theme) progressDialog = new ProgressDialog(this, android.R.style.Theme_Material_Dialog_Alert);
+            else progressDialog = new ProgressDialog(this, android.R.style.Theme_Material_Light_Dialog_Alert);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
             // sciezka do folderu uzytkownika :
@@ -166,6 +173,10 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
         changeAvatar = (Button) findViewById(R.id.change_avatar);
         avatar_image = (ImageView) findViewById(R.id.avatar);
         avatar_image.setImageBitmap(DataHolder.getInstance().avatarBitmap);
+        change_image_card = (CardView)findViewById(R.id.card1);
+        email_card = (CardView)findViewById(R.id.card2);
+        manage_account_card = (CardView)findViewById(R.id.card3);
+        other_stuff_card = (CardView)findViewById(R.id.card4);
 
         changeEmail.setOnClickListener(this);
         changePassword.setOnClickListener(this);
@@ -175,6 +186,13 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
         emailText = (TextView) findViewById(R.id.email);
         newEmail = (EditText) findViewById(R.id.new_email);
         progressDialog = new ProgressDialog(this);
+
+        if(DataHolder.getInstance().dark_theme) {
+            change_image_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkRed));
+            email_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark1));
+            manage_account_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark2));
+            other_stuff_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkYellow));
+        }
 
         if (DataHolder.getInstance().firebaseUser != null) {
             String name = DataHolder.getInstance().firebaseUser.getDisplayName();

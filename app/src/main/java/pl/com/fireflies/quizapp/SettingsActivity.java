@@ -18,7 +18,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private Intent intent;
     private ListView settings_list;
     private Switch theme_switch;
-    private CardView help_cardView, info_card, set_card;
+    private CardView help_cardView, info_card, set_card, switch_card;
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     public static final String PREF_VAR = "pref_vars";
@@ -32,6 +32,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_settings);
+
+        if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
+        else getWindow().setBackgroundDrawableResource(R.drawable.background);
+
         initViews();
 
         theme_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -56,16 +60,33 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.card5:
-                new AlertDialog.Builder(this)
-                        .setMessage("W razie jakichkolwiek pytań skontaktuj się z działem pomocy klienta pod adresem: bandurski.sebastian@gmail.com")
-                        .create()
-                        .show();
+                if (DataHolder.getInstance().dark_theme) {
+                    new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert)
+                            .setMessage("W razie jakichkolwiek pytań skontaktuj się z działem pomocy klienta pod adresem: bandurski.sebastian@gmail.com")
+                            .create()
+                            .show();
+                }
+                else {
+                    new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert)
+                            .setMessage("W razie jakichkolwiek pytań skontaktuj się z działem pomocy klienta pod adresem: bandurski.sebastian@gmail.com")
+                            .create()
+                            .show();
+                }
                 break;
             case R.id.card4:
-                new AlertDialog.Builder(this)
-                        .setMessage("Aplikacja została stworzona jako projekt do zaliczenia przedmiotu.\nWykonali:\nSebastian Bandurski\nDaniel Biskup\nMateusz Błaszczak\n")
-                        .create()
-                        .show();
+                if (DataHolder.getInstance().dark_theme) {
+                    new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert)
+                            .setMessage("Aplikacja została stworzona jako projekt do zaliczenia przedmiotu.\nWykonali:\nSebastian Bandurski\nDaniel Biskup\nMateusz Błaszczak\n")
+                            .create()
+                            .show();
+                }
+                else {
+                    new AlertDialog.Builder(this, android.R.style.Theme_Material_Light_Dialog_Alert)
+                            .setMessage("Aplikacja została stworzona jako projekt do zaliczenia przedmiotu.\nWykonali:\nSebastian Bandurski\nDaniel Biskup\nMateusz Błaszczak\n")
+                            .create()
+                            .show();
+                }
+
                 break;
             case R.id.card1:
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -82,6 +103,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         set_card = (CardView) findViewById(R.id.card1);
         info_card = (CardView) findViewById(R.id.card4);
         theme_switch = (Switch) findViewById(R.id.theme);
+        switch_card = (CardView) findViewById(R.id.card2);
         help_cardView.setOnClickListener(this);
         set_card.setOnClickListener(this);
         info_card.setOnClickListener(this);
@@ -91,6 +113,13 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
 
         if (DataHolder.getInstance().dark_theme) {
             theme_switch.setChecked(true);
+        }
+
+        if(DataHolder.getInstance().dark_theme) {
+            set_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkRed));
+            switch_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark1));
+            info_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark2));
+            help_cardView.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkYellow));
         }
     }
 }

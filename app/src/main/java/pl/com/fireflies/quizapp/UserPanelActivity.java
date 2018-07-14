@@ -21,12 +21,13 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (DataHolder.getInstance().dark_theme) {
-            setTheme(R.style.DarkAppTheme);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
+        if (DataHolder.getInstance().dark_theme) setTheme(R.style.DarkAppTheme);
+        else setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_user_panel);
+
+        if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
+        else getWindow().setBackgroundDrawableResource(R.drawable.background);
+
         initViews();
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
@@ -35,9 +36,7 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (DataHolder.getInstance().theme_changed) {
-            recreate();
-        }
+        if (DataHolder.getInstance().theme_changed) recreate();
     }
 
     @Override
@@ -58,7 +57,8 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.invite_friend_card:
                 String[] PLACEHOLDER_FRIEND_LIST = {"Friend 1", "Friend 2", "Friend 3"};
-                friend_list_builder = new AlertDialog.Builder(UserPanelActivity.this);
+                if (DataHolder.getInstance().dark_theme) friend_list_builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                else friend_list_builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
                 friend_list_builder.setTitle("Friend list");
 
                 /**
@@ -126,5 +126,17 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
         challenges_card.setOnClickListener(this);
         avatar.setOnClickListener(this);
         settings.setOnClickListener(this);
+
+        if (DataHolder.getInstance().dark_theme) {
+            fast_game_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkRed));
+            invite_friend_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark1));
+            categories_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkYellow));
+            new_quiz_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark2));
+            my_quizes_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkPink));
+            challenges_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkViolet));
+        }
+        else {
+
+        }
     }
 }

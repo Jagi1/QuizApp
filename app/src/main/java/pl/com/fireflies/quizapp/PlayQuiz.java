@@ -30,6 +30,10 @@ public class PlayQuiz extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_play_quiz);
+
+        if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
+        else getWindow().setBackgroundDrawableResource(R.drawable.background);
+
         String names = getIntent().getStringExtra("name");
         String category = getIntent().getStringExtra("category");
         TextView namequiz = (TextView) findViewById(R.id.nameQuiz);
@@ -52,6 +56,19 @@ public class PlayQuiz extends AppCompatActivity {
         final RadioButton yodp5 = (RadioButton) findViewById(R.id.yodp5);
         final RadioButton nodp5 = (RadioButton) findViewById(R.id.nodp5);
         final Button check = (Button) findViewById(R.id.checkQuiz);
+
+        if (DataHolder.getInstance().dark_theme) {
+            yodp1.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
+            yodp2.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
+            yodp3.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
+            yodp4.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
+            yodp5.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
+            nodp1.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
+            nodp2.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
+            nodp3.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
+            nodp4.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
+            nodp5.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
+        }
 
         mDatabase.child("quizy").child(category).child(names).addValueEventListener(new ValueEventListener() {
             @Override
@@ -139,7 +156,9 @@ public class PlayQuiz extends AppCompatActivity {
                     yodp5.setTextColor(Color.rgb(0, 200, 0));
                 }
                 AlertDialog alertDialog;
-                AlertDialog.Builder builder = new AlertDialog.Builder(PlayQuiz.this);
+                AlertDialog.Builder builder;
+                if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(PlayQuiz.this, android.R.style.Theme_Material_Dialog_Alert);
+                else builder = new AlertDialog.Builder(PlayQuiz.this, android.R.style.Theme_Material_Light_Dialog_Alert);
                 View view1 = getLayoutInflater().inflate(R.layout.dialog_quiz_result,null);
 
                 TextView punktacja = (TextView)view1.findViewById(R.id.punktacja);

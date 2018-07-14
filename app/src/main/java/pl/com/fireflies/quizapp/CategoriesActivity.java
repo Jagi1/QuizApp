@@ -12,12 +12,14 @@ public class CategoriesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (DataHolder.getInstance().dark_theme) {
-            setTheme(R.style.DarkAppTheme);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
+        if (DataHolder.getInstance().dark_theme) setTheme(R.style.DarkAppTheme);
+        else setTheme(R.style.AppTheme);
+
         setContentView(R.layout.activity_categories);
+
+        if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
+        else getWindow().setBackgroundDrawableResource(R.drawable.background);
+
         CardView cardview = (CardView) findViewById(R.id.matematyka);
         cardview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +47,6 @@ public class CategoriesActivity extends AppCompatActivity {
                 CategoriesActivity.this.startActivity(intent);
             }
         });
-        initViews();
         CardView cardview4 = (CardView) findViewById(R.id.filmy);
         cardview4.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,12 +74,13 @@ public class CategoriesActivity extends AppCompatActivity {
                 CategoriesActivity.this.startActivity(intent);
             }
         });
-        initViews();
-        initViews();
-        initViews();
-    }
-
-    protected void initViews() {
-
+        if(DataHolder.getInstance().dark_theme) {
+            cardview.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark1));
+            cardview2.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkPink));
+            cardview3.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkViolet));
+            cardview4.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark2));
+            cardview5.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkYellow));
+            cardview6.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkRed));
+        }
     }
 }

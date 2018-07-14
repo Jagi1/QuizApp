@@ -29,6 +29,9 @@ public class SelectCategories extends AppCompatActivity {
         }
         setContentView(R.layout.activity_select_categories);
 
+        if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
+        else getWindow().setBackgroundDrawableResource(R.drawable.background);
+
         st = getIntent().getStringExtra("category");
         final View.OnClickListener btnclick = new View.OnClickListener() {
             @Override

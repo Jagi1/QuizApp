@@ -47,6 +47,10 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_new_quiz);
+
+        if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
+        else getWindow().setBackgroundDrawableResource(R.drawable.background);
+
         initViews();
 
         setSupportActionBar(toolbar);

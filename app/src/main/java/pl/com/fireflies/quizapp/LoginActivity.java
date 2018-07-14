@@ -1,5 +1,7 @@
 package pl.com.fireflies.quizapp;
 
+import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +11,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText login_edit, password_edit;
     private Button login_button, register_button;
     static private Intent intent;
+    private ImageView logo;
     private ProgressDialog progressDialog;
     private CheckBox checkBox;
     private SharedPreferences sharedPreferences;
@@ -38,12 +43,14 @@ public class LoginActivity extends AppCompatActivity {
 
         DataHolder.getInstance().dark_theme = sharedPreferences.getBoolean("dark_theme", false);
 
-        if (DataHolder.getInstance().dark_theme) {
-            setTheme(R.style.DarkAppTheme);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
+        if (DataHolder.getInstance().dark_theme) setTheme(R.style.DarkAppTheme);
+        else setTheme(R.style.AppTheme);
+
         setContentView(R.layout.activity_login);
+
+        if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
+        else getWindow().setBackgroundDrawableResource(R.drawable.background);
+
         initViews();
 
         login_button.setOnClickListener(new View.OnClickListener() {
@@ -59,12 +66,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
         register_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                LoginActivity.this.startActivity(intent);
+                Pair[] pairs = new Pair[2];
+                pairs[0] = new Pair<View, String>(login_edit, "emailTransition");
+                pairs[1] = new Pair<View, String>(password_edit, "passwordTransition");
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,pairs);
+                LoginActivity.this.startActivity(intent, options.toBundle());
             }
         });
     }
@@ -83,7 +93,15 @@ public class LoginActivity extends AppCompatActivity {
         login_button = (Button) findViewById(R.id.login_button);
         register_button = (Button) findViewById(R.id.register_button);
         checkBox = (CheckBox) findViewById(R.id.remember_check_box);
-        progressDialog = new ProgressDialog(this);
+        logo = (ImageView)findViewById(R.id.logo_image);
+        if (DataHolder.getInstance().dark_theme) {
+            logo.setImageResource(R.drawable.iluminati_logo_dark);
+            progressDialog = new ProgressDialog(this, android.R.style.Theme_Material_Dialog_Alert);
+        }
+        else {
+            logo.setImageResource(R.drawable.iluminati_logo);
+            progressDialog = new ProgressDialog(this, android.R.style.Theme_Material_Light_Dialog_Alert);
+        }
 
         checkBox.setChecked(sharedPreferences.getBoolean("pass_checked", false));
 

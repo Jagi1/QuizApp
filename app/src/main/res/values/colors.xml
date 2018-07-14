@@ -8,6 +8,7 @@
     <color name="colorPrimary">#FFC107</color>
     <color name="colorPrimaryDark">#FFA000</color>
     <color name="colorAccent">#ff4081</color>
+    <color name="colorAccentDark">#20FC8F</color>
     <color name="customColor1">#44BBA4</color>
     <color name="customColor2">#F6F7EB</color>
     <color name="colorMaterialBackground">#fcfcfc</color>
@@ -21,4 +22,10 @@
     <color name="colorMaterialDark2">#01110A</color>
     <color name="colorMaterialDark3">#5A5A66</color>
     <color name="colorMaterialDark4">#767fff</color>
+    <color name="colorMaterialDarkBlue">#171738</color>
+    <color name="colorMaterialDarkRed">#230C0C</color>
+    <color name="colorMaterialDarkYellow">#35300F</color>
+    <color name="colorMaterialDarkViolet">#232323</color>
+    <color name="colorMaterialDarkPink">#352230</color>
+    <color name="colorMaterialLightWhite">#FFFFEB</color>
 </resources>

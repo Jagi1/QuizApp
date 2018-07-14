@@ -35,12 +35,13 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (DataHolder.getInstance().dark_theme) {
-            setTheme(R.style.DarkAppTheme);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
+        if (DataHolder.getInstance().dark_theme) setTheme(R.style.DarkAppTheme);
+        else setTheme(R.style.AppTheme);
+
         setContentView(R.layout.activity_register);
+
+        if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
+        else getWindow().setBackgroundDrawableResource(R.drawable.background);
 
         initViews();
 

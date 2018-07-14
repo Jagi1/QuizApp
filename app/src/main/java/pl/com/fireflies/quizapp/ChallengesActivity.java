@@ -38,6 +38,10 @@ public class ChallengesActivity extends AppCompatActivity implements View.OnClic
             setTheme(R.style.AppTheme);
         }
         setContentView(R.layout.activity_challenges);
+
+        if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
+        else getWindow().setBackgroundDrawableResource(R.drawable.background);
+
         initViews(); // inicjalizacja widokow
     }
 
