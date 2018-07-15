@@ -82,13 +82,7 @@ public class QuizActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        if(!DataHolder.getInstance().play_again)
-        {
-            finish();
-        }
-        else
-        {
-            recreate();
-        }
+        if(!DataHolder.getInstance().play_again) finish();
+        else recreate();
     }
 }

@@ -28,4 +28,8 @@
     <color name="colorMaterialDarkViolet">#232323</color>
     <color name="colorMaterialDarkPink">#352230</color>
     <color name="colorMaterialLightWhite">#FFFFEB</color>
+    <color name="DarkBlue">#272838</color>
+    <color name="DarkPink">#820263</color>
+    <color name="Red">#C63713</color>
+    <color name="DarkGreen">#386C0B</color>
 </resources>

@@ -3,12 +3,17 @@ package pl.com.fireflies.quizapp;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,92 +23,91 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
+
 public class PlayQuiz extends AppCompatActivity {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    private ConstraintLayout main_constraintLayout;
+    private LinearLayout inner_linearLayout;
+    private ScrollView scrollView;
+    private TextView quiz_name;
+    private ArrayList<TextView> questions_array;
+    private ArrayList<RadioGroup> anwsers_array;
+    private ArrayList<RadioButton> right_anwsers_array;
+    private ArrayList<RadioButton> wrong_anwsers_array;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (DataHolder.getInstance().dark_theme) {
-            setTheme(R.style.DarkAppTheme);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
+        if (DataHolder.getInstance().dark_theme) setTheme(R.style.DarkAppTheme);
+        else setTheme(R.style.AppTheme);
+
         setContentView(R.layout.activity_play_quiz);
 
         if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
         else getWindow().setBackgroundDrawableResource(R.drawable.background);
 
+        initViews();
+
+
         String names = getIntent().getStringExtra("name");
         String category = getIntent().getStringExtra("category");
-        TextView namequiz = (TextView) findViewById(R.id.nameQuiz);
-        namequiz.setText(names);
-        final AandQ[] tab = new AandQ[5];
-        final AandQ[] aq = new AandQ[1];
-        final TextView question1 = (TextView) findViewById(R.id.questionquiz1);
-        final RadioButton yodp1 = (RadioButton) findViewById(R.id.yodp1);
-        final RadioButton nodp1 = (RadioButton) findViewById(R.id.nodp1);
-        final TextView question2 = (TextView) findViewById(R.id.questionquiz2);
-        final RadioButton yodp2 = (RadioButton) findViewById(R.id.yodp2);
-        final RadioButton nodp2 = (RadioButton) findViewById(R.id.nodp2);
-        final TextView question3 = (TextView) findViewById(R.id.questionquiz3);
-        final RadioButton yodp3 = (RadioButton) findViewById(R.id.yodp3);
-        final RadioButton nodp3 = (RadioButton) findViewById(R.id.nodp3);
-        final TextView question4 = (TextView) findViewById(R.id.questionquiz4);
-        final RadioButton yodp4 = (RadioButton) findViewById(R.id.yodp4);
-        final RadioButton nodp4 = (RadioButton) findViewById(R.id.nodp4);
-        final TextView question5 = (TextView) findViewById(R.id.questionquiz5);
-        final RadioButton yodp5 = (RadioButton) findViewById(R.id.yodp5);
-        final RadioButton nodp5 = (RadioButton) findViewById(R.id.nodp5);
-        final Button check = (Button) findViewById(R.id.checkQuiz);
 
-        if (DataHolder.getInstance().dark_theme) {
-            yodp1.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
-            yodp2.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
-            yodp3.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
-            yodp4.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
-            yodp5.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
-            nodp1.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
-            nodp2.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
-            nodp3.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
-            nodp4.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
-            nodp5.setTextColor(getResources().getColor(R.color.colorMaterialLightWhite));
-        }
+        quiz_name.setText(names);
 
         mDatabase.child("quizy").child(category).child(names).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int il = 0;
+                Toast.makeText(PlayQuiz.this, dataSnapshot.getKey(), Toast.LENGTH_SHORT).show();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    int i = 0;
-                    String key = snapshot.getKey().toString();
-                    //Toast.makeText(PlayQuiz.this, "key: "+key, Toast.LENGTH_SHORT).show();
-                    aq[0] = new AandQ();
-                    aq[0].question = key;
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        String value = snapshot1.getValue().toString();
-                        //Toast.makeText(PlayQuiz.this, "value: "+value, Toast.LENGTH_SHORT).show();
-                        aq[0].odp[i] = value;
-                        i++;
+                    questions_array.add(new TextView(PlayQuiz.this));
+                    questions_array.get(il).setTextSize(20);
+                    Random r = new Random();
+                    switch (r.nextInt(4)) {
+                        case 0:
+                            if (DataHolder.getInstance().dark_theme) questions_array.get(il).setTextColor(getColor(R.color.colorPrimaryDark));
+                            else questions_array.get(il).setTextColor(getColor(R.color.DarkPink));
+                            break;
+                        case 1:
+                            if (DataHolder.getInstance().dark_theme) questions_array.get(il).setTextColor(getColor(R.color.colorMaterialViolet));
+                            else questions_array.get(il).setTextColor(getColor(R.color.DarkBlue));
+                            break;
+                        case 2:
+                            if (DataHolder.getInstance().dark_theme) questions_array.get(il).setTextColor(getColor(R.color.colorMaterialDeepPurple));
+                            else questions_array.get(il).setTextColor(getColor(R.color.DarkGreen));
+                            break;
+                        case 3: questions_array.get(il).setTextColor(getColor(R.color.fui_bgEmail)); break;
                     }
-                    tab[il] = aq[0];
-                    il++;
+                    anwsers_array.add(new RadioGroup(PlayQuiz.this));
+                    questions_array.get(il).setText(snapshot.getKey().toString());
+                    right_anwsers_array.add(new RadioButton(PlayQuiz.this));
+                    wrong_anwsers_array.add(new RadioButton(PlayQuiz.this));
+                    if (DataHolder.getInstance().dark_theme) {
+                        right_anwsers_array.get(il).setTextColor(getColor(R.color.colorMaterialLightWhite));
+                        wrong_anwsers_array.get(il).setTextColor(getColor(R.color.colorMaterialLightWhite));
+                    }
+                    inner_linearLayout.addView(questions_array.get(il));
+                    int i = 0;
+                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        if (i == 0) right_anwsers_array.get(il).setText(snapshot1.getValue().toString());
+                        else wrong_anwsers_array.get(il).setText(snapshot1.getValue().toString());
+                        ++i;
+                    }
+                    if (r.nextInt(2) == 0) {
+                        anwsers_array.get(il).addView(right_anwsers_array.get(il));
+                        anwsers_array.get(il).addView(wrong_anwsers_array.get(il));
+                    } else {
+                        anwsers_array.get(il).addView(wrong_anwsers_array.get(il));
+                        anwsers_array.get(il).addView(right_anwsers_array.get(il));
+                    }
+                    inner_linearLayout.addView(anwsers_array.get(il));
+                    ++il;
                 }
-                question1.setText(tab[0].question.toString());
-                yodp1.setText(tab[0].odp[0].toString());
-                nodp1.setText(tab[0].odp[1].toString());
-                question2.setText(tab[1].question.toString());
-                yodp2.setText(tab[1].odp[0].toString());
-                nodp2.setText(tab[1].odp[1].toString());
-                question3.setText(tab[2].question.toString());
-                yodp3.setText(tab[2].odp[0].toString());
-                nodp3.setText(tab[2].odp[1].toString());
-                question4.setText(tab[3].question.toString());
-                yodp4.setText(tab[3].odp[0].toString());
-                nodp4.setText(tab[3].odp[1].toString());
-                question5.setText(tab[4].question.toString());
-                yodp5.setText(tab[4].odp[0].toString());
-                nodp5.setText(tab[4].odp[1].toString());
             }
 
             @Override
@@ -111,50 +115,17 @@ public class PlayQuiz extends AppCompatActivity {
                 Toast.makeText(PlayQuiz.this, databaseError.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-        check.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Integer score = 0;
-                if (yodp1.isChecked()) {
-                    ++score;
-                    nodp1.setTextColor(Color.rgb(200, 0, 0));
-                    yodp1.setTextColor(Color.rgb(0, 200, 0));
-                } else {
-                    nodp1.setTextColor(Color.rgb(200, 0, 0));
-                    yodp1.setTextColor(Color.rgb(0, 200, 0));
+                for (RadioButton rB : right_anwsers_array) {
+                    rB.setTextColor(getColor(R.color.colorMaterialGreen));
+                    if (rB.isChecked())
+                        ++score;
                 }
-                if (yodp2.isChecked()) {
-                    ++score;
-                    nodp2.setTextColor(Color.rgb(200, 0, 0));
-                    yodp2.setTextColor(Color.rgb(0, 200, 0));
-                } else {
-                    nodp2.setTextColor(Color.rgb(200, 0, 0));
-                    yodp2.setTextColor(Color.rgb(0, 200, 0));
-                }
-                if (yodp3.isChecked()) {
-                    ++score;
-                    nodp3.setTextColor(Color.rgb(200, 0, 0));
-                    yodp3.setTextColor(Color.rgb(0, 200, 0));
-                } else {
-                    nodp3.setTextColor(Color.rgb(200, 0, 0));
-                    yodp3.setTextColor(Color.rgb(0, 200, 0));
-                }
-                if (yodp4.isChecked()) {
-                    ++score;
-                    nodp4.setTextColor(Color.rgb(200, 0, 0));
-                    yodp4.setTextColor(Color.rgb(0, 200, 0));
-                } else {
-                    nodp4.setTextColor(Color.rgb(200, 0, 0));
-                    yodp4.setTextColor(Color.rgb(0, 200, 0));
-                }
-                if (yodp5.isChecked()) {
-                    ++score;
-                    nodp5.setTextColor(Color.rgb(200, 0, 0));
-                    yodp5.setTextColor(Color.rgb(0, 200, 0));
-                } else {
-                    nodp5.setTextColor(Color.rgb(200, 0, 0));
-                    yodp5.setTextColor(Color.rgb(0, 200, 0));
-                }
+                for (RadioButton rB : wrong_anwsers_array)
+                    rB.setTextColor(getColor(R.color.colorMaterialRed));
                 AlertDialog alertDialog;
                 AlertDialog.Builder builder;
                 if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(PlayQuiz.this, android.R.style.Theme_Material_Dialog_Alert);
@@ -188,5 +159,17 @@ public class PlayQuiz extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+    }
+
+    protected void initViews() {
+        main_constraintLayout = (ConstraintLayout) findViewById(R.id.main_constraint_layout);
+        inner_linearLayout = (LinearLayout) findViewById(R.id.inner_linear_layout);
+        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        quiz_name = (TextView) findViewById(R.id.nameQuiz);
+        button = (Button) findViewById(R.id.checkQuiz);
+        anwsers_array = new ArrayList<RadioGroup>();
+        questions_array = new ArrayList<TextView>();
+        right_anwsers_array = new ArrayList<RadioButton>();
+        wrong_anwsers_array = new ArrayList<RadioButton>();
     }
 }
