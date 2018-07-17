@@ -3,12 +3,18 @@ package pl.com.fireflies.quizapp;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 public class UserPanelActivity extends AppCompatActivity implements View.OnClickListener {
     private Intent intent;
@@ -16,7 +22,8 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
     private Toolbar toolbar;
     private AlertDialog.Builder friend_list_builder;
     private AlertDialog friend_list_dialog;
-    private ImageButton avatar, settings;
+    private ImageButton userBar_avatar, userBar_settings;
+    private TextView userBar_level, userBar_rank, userBar_currency;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,20 +38,39 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
         initViews();
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
+
+        updateUserProperties();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
         if (DataHolder.getInstance().theme_changed) recreate();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         if (DataHolder.getInstance().firebaseAuth == null) {
             finish();
         }
+    }
+
+    protected void updateUserProperties() {
+        DataHolder.firebaseDatabase
+                .child("users")
+                .child(DataHolder.firebaseUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        int i = 0;
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            if (i == 0) userBar_currency.setText("Currency: "+snapshot.getValue().toString());
+                            else userBar_level.setText("Level: "+snapshot.getValue().toString());
+                            ++i;
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
     }
 
     @Override
@@ -114,9 +140,12 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
         new_quiz_card = (CardView) findViewById(R.id.new_quiz_card);
         my_quizes_card = (CardView) findViewById(R.id.my_quizzes_card);
         challenges_card = (CardView) findViewById(R.id.challenges_card);
-        settings = (ImageButton) findViewById(R.id.settings_gear);
-        avatar = (ImageButton) findViewById(R.id.avatar);
-        avatar.setImageBitmap(DataHolder.getInstance().avatarBitmap);
+        userBar_settings = (ImageButton) findViewById(R.id.settings_gear);
+        userBar_level = (TextView) findViewById(R.id.level);
+        userBar_rank = (TextView) findViewById(R.id.rank);
+        userBar_currency = (TextView) findViewById(R.id.currency);
+        userBar_avatar = (ImageButton) findViewById(R.id.avatar);
+        userBar_avatar.setImageBitmap(DataHolder.getInstance().avatarBitmap);
 
         fast_game_card.setOnClickListener(this);
         invite_friend_card.setOnClickListener(this);
@@ -124,8 +153,8 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
         new_quiz_card.setOnClickListener(this);
         my_quizes_card.setOnClickListener(this);
         challenges_card.setOnClickListener(this);
-        avatar.setOnClickListener(this);
-        settings.setOnClickListener(this);
+        userBar_avatar.setOnClickListener(this);
+        userBar_settings.setOnClickListener(this);
 
         if (DataHolder.getInstance().dark_theme) {
             fast_game_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkRed));

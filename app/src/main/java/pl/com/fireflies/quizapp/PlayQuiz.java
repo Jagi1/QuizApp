@@ -65,6 +65,7 @@ public class PlayQuiz extends AppCompatActivity {
                 int il = 0;
                 Toast.makeText(PlayQuiz.this, dataSnapshot.getKey(), Toast.LENGTH_SHORT).show();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.getKey().toString().equals("metadata")) continue;
                     questions_array.add(new TextView(PlayQuiz.this));
                     questions_array.get(il).setTextSize(20);
                     Random r = new Random();
@@ -157,6 +158,25 @@ public class PlayQuiz extends AppCompatActivity {
                 builder.setView(view1);
                 alertDialog = builder.create();
                 alertDialog.show();
+
+                if (score == questions_array.size())
+                    DataHolder.firebaseDatabase
+                        .child("users")
+                        .child(DataHolder.firebaseUser.getUid())
+                        .child("level")
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                int value = Integer.parseInt(dataSnapshot.getValue().toString());
+                                ++value;
+                                dataSnapshot.getRef().setValue(Integer.toString(value));
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
             }
         });
     }

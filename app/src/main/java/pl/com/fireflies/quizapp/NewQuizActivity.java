@@ -105,7 +105,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                finish();
             }
         });
     }
@@ -192,7 +192,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCancel(DialogInterface dialog) {
                 alertDialog.dismiss();
-                canFinish = true;
+                NewQuizActivity.this.finish();
             }
         });
     }
@@ -290,6 +290,16 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 
         // image1URL zawiera sciezke URL obrazka (Storage > images > obrazek)
 
+        // Dodanie do quizu id użytkownika który stworzył ten quiz
+        DataHolder.firebaseDatabase
+                .child("quizy")
+                .child(selectedCategory)
+                .child(quizName)
+                .child("metadata")
+                .child("author")
+                .setValue(DataHolder.firebaseUser.getUid());
+
+        // Dodanie quizu do bazy danych
         for (Pair<EditText, Pair<EditText, EditText>> pair : array_of_questions) {
             pathName.child(pair.first.getText().toString()).child("okodp").setValue(pair.second.first.getText().toString());
             pathName.child(pair.first.getText().toString()).child("otherodp").setValue(pair.second.second.getText().toString());
