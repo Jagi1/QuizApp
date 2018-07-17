@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/text_01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Podaj nazwę nowego quizu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/edit_01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3sp"
+        app:layout_constraintStart_toStartOf="@id/text_01"
+        app:layout_constraintEnd_toEndOf="@id/text_01"
+        app:layout_constraintTop_toBottomOf="@id/text_01"/>
+
+    <TextView
+        android:id="@+id/text_02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:text="Wybierz kategorię quizu"
+        app:layout_constraintStart_toStartOf="@id/edit_01"
+        app:layout_constraintEnd_toEndOf="@id/edit_01"
+        app:layout_constraintTop_toBottomOf="@id/edit_01" />
+
+    <Spinner
+        android:id="@+id/spinner_01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3sp"
+        android:minHeight="35sp"
+        app:layout_constraintStart_toStartOf="@id/text_02"
+        app:layout_constraintEnd_toEndOf="@id/text_02"
+        app:layout_constraintTop_toBottomOf="@id/text_02">
+    </Spinner>
+
+    <TextView
+        android:id="@+id/text_03"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wybierz ilość pytań"
+        android:layout_marginTop="10sp"
+        app:layout_constraintStart_toStartOf="@id/spinner_01"
+        app:layout_constraintEnd_toEndOf="@id/spinner_01"
+        app:layout_constraintTop_toBottomOf="@id/spinner_01"/>
+
+    <Spinner
+        android:id="@+id/spinner_02"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3sp"
+        android:minHeight="35sp"
+        app:layout_constraintStart_toStartOf="@id/text_03"
+        app:layout_constraintEnd_toEndOf="@id/text_03"
+        app:layout_constraintTop_toBottomOf="@id/text_03">
+    </Spinner>
+
+    <Button
+        android:id="@+id/button_01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10sp"
+        android:text="przejdź dalej"
+        app:layout_constraintStart_toStartOf="@id/spinner_02"
+        app:layout_constraintEnd_toEndOf="@id/spinner_02"
+        app:layout_constraintTop_toBottomOf="@id/spinner_02"/>
+
+</android.support.constraint.ConstraintLayout>

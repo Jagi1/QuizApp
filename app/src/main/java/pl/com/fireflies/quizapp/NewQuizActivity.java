@@ -1,32 +1,41 @@
 package pl.com.fireflies.quizapp;
 
-import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class NewQuizActivity extends AppCompatActivity implements View.OnClickListener {
     private Intent intent;
@@ -34,18 +43,29 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     private ImageButton avatar, settings;
     private ImageView image1View;
     private Button addQuizButton, clearFormButton, chooseImage1;
-    private EditText namequiz, categoryquiz, questionquiz1, okodp1, otherodp1, questionquiz2, okodp2, otherodp2,
-            questionquiz3, okodp3, otherodp3, questionquiz4, okodp4, otherodp4, questionquiz5, okodp5, otherodp5;
+    private ArrayList<Pair<EditText, Pair<EditText, EditText>>> array_of_questions;
+    private ArrayList<Pair<TextView, Pair<TextView, TextView>>> array_of_textViews;
     private Uri uriFilePath;
     private String image1URL;
+    private LinearLayout linearLayout;
+    private TextView dialogText_01, dialogText_02, dialogText_03;
+    private Spinner dialogSpinner_01, dialogSpinner_02;
+    private EditText dialogEdit_01;
+    private Button dialogButton_01;
+    private ArrayList<String> dialogArray_01, dialogArray_02;
+    private String selectedCategory;
+    private int amountOfQuestions;
+    private AlertDialog alertDialog;
+    private String quizName;
+    private AlertDialog.Builder builder;
+    private View view;
+    private Boolean isSelected_01 = false, isSelected_02 = false;
+    private boolean canFinish = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (DataHolder.getInstance().dark_theme) {
-            setTheme(R.style.DarkAppTheme);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
+        if (DataHolder.getInstance().dark_theme) setTheme(R.style.DarkAppTheme);
+        else setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_new_quiz);
 
         if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
@@ -55,6 +75,126 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
+
+        if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(NewQuizActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        else builder = new AlertDialog.Builder(NewQuizActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+        view = getLayoutInflater().inflate(R.layout.dialog_new_quiz,null,false);
+
+        dialogText_01 = (TextView)view.findViewById(R.id.text_01);
+        dialogText_02 = (TextView)view.findViewById(R.id.text_02);
+        dialogText_03 = (TextView)view.findViewById(R.id.text_03);
+        dialogSpinner_01 = (Spinner)view.findViewById(R.id.spinner_01);
+        dialogSpinner_02 = (Spinner)view.findViewById(R.id.spinner_02);
+        dialogEdit_01 = (EditText)view.findViewById(R.id.edit_01);
+        dialogButton_01 = (Button)view.findViewById(R.id.button_01);
+
+        dialogArray_01 = new ArrayList<String>();
+        dialogArray_02 = new ArrayList<String>() {{ add("5"); add("6"); add("7"); add("8"); add("9"); add("10");}};
+        DataHolder.firebaseDatabase.child("quizy").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    dialogArray_01.add(snapshot.getKey().toString());
+                }
+                if (canFinish) {
+                    finish();
+                    return;
+                }
+                helpFunction();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    protected void helpFunction() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewQuizActivity.this, android.R.layout.simple_spinner_item, dialogArray_01);
+        ArrayAdapter<String> adapter_02 = new ArrayAdapter<String>(NewQuizActivity.this, android.R.layout.simple_spinner_item, dialogArray_02);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter_02.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        dialogSpinner_01.setAdapter(adapter);
+        dialogSpinner_02.setAdapter(adapter_02);
+
+        dialogSpinner_01.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCategory = dialogArray_01.get(position);
+                isSelected_01 = true;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                int xd = 1;
+            }
+        });
+
+        dialogSpinner_02.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                amountOfQuestions = Integer.parseInt(dialogArray_02.get(position).toString());
+                isSelected_02 = true;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                int xd = 1;
+            }
+        });
+
+        builder.setView(view);
+        alertDialog = builder.create();
+        alertDialog.show();
+
+        dialogButton_01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSelected_01 && isSelected_02 && !dialogEdit_01.getText().toString().equals("")) {
+                    quizName = dialogEdit_01.getText().toString();
+//                    amountOfQuestions = Integer.getInteger((String)dialogSpinner_02.getSelectedItem());
+                    alertDialog.dismiss();
+                    for (int i=0;i<amountOfQuestions;++i) {
+                        array_of_questions.add(new Pair<EditText, Pair<EditText, EditText>>(new EditText(NewQuizActivity.this), new Pair<EditText, EditText>(new EditText(NewQuizActivity.this), new EditText(NewQuizActivity.this))));
+                        array_of_textViews.add(new Pair<TextView, Pair<TextView, TextView>>(new TextView(NewQuizActivity.this), new Pair<TextView, TextView>(new TextView(NewQuizActivity.this), new TextView(NewQuizActivity.this))));
+                        array_of_textViews.get(i).first.setText("Pytanie "+Integer.toString(i+1));
+                        array_of_textViews.get(i).second.first.setText("Poprawna odpowiedź:");
+                        array_of_textViews.get(i).second.second.setText("Zła odpowiedź:");
+
+                        linearLayout.addView(array_of_textViews.get(i).first);
+                        linearLayout.addView(array_of_questions.get(i).first);
+                        linearLayout.addView(array_of_textViews.get(i).second.first);
+                        linearLayout.addView(array_of_questions.get(i).second.first);
+                        linearLayout.addView(array_of_textViews.get(i).second.second);
+                        linearLayout.addView(array_of_questions.get(i).second.second);
+                    }
+                    addQuizButton = new Button(NewQuizActivity.this);
+                    addQuizButton.setId(R.id.add_quiz);
+                    addQuizButton.setText("dodaj quiz");
+                    addQuizButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            addQuiz();
+                            Toast.makeText(getApplicationContext(),"Pomyslnie dodano Quiz!", Toast.LENGTH_LONG).show();
+                            canFinish = true;
+                        }
+                    });
+                    linearLayout.addView(addQuizButton);
+                }
+                else Toast.makeText(NewQuizActivity.this,"Nieprawidłowe dane quizu.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                alertDialog.dismiss();
+                canFinish = true;
+            }
+        });
     }
 
     @Override
@@ -69,22 +209,20 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                 intent = new Intent(NewQuizActivity.this, AccountSettingsActivity.class);
                 NewQuizActivity.this.startActivity(intent);
                 break;
-            case R.id.choose_image1:
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    DataHolder.requestStoragePermission(this);
-                } else {
-                    chooseImage();
-                }
-                break;
-            case R.id.clear_form:
-                clearForm();
-                Toast.makeText(getApplicationContext(),"Wyczyszczono formularz!", Toast.LENGTH_LONG).show();
-                break;
+//            case R.id.choose_image1:
+//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+//                        != PackageManager.PERMISSION_GRANTED) {
+//                    DataHolder.requestStoragePermission(this);
+//                } else {
+//                    chooseImage();
+//                }
+//                break;
+//            case R.id.clear_form:
+//                clearForm();
+//                Toast.makeText(getApplicationContext(),"Wyczyszczono formularz!", Toast.LENGTH_LONG).show();
+//                break;
             case R.id.add_quiz:
-                uploadImage();
-                addQuiz();
-                Toast.makeText(getApplicationContext(),"Pomyslnie dodano Quiz!", Toast.LENGTH_LONG).show();
+//                uploadImage();
                 break;
         }
     }
@@ -148,80 +286,31 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void addQuiz() {
-        DatabaseReference pathName = DataHolder.firebaseDatabase.child("quizy").child(categoryquiz.getText().toString()).child(namequiz.getText().toString());
+        DatabaseReference pathName = DataHolder.firebaseDatabase.child("quizy").child(selectedCategory).child(quizName);
 
         // image1URL zawiera sciezke URL obrazka (Storage > images > obrazek)
-        pathName.child(questionquiz1.getText().toString()).child("image1").setValue(image1URL);
-        pathName.child(questionquiz1.getText().toString()).child("okodp").setValue(okodp1.getText().toString());
-        pathName.child(questionquiz1.getText().toString()).child("otherodp").setValue(otherodp1.getText().toString());
 
-        pathName.child(questionquiz2.getText().toString()).child("okodp").setValue(okodp2.getText().toString());
-        pathName.child(questionquiz2.getText().toString()).child("otherodp").setValue(otherodp2.getText().toString());
-
-        pathName.child(questionquiz3.getText().toString()).child("okodp").setValue(okodp3.getText().toString());
-        pathName.child(questionquiz3.getText().toString()).child("otherodp").setValue(otherodp3.getText().toString());
-
-        pathName.child(questionquiz4.getText().toString()).child("okodp").setValue(okodp4.getText().toString());
-        pathName.child(questionquiz4.getText().toString()).child("otherodp").setValue(otherodp4.getText().toString());
-
-        pathName.child(questionquiz5.getText().toString()).child("okodp").setValue(okodp5.getText().toString());
-        pathName.child(questionquiz5.getText().toString()).child("otherodp").setValue(otherodp5.getText().toString());
+        for (Pair<EditText, Pair<EditText, EditText>> pair : array_of_questions) {
+            pathName.child(pair.first.getText().toString()).child("okodp").setValue(pair.second.first.getText().toString());
+            pathName.child(pair.first.getText().toString()).child("otherodp").setValue(pair.second.second.getText().toString());
+        }
+//        pathName.child(questionquiz1.getText().toString()).child("image1").setValue(image1URL);
     }
 
     private void clearForm() {
-        namequiz.getText().clear();
-        categoryquiz.getText().clear();
 
-        questionquiz1.getText().clear();
-        okodp1.getText().clear();
-        otherodp1.getText().clear();
-
-        questionquiz2.getText().clear();
-        okodp2.getText().clear();
-        otherodp2.getText().clear();
-        questionquiz3.getText().clear();
-        okodp3.getText().clear();
-        otherodp3.getText().clear();
-        questionquiz4.getText().clear();
-        okodp4.getText().clear();
-        otherodp4.getText().clear();
-        questionquiz5.getText().clear();
-        okodp5.getText().clear();
-        otherodp5.getText().clear();
     }
 
     protected void initViews() {
+        linearLayout = (LinearLayout)findViewById(R.id.linear);
         toolbar = (Toolbar) findViewById(R.id.user_bar);
         avatar = (ImageButton) findViewById(R.id.avatar);
         settings = (ImageButton) findViewById(R.id.settings_gear);
-        addQuizButton = (Button) findViewById(R.id.add_quiz);
-        clearFormButton = (Button) findViewById(R.id.clear_form);
-        chooseImage1 = (Button) findViewById(R.id.choose_image1);
-        image1View = (ImageView) findViewById(R.id.image1);
         avatar.setImageBitmap(DataHolder.getInstance().avatarBitmap);
         avatar.setOnClickListener(this);
         settings.setOnClickListener(this);
-        addQuizButton.setOnClickListener(this);
-        clearFormButton.setOnClickListener(this);
-        chooseImage1.setOnClickListener(this);
-
-        namequiz = (EditText) findViewById(R.id.nameQuiz);
-        categoryquiz = (EditText) findViewById(R.id.categoryQuiz);
-        questionquiz1 = (EditText) findViewById(R.id.questionQuiz1);
-        okodp1 = (EditText) findViewById(R.id.okodp1);
-        otherodp1 = (EditText) findViewById(R.id.otherodp1);
-        questionquiz2 = (EditText) findViewById(R.id.questionQuiz2);
-        okodp2 = (EditText) findViewById(R.id.okodp2);
-        otherodp2 = (EditText) findViewById(R.id.otherodp2);
-        questionquiz3 = (EditText) findViewById(R.id.questionQuiz3);
-        okodp3 = (EditText) findViewById(R.id.okodp3);
-        otherodp3 = (EditText) findViewById(R.id.otherodp3);
-        questionquiz4 = (EditText) findViewById(R.id.questionQuiz4);
-        okodp4 = (EditText) findViewById(R.id.okodp4);
-        otherodp4 = (EditText) findViewById(R.id.otherodp4);
-        questionquiz5 = (EditText) findViewById(R.id.questionQuiz5);
-        okodp5 = (EditText) findViewById(R.id.okodp5);
-        otherodp5 = (EditText) findViewById(R.id.otherodp5);
+        array_of_questions = new ArrayList<Pair<EditText, Pair<EditText, EditText>>>();
+        array_of_textViews = new ArrayList<Pair<TextView, Pair<TextView,TextView>>>();
     }
 
 
