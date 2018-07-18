@@ -86,10 +86,7 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
                 if (DataHolder.getInstance().dark_theme) friend_list_builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Dialog_Alert);
                 else friend_list_builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
                 friend_list_builder.setTitle("Friend list");
-
-                /**
-                 * Trzeba dodac liste znajomych z bazy do dialogu
-                 * */
+                // TODO: Add friend list.
                 friend_list_builder.setItems(PLACEHOLDER_FRIEND_LIST, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

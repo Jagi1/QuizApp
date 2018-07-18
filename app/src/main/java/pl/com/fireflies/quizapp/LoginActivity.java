@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
@@ -21,8 +23,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.storage.StorageReference;
 
 public class LoginActivity extends AppCompatActivity {
     private EditText login_edit, password_edit;
@@ -34,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     public static final String PREF_VAR = "pref_vars";
+    private int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,9 +130,8 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!DataHolder.firebaseUser.isEmailVerified()) {
                             progressDialog.dismiss();
-                            AlertDialog dialog;
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                            builder.setMessage("Before you sign in you need to verify your account via email. Should we send email again?")
+                            // TODO: Replace standard dialog with custom one.
+                            new AlertDialog.Builder(LoginActivity.this).setMessage("Before you sign in you need to verify your account via email. Should we send email again?")
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -139,12 +144,9 @@ public class LoginActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             dialog.dismiss();
                                         }
-                                    });
-                            dialog = builder.create();
-                            dialog.show();
-                            return;
+                                    }).create().show();
                         }
-                        if (!task.isSuccessful()) {
+                        else if (!task.isSuccessful()) {
                             progressDialog.dismiss();
                             Toast.makeText(LoginActivity.this, "Logowanie nie powiodło się.", Toast.LENGTH_SHORT).show();
                         } else {
@@ -157,12 +159,33 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.clear();
                                 editor.commit();
                             }
-                            DataHolder.setAvatarImage();
-                            progressDialog.dismiss();
-                            intent = new Intent(LoginActivity.this, UserPanelActivity.class);
-                            LoginActivity.this.startActivity(intent);
+                            if (i == 0) {
+                                setAvatarImage();
+                                ++i;
+                            }
                         }
                     }
                 });
+    }
+
+    protected void setAvatarImage() {
+        final long ONE_MEGABYTE = 1024 * 1024 * 3;
+        final StorageReference refStoragePath = DataHolder.storageReference.child("user")
+                .child(DataHolder.firebaseUser.getUid()).child("avatarImage.jpg");
+        refStoragePath.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                // TODO: It would be better to download image one time and save it to file and load it from it instead of downloading it every time you log in.
+                DataHolder.getInstance().avatarBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                progressDialog.dismiss();
+                intent = new Intent(LoginActivity.this, UserPanelActivity.class);
+                LoginActivity.this.startActivity(intent);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Log.e("ERROR_avatar", "blad");
+            }
+        });
     }
 }

@@ -32,7 +32,7 @@ public class DataHolder {
     public static FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     // Pobieranie informacji o zalogowanym uzytkowniku
     public static FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    private static FirebaseStorage storage = FirebaseStorage.getInstance();
+    public static FirebaseStorage storage = FirebaseStorage.getInstance();
     // Wskaznik do Storage w Firebase (informacje o uzytkownikach)
 //    public static StorageReference storageReference = storage.getReferenceFromUrl("gs://quiza2018.appspot.com");
     public static StorageReference storageReference = storage.getReference();
@@ -45,6 +45,7 @@ public class DataHolder {
     public boolean play_again = false;
     // zmienna Bitmap przechowuje zdjecie zaladowane z serwera
     public Bitmap avatarBitmap;
+    public boolean isAvatar = false;
 
     public static final DataHolder getInstance() {
         return singleton;
@@ -55,7 +56,6 @@ public class DataHolder {
         final long ONE_MEGABYTE = 1024 * 1024 * 3;
         final StorageReference refStoragePath = storageReference.child("user")
                 .child(firebaseUser.getUid()).child("avatarImage.jpg");
-
         refStoragePath.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
