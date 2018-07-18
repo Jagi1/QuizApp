@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     public static final String PREF_VAR = "pref_vars";
-    private int i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,10 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.clear();
                                 editor.commit();
                             }
-                            if (i == 0) {
-                                setAvatarImage();
-                                ++i;
-                            }
+                            setAvatarImage();
                         }
                     }
                 });
