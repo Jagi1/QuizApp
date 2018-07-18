@@ -28,12 +28,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-public class AccountSettingsActivity extends AppCompatActivity implements View.OnClickListener {
-    private TextView loginText, emailText;
+public class AccountSettingsActivity extends AppCompatActivity implements View.OnClickListener
+{
     private EditText newEmail;
-    private Button changePassword, changeEmail, logout_button, changeAvatar;
-    private CardView change_image_card, email_card, manage_account_card, other_stuff_card;
     private ImageView avatar_image;
     private ProgressDialog progressDialog;
     private Uri uriFilePath;
@@ -41,34 +40,29 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (DataHolder.getInstance().dark_theme) {
-            setTheme(R.style.DarkAppTheme);
-        } else {
-            setTheme(R.style.AppTheme);
-        }
+        if (DataHolder.getInstance().dark_theme) setTheme(R.style.DarkAppTheme);
+        else setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_account_settings);
-
         if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
         else getWindow().setBackgroundDrawableResource(R.drawable.background);
-
         initViews();
     }
 
     @Override
-    protected void onRestart() {
+    protected void onRestart()
+    {
         super.onRestart();
-        if (DataHolder.getInstance().theme_changed) {
-            recreate();
-        }
+        if (DataHolder.getInstance().theme_changed) recreate();
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.change_email:
                 String stringNewEmail = String.valueOf(newEmail.getText());
-
-                DataHolder.getInstance().firebaseUser.updateEmail(stringNewEmail)
+                DataHolder.firebaseUser.updateEmail(stringNewEmail)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -78,23 +72,22 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                             }
                         });
                 break;
+
             case R.id.logout_button:
-                DataHolder.getInstance().firebaseAuth.signOut();
-                DataHolder.getInstance().firebaseUser = null;
+                DataHolder.firebaseAuth.signOut();
+                DataHolder.firebaseUser = null;
                 finish();
                 break;
+
             case R.id.change_avatar:
-                if (ContextCompat.checkSelfPermission(AccountSettingsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    DataHolder.requestStoragePermission(this);
-                } else {
-                    chooseImage();
-                }
+                if (ContextCompat.checkSelfPermission(AccountSettingsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) DataHolder.requestStoragePermission(this);
+                else chooseImage();
                 break;
         }
     }
 
-    private void chooseImage() {
+    private void chooseImage()
+    {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -137,8 +130,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
             // sciezka do folderu uzytkownika :
-            final StorageReference refStoragePath = DataHolder.getInstance().storageReference.child("user")
-                    .child(DataHolder.getInstance().firebaseUser.getUid()).child("avatarImage.jpg");
+            final StorageReference refStoragePath = DataHolder.storageReference.child("user")
+                    .child(DataHolder.firebaseUser.getUid()).child("avatarImage.jpg");
             UploadTask uploadTask = refStoragePath.putFile(uriFilePath);
             uploadTask
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -167,42 +160,42 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
     }
 
     protected void initViews() {
-        changeEmail = (Button) findViewById(R.id.change_email);
-        changePassword = (Button) findViewById(R.id.change_password);
-        logout_button = (Button) findViewById(R.id.logout_button);
-        changeAvatar = (Button) findViewById(R.id.change_avatar);
+        ArrayList<CardView> cards = new ArrayList<CardView>()
+        {{
+           add((CardView) findViewById(R.id.card1));
+           add((CardView) findViewById(R.id.card2));
+           add((CardView) findViewById(R.id.card3));
+           add((CardView) findViewById(R.id.card4));
+        }};
+        for (CardView card : cards) card.setOnClickListener(this);
+        ArrayList<Button> buttons = new ArrayList<Button>()
+        {{
+           add((Button) findViewById(R.id.change_email));
+           add((Button) findViewById(R.id.change_password));
+           add((Button) findViewById(R.id.logout_button));
+           add((Button) findViewById(R.id.change_avatar));
+        }};
+        for (Button button : buttons) button.setOnClickListener(this);
         avatar_image = (ImageView) findViewById(R.id.avatar);
         avatar_image.setImageBitmap(DataHolder.getInstance().avatarBitmap);
-        change_image_card = (CardView)findViewById(R.id.card1);
-        email_card = (CardView)findViewById(R.id.card2);
-        manage_account_card = (CardView)findViewById(R.id.card3);
-        other_stuff_card = (CardView)findViewById(R.id.card4);
-
-        changeEmail.setOnClickListener(this);
-        changePassword.setOnClickListener(this);
-        logout_button.setOnClickListener(this);
-        changeAvatar.setOnClickListener(this);
-        loginText = (TextView) findViewById(R.id.login);
-        emailText = (TextView) findViewById(R.id.email);
+        TextView loginText = (TextView) findViewById(R.id.login);
+        TextView emailText = (TextView) findViewById(R.id.email);
         newEmail = (EditText) findViewById(R.id.new_email);
         progressDialog = new ProgressDialog(this);
-
-        if(DataHolder.getInstance().dark_theme) {
-            change_image_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkRed));
-            email_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark1));
-            manage_account_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark2));
-            other_stuff_card.setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkYellow));
+        if(DataHolder.getInstance().dark_theme)
+        {
+            cards.get(0).setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkRed));
+            cards.get(1).setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark1));
+            cards.get(2).setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark2));
+            cards.get(3).setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkYellow));
         }
-
-        if (DataHolder.getInstance().firebaseUser != null) {
-            String name = DataHolder.getInstance().firebaseUser.getDisplayName();
-            String email = DataHolder.getInstance().firebaseUser.getEmail();
-
+        if (DataHolder.firebaseUser != null)
+        {
+            String name = DataHolder.firebaseUser.getDisplayName();
+            String email = DataHolder.firebaseUser.getEmail();
             // Check if user's email is verified
-            boolean emailVerified = DataHolder.getInstance().firebaseUser.isEmailVerified();
             loginText.setText(name);
-            emailText.setText(email + " " + emailVerified);
+            emailText.setText(getString(R.string.email_verified, email, DataHolder.firebaseUser.isEmailVerified()));
         }
-
     }
 }

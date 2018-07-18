@@ -18,69 +18,31 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
 import java.util.Calendar;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener
+{
     private static final String TAG = "RegisterActivity";
-    private Button date_button, register_button;
+    private Button date_button;
     private EditText email_edit, password_edit;
     private DatePickerDialog.OnDateSetListener date_listener;
     private String date;
-    private Integer year, month, day;
-    static private Intent intent;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         if (DataHolder.getInstance().dark_theme) setTheme(R.style.DarkAppTheme);
         else setTheme(R.style.AppTheme);
-
         setContentView(R.layout.activity_register);
-
         if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
         else getWindow().setBackgroundDrawableResource(R.drawable.background);
-
         initViews();
-
-        date_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH);
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(
-                        RegisterActivity.this,
-                        android.R.style.Theme_Holo_Light_NoActionBar_Overscan,
-                        date_listener,
-                        year, month, day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        });
-
-        register_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!TextUtils.isEmpty(email_edit.getText()) && !TextUtils.isEmpty(password_edit.getText())) {
-                    if (isNetworkConnected()) {
-//                        if (Calendar.getInstance().get(Calendar.YEAR) - year > 16) {
-                        registry(email_edit.getText().toString(), password_edit.getText().toString());
-//                        } else {
-//                            Toast.makeText(RegisterActivity.this, "You're too young kido for this app ;)", Toast.LENGTH_LONG).show();
-//                        }
-                    } else {
-                        Toast.makeText(RegisterActivity.this, "Brak połączenia z internetem.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-
         date_listener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -90,57 +52,101 @@ public class RegisterActivity extends AppCompatActivity {
                 date_button.setText(date);
             }
         };
-
     }
 
+    /**
+     * If application theme have been changed, activity will be recreated.
+     * */
     @Override
-    protected void onRestart() {
+    protected void onRestart()
+    {
         super.onRestart();
-        if (DataHolder.getInstance().theme_changed) {
-            recreate();
-        }
+        if (DataHolder.getInstance().theme_changed) recreate();
     }
 
-    private boolean isNetworkConnected() {
+    /**
+     * This method checks if there is network connection.
+     */
+    private boolean isNetworkConnected()
+    {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return connectivityManager.getActiveNetworkInfo() != null;
     }
 
+    /**
+     * Method used to initialize layout views in one place.
+     * */
     protected void initViews() {
         email_edit = (EditText) findViewById(R.id.email_edit);
         password_edit = (EditText) findViewById(R.id.password_edit);
         date_button = (Button) findViewById(R.id.date_button);
-        register_button = (Button) findViewById(R.id.register_button);
+        Button register_button = (Button) findViewById(R.id.register_button);
+        register_button.setOnClickListener(this);
+        date_button.setOnClickListener(this);
     }
 
     private void registry(String login, String password) {
-        DataHolder.getInstance().firebaseAuth.createUserWithEmailAndPassword(login, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        DataHolder.firebaseAuth
+                .createUserWithEmailAndPassword(login, password)
+                .addOnSuccessListener(this, new OnSuccessListener<AuthResult>() {
+                    /**
+                     * Process of singing up new user succeed.
+                     * Toast will be created with note about succeed.
+                     * Method create records in database about user level, his in-game currency etc.
+                     * Then account verification email is sent.
+                     * */
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "Rejestracja nie powiodła się.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(RegisterActivity.this, "Rejestracja powiodła się.", Toast.LENGTH_SHORT).show();
-                            DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("level").setValue("1");
-                            DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("currency").setValue("0");
-                            verificationEmail();
-                            intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            RegisterActivity.this.startActivity(intent);
-                        }
+                    public void onSuccess(AuthResult authResult) {
+                        Toast.makeText(RegisterActivity.this, "Rejestracja powiodła się.", Toast.LENGTH_SHORT).show();
+                        DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("level").setValue("1");
+                        DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("currency").setValue("0");
+                        DataHolder.firebaseAuth // Send verification email
+                                .signInWithEmailAndPassword(email_edit.getText().toString(), password_edit.getText().toString())
+                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                    @Override
+                                    public void onSuccess(AuthResult authResult) {
+                                        DataHolder.firebaseUser.sendEmailVerification();
+                                        DataHolder.firebaseAuth.signOut();
+                                    }
+                                });
+                        RegisterActivity.this.startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    /**
+                     * Process of singing up new user failed.
+                     * Toast will be created with note why this process failed.
+                     * */
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
 
-    protected void verificationEmail() {
-        DataHolder.firebaseAuth.signInWithEmailAndPassword(email_edit.getText().toString(), password_edit.getText().toString())
-                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                    @Override
-                    public void onSuccess(AuthResult authResult) {
-                        DataHolder.firebaseUser.sendEmailVerification();
-                        DataHolder.firebaseAuth.signOut();
-                    }
-                });
+    @Override
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
+            case R.id.register_button:
+                if (!TextUtils.isEmpty(email_edit.getText()) && !TextUtils.isEmpty(password_edit.getText()))
+                {
+                    if (isNetworkConnected()) registry(email_edit.getText().toString(), password_edit.getText().toString());
+                    else Toast.makeText(RegisterActivity.this, "Brak połączenia z internetem.", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            case R.id.date_button:
+                Calendar calendar = Calendar.getInstance();
+                DatePickerDialog dialog = new DatePickerDialog(RegisterActivity.this,
+                        android.R.style.Theme_Holo_Light_NoActionBar_Overscan, date_listener,
+                        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+                break;
+        }
     }
 }
+
 
