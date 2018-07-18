@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 
@@ -121,9 +122,23 @@ public class RegisterActivity extends AppCompatActivity {
                             Toast.makeText(RegisterActivity.this, "Rejestracja nie powiodła się.", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(RegisterActivity.this, "Rejestracja powiodła się.", Toast.LENGTH_SHORT).show();
+                            DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("level").setValue("1");
+                            DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("currency").setValue("0");
+                            verificationEmail();
                             intent = new Intent(RegisterActivity.this, LoginActivity.class);
                             RegisterActivity.this.startActivity(intent);
                         }
+                    }
+                });
+    }
+
+    protected void verificationEmail() {
+        DataHolder.firebaseAuth.signInWithEmailAndPassword(email_edit.getText().toString(), password_edit.getText().toString())
+                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                    @Override
+                    public void onSuccess(AuthResult authResult) {
+                        DataHolder.firebaseUser.sendEmailVerification();
+                        DataHolder.firebaseAuth.signOut();
                     }
                 });
     }

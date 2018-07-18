@@ -73,9 +73,6 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 
         initViews();
 
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-
         if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(NewQuizActivity.this, android.R.style.Theme_Material_Dialog_Alert);
         else builder = new AlertDialog.Builder(NewQuizActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
         view = getLayoutInflater().inflate(R.layout.dialog_new_quiz,null,false);

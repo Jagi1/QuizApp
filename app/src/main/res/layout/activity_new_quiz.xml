@@ -6,12 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="pl.com.fireflies.quizapp.NewQuizActivity">
 
-    <include
-        android:id="@+id/user_bar"
-        layout="@layout/user_bar">
-
-    </include>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

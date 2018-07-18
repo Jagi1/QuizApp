@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -121,6 +122,28 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (!DataHolder.firebaseUser.isEmailVerified()) {
+                            progressDialog.dismiss();
+                            AlertDialog dialog;
+                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                            builder.setMessage("Before you sign in you need to verify your account via email. Should we send email again?")
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            DataHolder.firebaseUser.sendEmailVerification();
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            dialog = builder.create();
+                            dialog.show();
+                            return;
+                        }
                         if (!task.isSuccessful()) {
                             progressDialog.dismiss();
                             Toast.makeText(LoginActivity.this, "Logowanie nie powiodło się.", Toast.LENGTH_SHORT).show();
@@ -131,8 +154,8 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.putBoolean("pass_checked", true);
                                 editor.commit();
                             } else { // Kasuje zapisane dane logowania.
-//                                editor.clear();
-//                                editor.commit();
+                                editor.clear();
+                                editor.commit();
                             }
                             DataHolder.setAvatarImage();
                             progressDialog.dismiss();
