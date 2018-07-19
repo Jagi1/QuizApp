@@ -32,13 +32,12 @@ import java.util.ArrayList;
 
 public class AccountSettingsActivity extends AppCompatActivity implements View.OnClickListener
 {
-    private EditText newEmail;
     private ImageView avatar_image;
     private ProgressDialog progressDialog;
-    private Uri uriFilePath;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         if (DataHolder.getInstance().dark_theme) setTheme(R.style.DarkAppTheme);
         else setTheme(R.style.AppTheme);
@@ -61,8 +60,10 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
         switch (v.getId())
         {
             case R.id.change_email:
-                String stringNewEmail = String.valueOf(newEmail.getText());
-                DataHolder.firebaseUser.updateEmail(stringNewEmail)
+                EditText text = (EditText) findViewById(R.id.email_edit);
+                String stringNewEmail = String.valueOf(text.getText());
+                DataHolder.firebaseUser
+                        .updateEmail(stringNewEmail)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -88,52 +89,53 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
 
     private void chooseImage()
     {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Wybierz zdjęcie"), DataHolder.PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(new Intent()
+                .setType("image/*")
+                .setAction(Intent.ACTION_GET_CONTENT), "Wybierz zdjęcie"), DataHolder.PICK_IMAGE_REQUEST);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == DataHolder.STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Pozwolenie przyznane.", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Pozwolenie nie zostało przyznane.", Toast.LENGTH_SHORT).show();
-            }
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) Toast.makeText(this, "Pozwolenie przyznane.", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(this, "Pozwolenie nie zostało przyznane.", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == DataHolder.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            uriFilePath = data.getData();
-            try {
+        if (requestCode == DataHolder.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null)
+        {
+            try
+            {
                 // ustawianie awataru lokalnie
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriFilePath);
-                avatar_image.setImageBitmap(bitmap);
+                avatar_image.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData()));
                 // wysylanie awataru do storage
-                uploadImage();
+                uploadImage(data.getData());
                 DataHolder.setAvatarImage();
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 e.printStackTrace();
             }
         }
     }
 
-    private void uploadImage() {
-        if (uriFilePath != null) {
+    private void uploadImage(Uri uriFilePath)
+    {
+        if (uriFilePath != null)
+        {
             if(DataHolder.getInstance().dark_theme) progressDialog = new ProgressDialog(this, android.R.style.Theme_Material_Dialog_Alert);
             else progressDialog = new ProgressDialog(this, android.R.style.Theme_Material_Light_Dialog_Alert);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
             // sciezka do folderu uzytkownika :
-            final StorageReference refStoragePath = DataHolder.storageReference.child("user")
-                    .child(DataHolder.firebaseUser.getUid()).child("avatarImage.jpg");
-            UploadTask uploadTask = refStoragePath.putFile(uriFilePath);
-            uploadTask
+            DataHolder.storageReference
+                    .child("user")
+                    .child(DataHolder.firebaseUser.getUid())
+                    .child("avatarImage.jpg")
+                    .putFile(uriFilePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -180,7 +182,6 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
         avatar_image.setImageBitmap(DataHolder.getInstance().avatarBitmap);
         TextView loginText = (TextView) findViewById(R.id.login);
         TextView emailText = (TextView) findViewById(R.id.email);
-        newEmail = (EditText) findViewById(R.id.new_email);
         progressDialog = new ProgressDialog(this);
         if(DataHolder.getInstance().dark_theme)
         {

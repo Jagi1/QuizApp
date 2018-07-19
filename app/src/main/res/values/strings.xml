@@ -21,4 +21,10 @@
     <string name="wyloguj">Sign out</string>
     <string name="no_connection">Connection lost.</string>
     <string name="email_verified">%1$s %2$b</string>
+    <string name="help_message">W razie jakichkolwiek pytań skontaktuj się z działem pomocy klienta pod adresem: %1$s</string>
+    <string name="info_message">Aplikacja została stworzona jako projekt do zaliczenia przedmiotu. Wykonali: %1$s %2$s %3$s</string>
+    <string name="question_number">Question %1$d:</string>
+    <string name="right_answer">Right answer:</string>
+    <string name="wrong_answer">Wrong answer:</string>
+    <string name="add_quiz">Add quiz</string>
 </resources>

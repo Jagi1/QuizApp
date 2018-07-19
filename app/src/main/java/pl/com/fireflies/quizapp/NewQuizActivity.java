@@ -37,10 +37,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class NewQuizActivity extends AppCompatActivity implements View.OnClickListener {
-    private Intent intent;
-    private Toolbar toolbar;
-    private ImageButton avatar, settings;
+public class NewQuizActivity extends AppCompatActivity implements View.OnClickListener
+{
     private ImageView image1View;
     private Button addQuizButton, clearFormButton, chooseImage1;
     private ArrayList<Pair<EditText, Pair<EditText, EditText>>> array_of_questions;
@@ -48,7 +46,6 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     private Uri uriFilePath;
     private String image1URL;
     private LinearLayout linearLayout;
-    private TextView dialogText_01, dialogText_02, dialogText_03;
     private Spinner dialogSpinner_01, dialogSpinner_02;
     private EditText dialogEdit_01;
     private Button dialogButton_01;
@@ -58,46 +55,38 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     private AlertDialog alertDialog;
     private String quizName;
     private AlertDialog.Builder builder;
-    private View view;
     private Boolean isSelected_01 = false, isSelected_02 = false;
     private boolean canFinish = false;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         if (DataHolder.getInstance().dark_theme) setTheme(R.style.DarkAppTheme);
         else setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_new_quiz);
-
         if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
         else getWindow().setBackgroundDrawableResource(R.drawable.background);
-
         initViews();
-
         if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(NewQuizActivity.this, android.R.style.Theme_Material_Dialog_Alert);
         else builder = new AlertDialog.Builder(NewQuizActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
-        view = getLayoutInflater().inflate(R.layout.dialog_new_quiz,null,false);
-
-        dialogText_01 = (TextView)view.findViewById(R.id.text_01);
-        dialogText_02 = (TextView)view.findViewById(R.id.text_02);
-        dialogText_03 = (TextView)view.findViewById(R.id.text_03);
+        final View view = getLayoutInflater().inflate(R.layout.dialog_new_quiz,null,false);
         dialogSpinner_01 = (Spinner)view.findViewById(R.id.spinner_01);
         dialogSpinner_02 = (Spinner)view.findViewById(R.id.spinner_02);
         dialogEdit_01 = (EditText)view.findViewById(R.id.edit_01);
         dialogButton_01 = (Button)view.findViewById(R.id.button_01);
-
         dialogArray_01 = new ArrayList<String>();
         dialogArray_02 = new ArrayList<String>() {{ add("5"); add("6"); add("7"); add("8"); add("9"); add("10");}};
         DataHolder.firebaseDatabase.child("quizy").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    dialogArray_01.add(snapshot.getKey().toString());
+                    dialogArray_01.add(snapshot.getKey());
                 }
                 if (canFinish) {
                     finish();
                     return;
                 }
-                helpFunction();
+                helpFunction(view);
             }
 
             @Override
@@ -107,7 +96,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
-    protected void helpFunction() {
+    protected void helpFunction(View view) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewQuizActivity.this, android.R.layout.simple_spinner_item, dialogArray_01);
         ArrayAdapter<String> adapter_02 = new ArrayAdapter<String>(NewQuizActivity.this, android.R.layout.simple_spinner_item, dialogArray_02);
 
@@ -133,7 +122,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
         dialogSpinner_02.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                amountOfQuestions = Integer.parseInt(dialogArray_02.get(position).toString());
+                amountOfQuestions = Integer.parseInt(dialogArray_02.get(position));
                 isSelected_02 = true;
             }
 
@@ -142,25 +131,22 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                 int xd = 1;
             }
         });
-
         builder.setView(view);
         alertDialog = builder.create();
         alertDialog.show();
-
         dialogButton_01.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSelected_01 && isSelected_02 && !dialogEdit_01.getText().toString().equals("")) {
+                if (isSelected_01 && isSelected_02 && !dialogEdit_01.getText().toString().equals(""))
+                {
                     quizName = dialogEdit_01.getText().toString();
-//                    amountOfQuestions = Integer.getInteger((String)dialogSpinner_02.getSelectedItem());
                     alertDialog.dismiss();
                     for (int i=0;i<amountOfQuestions;++i) {
                         array_of_questions.add(new Pair<EditText, Pair<EditText, EditText>>(new EditText(NewQuizActivity.this), new Pair<EditText, EditText>(new EditText(NewQuizActivity.this), new EditText(NewQuizActivity.this))));
                         array_of_textViews.add(new Pair<TextView, Pair<TextView, TextView>>(new TextView(NewQuizActivity.this), new Pair<TextView, TextView>(new TextView(NewQuizActivity.this), new TextView(NewQuizActivity.this))));
-                        array_of_textViews.get(i).first.setText("Pytanie "+Integer.toString(i+1));
-                        array_of_textViews.get(i).second.first.setText("Poprawna odpowiedź:");
-                        array_of_textViews.get(i).second.second.setText("Zła odpowiedź:");
-
+                        array_of_textViews.get(i).first.setText(getString(R.string.question_number,i+1));
+                        array_of_textViews.get(i).second.first.setText(getString(R.string.right_answer));
+                        array_of_textViews.get(i).second.second.setText(getString(R.string.wrong_answer));
                         linearLayout.addView(array_of_textViews.get(i).first);
                         linearLayout.addView(array_of_questions.get(i).first);
                         linearLayout.addView(array_of_textViews.get(i).second.first);
@@ -169,8 +155,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                         linearLayout.addView(array_of_questions.get(i).second.second);
                     }
                     addQuizButton = new Button(NewQuizActivity.this);
-                    addQuizButton.setId(R.id.add_quiz);
-                    addQuizButton.setText("dodaj quiz");
+                    addQuizButton.setText(getString(R.string.add_quiz));
                     addQuizButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -195,17 +180,10 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.settings_gear:
-                intent = new Intent(NewQuizActivity.this, SettingsActivity.class);
-                NewQuizActivity.this.startActivity(intent);
-                break;
-
-            case R.id.avatar:
-                intent = new Intent(NewQuizActivity.this, AccountSettingsActivity.class);
-                NewQuizActivity.this.startActivity(intent);
-                break;
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
 //            case R.id.choose_image1:
 //                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
 //                        != PackageManager.PERMISSION_GRANTED) {
@@ -228,7 +206,9 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), DataHolder.PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(new Intent()
+                                                            .setType("image/*")
+                                                            .setAction(Intent.ACTION_GET_CONTENT), "Select Picture"), DataHolder.PICK_IMAGE_REQUEST);
     }
 
     @Override
@@ -236,10 +216,12 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == DataHolder.PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             uriFilePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriFilePath);
-                image1View.setImageBitmap(bitmap);
-            } catch (IOException e) {
+            try
+            {
+                image1View.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), uriFilePath));
+            }
+            catch (IOException e)
+            {
                 e.printStackTrace();
             }
         }
@@ -250,13 +232,14 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-
-            final StorageReference refStoragePath = DataHolder.getInstance().storageReference
-                    .child("images").child(uriFilePath.getLastPathSegment());
-
-            image1URL = refStoragePath.toString();
-            UploadTask uploadTask = refStoragePath.putFile(uriFilePath);
-            uploadTask
+            image1URL = DataHolder.storageReference
+                    .child("images")
+                    .child(uriFilePath.getLastPathSegment())
+                    .toString();
+            DataHolder.storageReference
+                    .child("images")
+                    .child(uriFilePath.getLastPathSegment())
+                    .putFile(uriFilePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -282,11 +265,10 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void addQuiz() {
+    private void addQuiz()
+    {
         DatabaseReference pathName = DataHolder.firebaseDatabase.child("quizy").child(selectedCategory).child(quizName);
-
         // image1URL zawiera sciezke URL obrazka (Storage > images > obrazek)
-
         // Dodanie do quizu id użytkownika który stworzył ten quiz
         DataHolder.firebaseDatabase
                 .child("quizy")
@@ -297,9 +279,14 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                 .setValue(DataHolder.firebaseUser.getUid());
 
         // Dodanie quizu do bazy danych
-        for (Pair<EditText, Pair<EditText, EditText>> pair : array_of_questions) {
-            pathName.child(pair.first.getText().toString()).child("okodp").setValue(pair.second.first.getText().toString());
-            pathName.child(pair.first.getText().toString()).child("otherodp").setValue(pair.second.second.getText().toString());
+        for (Pair<EditText, Pair<EditText, EditText>> pair : array_of_questions)
+        {
+            pathName.child(pair.first.getText().toString())
+                    .child("okodp")
+                    .setValue(pair.second.first.getText().toString());
+            pathName.child(pair.first.getText().toString())
+                    .child("otherodp")
+                    .setValue(pair.second.second.getText().toString());
         }
 //        pathName.child(questionquiz1.getText().toString()).child("image1").setValue(image1URL);
     }
@@ -310,12 +297,6 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 
     protected void initViews() {
         linearLayout = (LinearLayout)findViewById(R.id.linear);
-        toolbar = (Toolbar) findViewById(R.id.user_bar);
-        avatar = (ImageButton) findViewById(R.id.avatar);
-        settings = (ImageButton) findViewById(R.id.settings_gear);
-        avatar.setImageBitmap(DataHolder.getInstance().avatarBitmap);
-        avatar.setOnClickListener(this);
-        settings.setOnClickListener(this);
         array_of_questions = new ArrayList<Pair<EditText, Pair<EditText, EditText>>>();
         array_of_textViews = new ArrayList<Pair<TextView, Pair<TextView,TextView>>>();
     }
