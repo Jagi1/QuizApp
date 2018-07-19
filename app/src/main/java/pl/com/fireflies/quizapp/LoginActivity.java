@@ -11,6 +11,8 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -31,7 +33,9 @@ import com.google.firebase.storage.StorageReference;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener
 {
-    private EditText login_edit, password_edit;
+    private TextInputLayout inputLayout;
+    private TextInputEditText login_edit, password_edit;
+    private Button login_button, register_button;
     private ProgressDialog progressDialog;
     private CheckBox checkBox;
     public static final String PREF_VAR = "pref_vars";
@@ -58,10 +62,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     protected void initViews()
     {
-        login_edit = (EditText) findViewById(R.id.login_edit);
-        password_edit = (EditText) findViewById(R.id.password_edit);
-        Button login_button = (Button) findViewById(R.id.login_button);
-        Button register_button = (Button) findViewById(R.id.register_button);
+        login_edit = (TextInputEditText) findViewById(R.id.login_edit_2);
+        inputLayout = (TextInputLayout) findViewById(R.id.login_edit);
+        password_edit = (TextInputEditText) findViewById(R.id.password_edit_2);
+        login_button = (Button) findViewById(R.id.login_button);register_button = (Button) findViewById(R.id.register_button);
         login_button.setOnClickListener(this);
         register_button.setOnClickListener(this);
         checkBox = (CheckBox) findViewById(R.id.remember_check_box);
@@ -178,9 +182,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.register_button:
-                Pair[] pairs = new Pair[2];
+                Pair[] pairs = new Pair[4];
                 pairs[0] = new Pair<View, String>(login_edit, "emailTransition");
                 pairs[1] = new Pair<View, String>(password_edit, "passwordTransition");
+                pairs[2] = new Pair<View, String>(login_button, "date_button_transition");
+                pairs[3] = new Pair<View, String>(register_button, "register_button_transition");
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,pairs);
                 LoginActivity.this.startActivity(new Intent(LoginActivity.this, RegisterActivity.class), options.toBundle());
                 break;

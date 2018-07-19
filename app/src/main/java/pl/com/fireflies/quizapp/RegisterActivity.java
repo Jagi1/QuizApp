@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -29,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 {
     private static final String TAG = "RegisterActivity";
     private Button date_button;
-    private EditText email_edit, password_edit;
+    private TextInputEditText email_edit, password_edit;
     private DatePickerDialog.OnDateSetListener date_listener;
     private String date;
 
@@ -77,8 +78,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * Method used to initialize layout views in one place.
      * */
     protected void initViews() {
-        email_edit = (EditText) findViewById(R.id.email_edit);
-        password_edit = (EditText) findViewById(R.id.password_edit);
+        email_edit = (TextInputEditText) findViewById(R.id.email_edit_2);
+        password_edit = (TextInputEditText) findViewById(R.id.password_edit_2);
         date_button = (Button) findViewById(R.id.date_button);
         Button register_button = (Button) findViewById(R.id.register_button);
         register_button.setOnClickListener(this);

@@ -113,7 +113,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                 avatar_image.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData()));
                 // wysylanie awataru do storage
                 uploadImage(data.getData());
-                DataHolder.setAvatarImage();
+//                DataHolder.setAvatarImage();
             }
             catch (IOException e)
             {
