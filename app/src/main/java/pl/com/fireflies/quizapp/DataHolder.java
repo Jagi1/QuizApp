@@ -51,25 +51,6 @@ public class DataHolder {
         return singleton;
     }
 
-    // ustawianie zmiennej Bitmap (pobieranie obrazka ze Storage) TODO (raz dziala, a raz nie)
-    public static void setAvatarImage() {
-        final long ONE_MEGABYTE = 1024 * 1024 * 3;
-        final StorageReference refStoragePath = storageReference.child("user")
-                .child(firebaseUser.getUid()).child("avatarImage.jpg");
-        refStoragePath.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
-            @Override
-            public void onSuccess(byte[] bytes) {
-                DataHolder.getInstance().avatarBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                // imageView.setImageBitmap(bmp);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                Log.e("ERROR_avatar", "blad");
-            }
-        });
-    }
-
     public static void requestStoragePermission(final Activity activity) {
         if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE)) {
             new AlertDialog.Builder(activity)
