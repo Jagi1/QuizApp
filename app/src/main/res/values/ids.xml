@@ -2,4 +2,8 @@
 <resources>
     <item name="buttonlayout" type="id" />
     <item name="add_quiz" type="id" />
+    <item name="jeden" type="id">jed</item>
+    <item name="dwa" type="id">dwa</item>
+    <item name="trzy" type="id">trz</item>
+    <item name="cztery" type="id">czt</item>
 </resources>

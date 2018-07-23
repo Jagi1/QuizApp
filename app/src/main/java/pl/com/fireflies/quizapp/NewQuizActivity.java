@@ -9,6 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
@@ -41,11 +45,10 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 {
     private ImageView image1View;
     private Button addQuizButton, clearFormButton, chooseImage1;
-    private ArrayList<Pair<EditText, Pair<EditText, EditText>>> array_of_questions;
-    private ArrayList<Pair<TextView, Pair<TextView, TextView>>> array_of_textViews;
+    private ArrayList<Pair<String, Pair<String, String>>> texts;
     private Uri uriFilePath;
     private String image1URL;
-    private LinearLayout linearLayout;
+    private ConstraintLayout layout;
     private Spinner dialogSpinner_01, dialogSpinner_02;
     private EditText dialogEdit_01;
     private Button dialogButton_01;
@@ -57,6 +60,13 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     private AlertDialog.Builder builder;
     private Boolean isSelected_01 = false, isSelected_02 = false;
     private boolean canFinish = false;
+    private boolean clicked;
+    private int it;
+    private Button next, prev;
+    private TextView qID;
+    private TextInputEditText question_input, right_ans, wrong_ans;
+    private int iter = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -87,6 +97,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
                 helpFunction(view);
+                if (canFinish) NewQuizActivity.this.finish();
             }
 
             @Override
@@ -141,30 +152,16 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                 {
                     quizName = dialogEdit_01.getText().toString();
                     alertDialog.dismiss();
-                    for (int i=0;i<amountOfQuestions;++i) {
-                        array_of_questions.add(new Pair<EditText, Pair<EditText, EditText>>(new EditText(NewQuizActivity.this), new Pair<EditText, EditText>(new EditText(NewQuizActivity.this), new EditText(NewQuizActivity.this))));
-                        array_of_textViews.add(new Pair<TextView, Pair<TextView, TextView>>(new TextView(NewQuizActivity.this), new Pair<TextView, TextView>(new TextView(NewQuizActivity.this), new TextView(NewQuizActivity.this))));
-                        array_of_textViews.get(i).first.setText(getString(R.string.question_number,i+1));
-                        array_of_textViews.get(i).second.first.setText(getString(R.string.right_answer));
-                        array_of_textViews.get(i).second.second.setText(getString(R.string.wrong_answer));
-                        linearLayout.addView(array_of_textViews.get(i).first);
-                        linearLayout.addView(array_of_questions.get(i).first);
-                        linearLayout.addView(array_of_textViews.get(i).second.first);
-                        linearLayout.addView(array_of_questions.get(i).second.first);
-                        linearLayout.addView(array_of_textViews.get(i).second.second);
-                        linearLayout.addView(array_of_questions.get(i).second.second);
-                    }
-                    addQuizButton = new Button(NewQuizActivity.this);
-                    addQuizButton.setText(getString(R.string.add_quiz));
-                    addQuizButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            addQuiz();
-                            Toast.makeText(getApplicationContext(),"Pomyslnie dodano Quiz!", Toast.LENGTH_LONG).show();
-                            canFinish = true;
-                        }
-                    });
-                    linearLayout.addView(addQuizButton);
+                    qID.setText("Pytanie "+(iter+1)+"/"+amountOfQuestions);
+                    prev.setVisibility(View.VISIBLE);
+                    next.setVisibility(View.VISIBLE);
+                    qID.setVisibility(View.VISIBLE);
+                    question_input.setVisibility(View.VISIBLE);
+                    right_ans.setVisibility(View.VISIBLE);
+                    wrong_ans.setVisibility(View.VISIBLE);
+                    question_input.setHint("Question");
+                    right_ans.setHint("Right answer");
+                    wrong_ans.setHint("Wrong answer");
                 }
                 else Toast.makeText(NewQuizActivity.this,"Nieprawidłowe dane quizu.",Toast.LENGTH_SHORT).show();
             }
@@ -198,6 +195,63 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 //                break;
             case R.id.add_quiz:
 //                uploadImage();
+                break;
+
+            case R.id.button_next:
+                if(iter>=0 && iter<amountOfQuestions)
+                {
+                    if (iter == texts.size() || iter == texts.size()-1)
+                    {
+                        texts.add(new Pair<String, Pair<String, String>>(question_input.getText().toString(), new Pair<String, String>(right_ans.getText().toString(), wrong_ans.getText().toString())));
+                        question_input.setText("");
+                        right_ans.setText("");
+                        wrong_ans.setText("");
+                    }
+                    else
+                    {
+                        question_input.setText(texts.get(iter+1).first);
+                        right_ans.setText(texts.get(iter+1).second.first);
+                        wrong_ans.setText(texts.get(iter+1).second.second);
+                    }
+                    ++iter;
+                    if (iter == amountOfQuestions)
+                    {
+                        addQuiz();
+                        canFinish = true;
+                        NewQuizActivity.this.finish();
+                    }
+                    else qID.setText("Pytanie "+(iter+1)+"/"+amountOfQuestions);
+                    if (iter == amountOfQuestions-1) next.setText("Add quiz");
+                    else next.setText("Next");
+                    question_input.clearFocus();
+                    right_ans.clearFocus();
+                    wrong_ans.clearFocus();
+                }
+                break;
+
+            case R.id.button_prev:
+                if(iter>0 && iter<=amountOfQuestions)
+                {
+                    if (iter == texts.size())
+                    {
+                        texts.add(new Pair<String, Pair<String, String>>(question_input.getText().toString(), new Pair<String, String>(right_ans.getText().toString(), wrong_ans.getText().toString())));
+                        question_input.setText("");
+                        right_ans.setText("");
+                        wrong_ans.setText("");
+                    }
+                    else
+                    {
+                        question_input.setText(texts.get(iter-1).first);
+                        right_ans.setText(texts.get(iter-1).second.first);
+                        wrong_ans.setText(texts.get(iter-1).second.second);
+                    }
+                    --iter;
+                    next.setText("Next");
+                    qID.setText("Pytanie "+(iter+1)+"/"+amountOfQuestions);
+                    question_input.clearFocus();
+                    right_ans.clearFocus();
+                    wrong_ans.clearFocus();
+                }
                 break;
         }
     }
@@ -279,15 +333,16 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                 .setValue(DataHolder.firebaseUser.getUid());
 
         // Dodanie quizu do bazy danych
-        for (Pair<EditText, Pair<EditText, EditText>> pair : array_of_questions)
+        for (Pair<String, Pair<String, String>> pair : texts)
         {
-            pathName.child(pair.first.getText().toString())
+            pathName.child(pair.first)
                     .child("okodp")
-                    .setValue(pair.second.first.getText().toString());
-            pathName.child(pair.first.getText().toString())
+                    .setValue(pair.second.first);
+            pathName.child(pair.first)
                     .child("otherodp")
-                    .setValue(pair.second.second.getText().toString());
+                    .setValue(pair.second.second);
         }
+        Toast.makeText(NewQuizActivity.this,"Quiz have been added.", Toast.LENGTH_SHORT).show();
 //        pathName.child(questionquiz1.getText().toString()).child("image1").setValue(image1URL);
     }
 
@@ -295,11 +350,24 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    protected void initViews() {
-        linearLayout = (LinearLayout)findViewById(R.id.linear);
-        array_of_questions = new ArrayList<Pair<EditText, Pair<EditText, EditText>>>();
-        array_of_textViews = new ArrayList<Pair<TextView, Pair<TextView,TextView>>>();
+    protected void initViews()
+    {
+        question_input = (TextInputEditText) findViewById(R.id.question_t);
+        right_ans = (TextInputEditText) findViewById(R.id.ans1_t);
+        wrong_ans = (TextInputEditText) findViewById(R.id.ans2_t);
+        prev = (Button) findViewById(R.id.button_prev);
+        next = (Button) findViewById(R.id.button_next);
+        next.setOnClickListener(this);
+        prev.setOnClickListener(this);
+        qID = (TextView) findViewById(R.id.question_id);
+        layout = (ConstraintLayout) findViewById(R.id.layout);
+        texts = new ArrayList<Pair<String, Pair<String, String>>>();
+        prev.setVisibility(View.INVISIBLE);
+        next.setVisibility(View.INVISIBLE);
+        qID.setVisibility(View.INVISIBLE);
+        question_input.setVisibility(View.INVISIBLE);
+        right_ans.setVisibility(View.INVISIBLE);
+        wrong_ans.setVisibility(View.INVISIBLE);
+
     }
-
-
 }
