@@ -27,6 +27,7 @@
                 android:background="@drawable/user_avatar"
                 android:contentDescription="TODO"
                 android:scaleType="fitXY"
+                android:transitionName="avatar"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/change_avatar"

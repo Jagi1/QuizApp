@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_weight="0.99"
     tools:context="pl.com.fireflies.quizapp.UserPanelActivity">
 
     <include
         android:id="@+id/user_bar"
-        layout="@layout/user_bar"></include>
+        layout="@layout/user_bar">
+
+    </include>
 
     <LinearLayout
         android:id="@+id/linear_01"
+        android:layout_weight="0.33"
+        android:weightSum="2"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/user_bar"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,10 +29,11 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
             android:id="@+id/fast_game_card"
-            android:layout_width="160dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_margin="15dp">
 
             <LinearLayout
@@ -57,10 +64,11 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
             android:id="@+id/invite_friend_card"
-            android:layout_width="160dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_margin="15dp">
 
             <LinearLayout
@@ -91,8 +99,10 @@
 
     <LinearLayout
         android:id="@+id/linear_02"
+        android:layout_weight="0.33"
+        android:weightSum="2"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linear_01"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,10 +112,11 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-
+            android:layout_gravity="center"
+            android:layout_weight="1"
             android:id="@+id/categories_card"
-            android:layout_width="160dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_margin="15dp">
 
             <LinearLayout
@@ -136,10 +147,11 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-
+            android:layout_gravity="center"
+            android:layout_weight="1"
             android:id="@+id/new_quiz_card"
-            android:layout_width="160dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_margin="15dp">
 
             <LinearLayout
@@ -170,8 +182,10 @@
 
     <LinearLayout
         android:id="@+id/linear_03"
+        android:layout_weight="0.33"
+        android:weightSum="2"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/linear_02"
         app:layout_constraintStart_toStartOf="parent"
@@ -181,10 +195,11 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-
+            android:layout_gravity="top"
+            android:layout_weight="1"
             android:id="@+id/my_quizzes_card"
-            android:layout_width="160dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_margin="15dp">
 
             <LinearLayout
@@ -215,10 +230,11 @@
             android:foreground="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-
+            android:layout_gravity="top"
+            android:layout_weight="1"
             android:id="@+id/challenges_card"
-            android:layout_width="160dp"
-            android:layout_height="80dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_margin="15dp">
 
             <LinearLayout
@@ -247,4 +263,4 @@
 
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

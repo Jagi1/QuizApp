@@ -1,5 +1,6 @@
 package pl.com.fireflies.quizapp;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -120,7 +122,12 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.avatar:
-                UserPanelActivity.this.startActivity(new Intent(UserPanelActivity.this, AccountSettingsActivity.class));
+//                final View view = getLayoutInflater().inflate(R.layout.user_bar,null,false);
+//                Pair<View, String> pair = new Pair<>(view.findViewById(R.id.avatar),"avatar");
+//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(UserPanelActivity.this,pair);
+                UserPanelActivity.this.startActivity(new Intent(UserPanelActivity.this, AccountSettingsActivity.class)
+                //        ,options.toBundle()
+                );
                 break;
 
             case R.id.settings_gear:

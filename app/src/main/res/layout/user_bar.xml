@@ -14,6 +14,7 @@
             android:layout_height="40dp"
             android:background="@drawable/user_avatar"
             android:scaleType="fitXY"
+            android:transitionName="avatar"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
