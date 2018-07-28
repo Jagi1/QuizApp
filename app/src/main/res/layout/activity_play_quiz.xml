@@ -1,48 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="pl.com.fireflies.quizapp.PlayQuiz"
-    android:id="@+id/main_constraint_layout">
+    android:orientation="vertical"
+    android:layout_weight="10"
+    tools:context="pl.com.fireflies.quizapp.PlayQuiz">
 
     <TextView
         android:id="@+id/nameQuiz"
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:layout_weight="0.1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Quiz"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:textStyle="bold"/>
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <TextView
+        android:id="@+id/question_id"
+        android:gravity="center"
+        android:layout_weight="0.1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:paddingBottom="65sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nameQuiz">
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="1/5"/>
 
-        <LinearLayout
-            android:id="@+id/inner_linear_layout"
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="3"
+        app:layout_constraintTop_toBottomOf="@id/question_id"
+        app:layout_constraintBottom_toTopOf="@id/rel1">
+
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-        </LinearLayout>
-    </ScrollView>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/quizapp"
+                android:layout_marginBottom="35sp"/>
 
-    <Button
-        android:id="@+id/checkQuiz"
+            <TextView
+                android:id="@+id/question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                android:text="Question"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/rel1"
+        android:layout_weight="0.1"
+        android:weightSum="2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sprawdź."
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/question">
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/ans1"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10sp"
+            android:text="asn1"/>
+
+        <Button
+            android:id="@+id/ans2"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10sp"
+            android:text="asn2"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rel2"
+        android:layout_weight="1"
+        android:weightSum="2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rel1">
+
+        <Button
+            android:id="@+id/ans3"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10sp"
+            android:text="asn3"/>
+
+        <Button
+            android:id="@+id/ans4"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10sp"
+            android:text="asn4"/>
+
+    </LinearLayout>
+
+</LinearLayout>

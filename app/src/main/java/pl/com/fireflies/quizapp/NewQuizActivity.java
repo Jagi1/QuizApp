@@ -45,7 +45,8 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 {
     private ImageView image1View;
     private Button addQuizButton, clearFormButton, chooseImage1;
-    private ArrayList<Pair<String, Pair<String, String>>> texts;
+    private ArrayList<String> textsQuestions;
+    private ArrayList<ArrayList<String>> textsAnswers;
     private Uri uriFilePath;
     private String image1URL;
     private ConstraintLayout layout;
@@ -64,7 +65,8 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     private int it;
     private Button next, prev;
     private TextView qID;
-    private TextInputEditText question_input, right_ans, wrong_ans;
+    private TextInputEditText question_input;
+    private ArrayList<TextInputEditText> ans;
     private int iter = 0;
 
     @Override
@@ -157,11 +159,19 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                     next.setVisibility(View.VISIBLE);
                     qID.setVisibility(View.VISIBLE);
                     question_input.setVisibility(View.VISIBLE);
-                    right_ans.setVisibility(View.VISIBLE);
-                    wrong_ans.setVisibility(View.VISIBLE);
-                    question_input.setHint("Question");
-                    right_ans.setHint("Right answer");
-                    wrong_ans.setHint("Wrong answer");
+                    textsAnswers = new ArrayList<ArrayList<String>>(){{
+                        for (int i=0;i<amountOfQuestions;++i)
+                            add(new ArrayList<String>(){{
+                                add("");
+                                add("");
+                                add("");
+                                add("");
+                            }});
+                    }};
+                    textsQuestions = new ArrayList<String>(){{
+                        for (int i=0;i<amountOfQuestions;++i)
+                            add("");
+                    }};
                 }
                 else Toast.makeText(NewQuizActivity.this,"Nieprawidłowe dane quizu.",Toast.LENGTH_SHORT).show();
             }
@@ -198,21 +208,11 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.button_next:
-                if(iter>=0 && iter<amountOfQuestions)
+                if(iter<amountOfQuestions)
                 {
-                    if (iter == texts.size() || iter == texts.size()-1)
-                    {
-                        texts.add(new Pair<String, Pair<String, String>>(question_input.getText().toString(), new Pair<String, String>(right_ans.getText().toString(), wrong_ans.getText().toString())));
-                        question_input.setText("");
-                        right_ans.setText("");
-                        wrong_ans.setText("");
-                    }
-                    else
-                    {
-                        question_input.setText(texts.get(iter+1).first);
-                        right_ans.setText(texts.get(iter+1).second.first);
-                        wrong_ans.setText(texts.get(iter+1).second.second);
-                    }
+                    textsQuestions.set(iter,question_input.getText().toString());
+                    for (int i=0;i<4;++i)
+                        textsAnswers.get(iter).set(i,ans.get(i).getText().toString());
                     ++iter;
                     if (iter == amountOfQuestions)
                     {
@@ -220,37 +220,44 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                         canFinish = true;
                         NewQuizActivity.this.finish();
                     }
-                    else qID.setText("Pytanie "+(iter+1)+"/"+amountOfQuestions);
+                    else
+                    {
+                        question_input.setText(textsQuestions.get(iter));
+                        qID.setText("Pytanie "+(iter+1)+"/"+amountOfQuestions);
+                        int i = 0;
+                        for (TextInputEditText answer : ans)
+                        {
+                            answer.setText(textsAnswers.get(iter).get(i));
+                            ++i;
+                        }
+                    }
                     if (iter == amountOfQuestions-1) next.setText("Add quiz");
                     else next.setText("Next");
                     question_input.clearFocus();
-                    right_ans.clearFocus();
-                    wrong_ans.clearFocus();
+                    for (TextInputEditText answer : ans)
+                        answer.clearFocus();
                 }
                 break;
 
             case R.id.button_prev:
-                if(iter>0 && iter<=amountOfQuestions)
+                if(iter>0)
                 {
-                    if (iter == texts.size())
-                    {
-                        texts.add(new Pair<String, Pair<String, String>>(question_input.getText().toString(), new Pair<String, String>(right_ans.getText().toString(), wrong_ans.getText().toString())));
-                        question_input.setText("");
-                        right_ans.setText("");
-                        wrong_ans.setText("");
-                    }
-                    else
-                    {
-                        question_input.setText(texts.get(iter-1).first);
-                        right_ans.setText(texts.get(iter-1).second.first);
-                        wrong_ans.setText(texts.get(iter-1).second.second);
-                    }
+                    textsQuestions.set(iter,question_input.getText().toString());
+                    for (int i=0;i<4;++i)
+                        textsAnswers.get(iter).set(i,ans.get(i).getText().toString());
+                    question_input.setText(textsQuestions.get(iter-1));
+                    int i = 0;
                     --iter;
-                    next.setText("Next");
                     qID.setText("Pytanie "+(iter+1)+"/"+amountOfQuestions);
+                    for (TextInputEditText answer : ans)
+                    {
+                        answer.setText(textsAnswers.get(iter).get(i));
+                        ++i;
+                    }
+                    next.setText("Next");
                     question_input.clearFocus();
-                    right_ans.clearFocus();
-                    wrong_ans.clearFocus();
+                    for (TextInputEditText answer : ans)
+                        answer.clearFocus();
                 }
                 break;
         }
@@ -333,14 +340,19 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                 .setValue(DataHolder.firebaseUser.getUid());
 
         // Dodanie quizu do bazy danych
-        for (Pair<String, Pair<String, String>> pair : texts)
+        for (int i=0;i<amountOfQuestions;++i)
         {
-            pathName.child(pair.first)
-                    .child("okodp")
-                    .setValue(pair.second.first);
-            pathName.child(pair.first)
-                    .child("otherodp")
-                    .setValue(pair.second.second);
+            for (int j=0;j<4;++j)
+            {
+                if (j == 0)
+                {
+                    pathName.child(textsQuestions.get(i)).child("okodp").setValue(textsAnswers.get(i).get(j));
+                }
+                else if (!textsAnswers.get(i).get(j).equals(""))
+                {
+                    pathName.child(textsQuestions.get(i)).child("otherodp"+String.valueOf(i)).setValue(textsAnswers.get(i).get(j));
+                }
+            }
         }
         Toast.makeText(NewQuizActivity.this,"Quiz have been added.", Toast.LENGTH_SHORT).show();
 //        pathName.child(questionquiz1.getText().toString()).child("image1").setValue(image1URL);
@@ -353,21 +365,22 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     protected void initViews()
     {
         question_input = (TextInputEditText) findViewById(R.id.question_t);
-        right_ans = (TextInputEditText) findViewById(R.id.ans1_t);
-        wrong_ans = (TextInputEditText) findViewById(R.id.ans2_t);
+        ans = new ArrayList<TextInputEditText>() {{
+           add((TextInputEditText) findViewById(R.id.ans1_t));
+           add((TextInputEditText) findViewById(R.id.ans2_t));
+           add((TextInputEditText) findViewById(R.id.ans3_t));
+           add((TextInputEditText) findViewById(R.id.ans4_t));
+        }};
         prev = (Button) findViewById(R.id.button_prev);
         next = (Button) findViewById(R.id.button_next);
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
         qID = (TextView) findViewById(R.id.question_id);
         layout = (ConstraintLayout) findViewById(R.id.layout);
-        texts = new ArrayList<Pair<String, Pair<String, String>>>();
         prev.setVisibility(View.INVISIBLE);
         next.setVisibility(View.INVISIBLE);
         qID.setVisibility(View.INVISIBLE);
         question_input.setVisibility(View.INVISIBLE);
-        right_ans.setVisibility(View.INVISIBLE);
-        wrong_ans.setVisibility(View.INVISIBLE);
 
     }
 }

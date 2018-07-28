@@ -44,6 +44,7 @@
         android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Question"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -61,6 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:hint="Correct answer"
         android:minWidth="150sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/question">
@@ -77,12 +79,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:hint="Wrong answer"
         android:minWidth="150sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/question">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/ans2_t"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/ans3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Wrong naswer"
+        android:minWidth="150sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ans1">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/ans3_t"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/ans4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Wrong answer"
+        android:minWidth="150sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ans2">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/ans4_t"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
