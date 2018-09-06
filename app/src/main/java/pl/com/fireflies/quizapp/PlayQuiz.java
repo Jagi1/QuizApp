@@ -1,5 +1,6 @@
 package pl.com.fireflies.quizapp;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -7,10 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -21,6 +25,7 @@ import java.util.Random;
 public class PlayQuiz extends AppCompatActivity implements View.OnClickListener
 {
     private TextView quiz_name, question_number;
+    private ImageView image;
     private Button prev, next;
     private ArrayList<Pair<String, ArrayList<String>>> questions;
     private String question_name;
@@ -64,6 +69,19 @@ public class PlayQuiz extends AppCompatActivity implements View.OnClickListener
                         }
                         textQuestion.setText(questions.get(0).first); // Set first pair of question and answers
                         question_number.setText("1/"+(iter+1));
+                        DataHolder.storageReference.child("quizzesImages").child(quiz_name.getText().toString()).child("image0").getBytes(1024*1024 * 3)
+                                .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+                                        image.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        image.setImageResource(0);
+                                    }
+                                });
                         int i = 0;
                         for (String s : questions.get(0).second)
                         {
@@ -90,6 +108,7 @@ public class PlayQuiz extends AppCompatActivity implements View.OnClickListener
     protected void initViews()
     {
         quiz_name = (TextView) findViewById(R.id.nameQuiz);
+        image = (ImageView) findViewById(R.id.image);
         questions = new ArrayList<>();
         prev = (Button) findViewById(R.id.button_prev);
         next = (Button) findViewById(R.id.button_next);
@@ -176,6 +195,19 @@ public class PlayQuiz extends AppCompatActivity implements View.OnClickListener
             {
                 textQuestion.setText(questions.get(iter).first);
                 question_number.setText((iter+1)+"/"+questions.size());
+                DataHolder.storageReference.child("quizzesImages").child(quiz_name.getText().toString()).child("image"+iter).getBytes(1024*1024 * 3)
+                        .addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                image.setImageBitmap(BitmapFactory.decodeByteArray(bytes, 0, bytes.length));
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                image.setImageResource(0);
+                            }
+                        });
                 Random random = new Random();
                 int[]arr = new int[questions.get(iter).second.size()];
                 int j = 0;

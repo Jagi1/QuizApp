@@ -1,9 +1,11 @@
 package pl.com.fireflies.quizapp;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
@@ -68,6 +71,8 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     private TextInputEditText question_input;
     private ArrayList<TextInputEditText> ans;
     private int iter = 0;
+    private ArrayList<Boolean>image_changed;
+    private ArrayList<Uri>images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -172,6 +177,14 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                         for (int i=0;i<amountOfQuestions;++i)
                             add("");
                     }};
+                    images = new ArrayList<Uri>(){{
+                        for (int i=0;i<amountOfQuestions;++i)
+                            add(null);
+                    }};
+                    image_changed = new ArrayList<Boolean>(){{
+                        for (int i=0;i<amountOfQuestions;++i)
+                            add(false);
+                    }};
                 }
                 else Toast.makeText(NewQuizActivity.this,"Nieprawidłowe dane quizu.",Toast.LENGTH_SHORT).show();
             }
@@ -191,14 +204,10 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     {
         switch (v.getId())
         {
-//            case R.id.choose_image1:
-//                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-//                        != PackageManager.PERMISSION_GRANTED) {
-//                    DataHolder.requestStoragePermission(this);
-//                } else {
-//                    chooseImage();
-//                }
-//                break;
+            case R.id.image:
+                if (ContextCompat.checkSelfPermission(NewQuizActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) DataHolder.requestStoragePermission(this);
+                else chooseImage();
+                break;
 //            case R.id.clear_form:
 //                clearForm();
 //                Toast.makeText(getApplicationContext(),"Wyczyszczono formularz!", Toast.LENGTH_LONG).show();
@@ -214,7 +223,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                     for (int i=0;i<4;++i)
                         textsAnswers.get(iter).set(i,ans.get(i).getText().toString());
                     ++iter;
-                    if (iter == amountOfQuestions)
+                    if (iter == amountOfQuestions) // Last question --> Add quiz
                     {
                         addQuiz();
                         canFinish = true;
@@ -222,6 +231,8 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                     }
                     else
                     {
+                        if (images.get(iter) != null) image1View.setImageURI(images.get(iter));
+                        else image1View.setImageURI(images.get(iter));
                         question_input.setText(textsQuestions.get(iter));
                         qID.setText("Pytanie "+(iter+1)+"/"+amountOfQuestions);
                         int i = 0;
@@ -248,6 +259,8 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                     question_input.setText(textsQuestions.get(iter-1));
                     int i = 0;
                     --iter;
+                    if (images.get(iter) != null) image1View.setImageURI(images.get(iter));
+                    else image1View.setImageResource(0);
                     qID.setText("Pytanie "+(iter+1)+"/"+amountOfQuestions);
                     for (TextInputEditText answer : ans)
                     {
@@ -280,6 +293,8 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
             try
             {
                 image1View.setImageBitmap(MediaStore.Images.Media.getBitmap(getContentResolver(), uriFilePath));
+                images.set(iter, uriFilePath);
+                image_changed.set(iter, true);
             }
             catch (IOException e)
             {
@@ -353,6 +368,10 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                     pathName.child(textsQuestions.get(i)).child("otherodp"+String.valueOf(i)).setValue(textsAnswers.get(i).get(j));
                 }
             }
+            if (image_changed.get(i))
+            {
+                DataHolder.storageReference.child("quizzesImages").child(quizName).child("image"+i+".jpg").putFile(images.get(i));
+            }
         }
         Toast.makeText(NewQuizActivity.this,"Quiz have been added.", Toast.LENGTH_SHORT).show();
 //        pathName.child(questionquiz1.getText().toString()).child("image1").setValue(image1URL);
@@ -364,6 +383,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 
     protected void initViews()
     {
+        image1View = (ImageView) findViewById(R.id.image);
         question_input = (TextInputEditText) findViewById(R.id.question_t);
         ans = new ArrayList<TextInputEditText>() {{
            add((TextInputEditText) findViewById(R.id.ans1_t));
@@ -373,6 +393,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
         }};
         prev = (Button) findViewById(R.id.button_prev);
         next = (Button) findViewById(R.id.button_next);
+        image1View.setOnClickListener(this);
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
         qID = (TextView) findViewById(R.id.question_id);
@@ -381,6 +402,5 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
         next.setVisibility(View.INVISIBLE);
         qID.setVisibility(View.INVISIBLE);
         question_input.setVisibility(View.INVISIBLE);
-
     }
 }
