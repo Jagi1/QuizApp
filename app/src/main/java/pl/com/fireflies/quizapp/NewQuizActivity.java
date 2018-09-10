@@ -17,6 +17,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.View;
@@ -52,7 +53,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     private ArrayList<ArrayList<String>> textsAnswers;
     private Uri uriFilePath;
     private String image1URL;
-    private ConstraintLayout layout;
+    private LinearLayoutCompat layout;
     private Spinner dialogSpinner_01, dialogSpinner_02;
     private EditText dialogEdit_01;
     private Button dialogButton_01;
@@ -397,7 +398,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
         qID = (TextView) findViewById(R.id.question_id);
-        layout = (ConstraintLayout) findViewById(R.id.layout);
+        layout = (LinearLayoutCompat) findViewById(R.id.layout);
         prev.setVisibility(View.INVISIBLE);
         next.setVisibility(View.INVISIBLE);
         qID.setVisibility(View.INVISIBLE);

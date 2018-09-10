@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.Calendar;
 
@@ -30,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 {
     private static final String TAG = "RegisterActivity";
     private Button date_button;
-    private TextInputEditText email_edit, password_edit;
+    private TextInputEditText email_edit, password_edit, login_edit;
     private DatePickerDialog.OnDateSetListener date_listener;
     private String date;
 
@@ -78,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * Method used to initialize layout views in one place.
      * */
     protected void initViews() {
+        login_edit = (TextInputEditText) findViewById(R.id.login_edit_2);
         email_edit = (TextInputEditText) findViewById(R.id.email_edit_2);
         password_edit = (TextInputEditText) findViewById(R.id.password_edit_2);
         date_button = (Button) findViewById(R.id.date_button);
@@ -107,6 +109,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
                                         DataHolder.firebaseUser.sendEmailVerification();
+                                        UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(login_edit.toString()).build();
+                                        DataHolder.firebaseUser.updateProfile(profile);
                                         DataHolder.firebaseAuth.signOut();
                                     }
                                 });

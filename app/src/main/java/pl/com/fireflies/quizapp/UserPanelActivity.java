@@ -1,6 +1,7 @@
 package pl.com.fireflies.quizapp;
 
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,8 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,10 +27,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class UserPanelActivity extends AppCompatActivity implements View.OnClickListener
+public class UserPanelActivity extends AppCompatActivity implements View.OnClickListener, ListView.OnItemClickListener
 {
     private Toolbar toolbar;
     private TextView userBar_level, userBar_currency;
+    int number_of_friends;
+    private ArrayList<String> array = new ArrayList<String>();
+    private CustomAdapter adapter;
+    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -87,23 +97,32 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.invite_friend_card:
-                String[] PLACEHOLDER_FRIEND_LIST = {"Friend 1", "Friend 2", "Friend 3"};
-                AlertDialog dialog;
-                AlertDialog.Builder builder;
-                if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-                else builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
-                builder.setTitle("Friend list");
-                // TODO: Add friend list.
-                builder.setItems(PLACEHOLDER_FRIEND_LIST, new DialogInterface.OnClickListener()
-                {
+                DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("friendList").addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                        {
+                            array.add(snapshot.getKey());
+                            ++number_of_friends;
+                        }
+                        AlertDialog dialog;
+                        AlertDialog.Builder builder;
+                        if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                        else builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+                        view = getLayoutInflater().inflate(R.layout.dialog_friend_list,null);
+                        adapter = new CustomAdapter();
+                        ListView list = (ListView) view.findViewById(R.id.list);
+                        list.setAdapter(adapter);
+                        builder.setView(view);
+                        builder.setTitle("Friends");
+                        dialog = builder.create();
+                        dialog.show();
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
-                dialog = builder.create();
-                dialog.show();
                 break;
 
             case R.id.categories_card:
@@ -134,6 +153,57 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
             case R.id.settings_gear:
                 UserPanelActivity.this.startActivity(new Intent(UserPanelActivity.this, SettingsActivity.class));
                 break;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        /**
+         * TODO: Add AlertDialog to list items with options: remove quiz, play.
+         * */
+    }
+
+    class CustomAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return number_of_friends;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = convertView;
+            UserPanelActivity.ViewHolder holder = null;
+            if (row == null) {
+                LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                row = inflater.inflate(R.layout.listview_myquizzes, parent, false);
+                holder = new UserPanelActivity.ViewHolder(row, position);
+                row.setTag(holder);
+            }
+            else {
+                holder = (UserPanelActivity.ViewHolder) row.getTag();
+            }
+            holder.text.setText(array.get(position));
+            return row;
+        }
+    }
+
+    static class ViewHolder {
+        TextView text;
+        int position;
+        ViewHolder(View v, int position) {
+            text = (TextView) v.findViewById(R.id.item);
+            this.position = position;
         }
     }
 

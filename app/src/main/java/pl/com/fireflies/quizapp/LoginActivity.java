@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.StorageReference;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button login_button, register_button;
     private ProgressDialog progressDialog;
     private CheckBox checkBox;
+    private AlertDialog dialog;
     public static final String PREF_VAR = "pref_vars";
 
     @Override
@@ -157,7 +159,40 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         // TODO: It would be better to download image one time and save it to file and load it from it instead of downloading it every time you sign in.
                         DataHolder.getInstance().avatarBitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                         progressDialog.dismiss();
-                        LoginActivity.this.startActivity(new Intent(LoginActivity.this, UserPanelActivity.class));
+                        if (DataHolder.firebaseUser.getDisplayName() == null)
+                        {
+                            AlertDialog.Builder builder;
+                            if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                            else builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+                            View view = getLayoutInflater().inflate(R.layout.dialog_update_username,null);
+                            final EditText name = (EditText) view.findViewById(R.id.name);
+                            Button update = (Button) view.findViewById(R.id.update);
+                            update.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(name.getText().toString()).build();
+                                    DataHolder.firebaseUser.updateProfile(profile)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(LoginActivity.this,"Displayname have been updated",Toast.LENGTH_SHORT).show();
+                                                    dialog.dismiss();
+                                                    LoginActivity.this.startActivity(new Intent(LoginActivity.this, UserPanelActivity.class));
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                }
+                            });
+                            builder.setView(view);
+                            dialog = builder.create();
+                            dialog.show();
+                        }
+                        else LoginActivity.this.startActivity(new Intent(LoginActivity.this, UserPanelActivity.class));
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -182,11 +217,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.register_button:
-                Pair[] pairs = new Pair[4];
+                Pair[] pairs = new Pair[5];
                 pairs[0] = new Pair<View, String>(login_edit, "emailTransition");
                 pairs[1] = new Pair<View, String>(password_edit, "passwordTransition");
                 pairs[2] = new Pair<View, String>(login_button, "date_button_transition");
                 pairs[3] = new Pair<View, String>(register_button, "register_button_transition");
+                pairs[4] = new Pair<View, String>(login_edit, "nameTransition");
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,pairs);
                 LoginActivity.this.startActivity(new Intent(LoginActivity.this, RegisterActivity.class), options.toBundle());
                 break;
