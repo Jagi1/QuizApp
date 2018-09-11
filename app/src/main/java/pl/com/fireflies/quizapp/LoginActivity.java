@@ -17,11 +17,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -85,6 +88,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         checkBox.setChecked(getSharedPreferences(PREF_VAR,0).getBoolean("pass_checked", false));
         login_edit.setText(getSharedPreferences(PREF_VAR,0).getString("login", ""));
         password_edit.setText(getSharedPreferences(PREF_VAR,0).getString("password", ""));
+        password_edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                switch (i) {
+                    case EditorInfo.IME_ACTION_DONE:
+                        if (!TextUtils.isEmpty(login_edit.getText()) && !TextUtils.isEmpty(password_edit.getText()))
+                        {
+                            if (isNetworkConnected()) login(login_edit.getText().toString(), password_edit.getText().toString());
+                            else Toast.makeText(LoginActivity.this, R.string.no_connection, Toast.LENGTH_SHORT).show();
+                        }
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
     }
 
     private boolean isNetworkConnected()

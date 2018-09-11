@@ -50,7 +50,21 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
         updateUserProperties();
-        // Test
+        DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("friendList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren())
+                {
+                    array.add(snapshot.getValue().toString());
+                    ++number_of_friends;
+                }
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -98,33 +112,19 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.invite_friend_card:
-                DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("friendList").addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren())
-                        {
-                            array.add(snapshot.getValue().toString());
-                            ++number_of_friends;
-                        }
-                        AlertDialog dialog;
-                        AlertDialog.Builder builder;
-                        if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-                        else builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
-                        view = getLayoutInflater().inflate(R.layout.dialog_friend_list,null);
-                        adapter = new CustomAdapter();
-                        ListView list = (ListView) view.findViewById(R.id.list);
-                        list.setAdapter(adapter);
-                        builder.setView(view);
-                        builder.setTitle("Friends");
-                        dialog = builder.create();
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.show();
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                AlertDialog dialog;
+                AlertDialog.Builder builder;
+                if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                else builder = new AlertDialog.Builder(UserPanelActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+                view = getLayoutInflater().inflate(R.layout.dialog_friend_list,null);
+                adapter = new CustomAdapter();
+                ListView list = (ListView) view.findViewById(R.id.list);
+                list.setAdapter(adapter);
+                builder.setView(view);
+                builder.setTitle("Friends");
+                dialog = builder.create();
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.show();
                 break;
 
             case R.id.categories_card:
