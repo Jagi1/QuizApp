@@ -14,6 +14,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
@@ -102,7 +103,7 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren())
                         {
-                            array.add(snapshot.getKey());
+                            array.add(snapshot.getValue().toString());
                             ++number_of_friends;
                         }
                         AlertDialog dialog;
@@ -116,6 +117,7 @@ public class UserPanelActivity extends AppCompatActivity implements View.OnClick
                         builder.setView(view);
                         builder.setTitle("Friends");
                         dialog = builder.create();
+                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                         dialog.show();
                     }
                     @Override

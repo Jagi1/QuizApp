@@ -12,24 +12,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MyQuizzesActivity extends AppCompatActivity implements View.OnClickListener, ListView.OnItemClickListener {
+public class MyQuizzesActivity extends AppCompatActivity implements View.OnClickListener, ListView.OnItemLongClickListener {
     private Intent intent;
     private ListView listView;
     private CustomAdapter adapter;
     private int number_of_quizzes = 0;
     private ArrayList<String> array = new ArrayList<String>();
+    private ArrayList<String> catArray = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,8 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
                         if (inner_snapshot.child("metadata").child("author").getValue() == null) continue;
                         String author = inner_snapshot.child("metadata").child("author").getValue().toString();
                         if (author.equals(DataHolder.firebaseUser.getUid())) {
-                            array.add(inner_snapshot.getKey().toString());
+                            array.add(inner_snapshot.getKey());
+                            catArray.add(snapshot.getKey());
                             ++number_of_quizzes;
                         }
                     }
@@ -74,6 +79,7 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
                                 }
                             });
                     alertDialog = builder.create();
+                    alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     alertDialog.show();
                 }
                 else initViews();
@@ -102,10 +108,35 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        /**
-         * TODO: Add AlertDialog to list items with options: remove quiz, play.
-         * */
+    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+        final int position = i;
+        AlertDialog dialog;
+        AlertDialog.Builder builder;
+        if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(MyQuizzesActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        else builder = new AlertDialog.Builder(MyQuizzesActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setMessage("Do you want to delete this quiz?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        DataHolder.firebaseDatabase.child("quizy").child(catArray.get(position)).child(array.get(position)).removeValue()
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(MyQuizzesActivity.this,"Quiz" + array.get(position) + "have been sucessfuly removed.",Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+        dialog = builder.create();
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.show();
+        return false;
     }
 
     class CustomAdapter extends BaseAdapter {
@@ -156,6 +187,6 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
         listView = (ListView) findViewById(R.id.list);
         adapter = new CustomAdapter();
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
+        listView.setOnItemLongClickListener(this);
     }
 }
