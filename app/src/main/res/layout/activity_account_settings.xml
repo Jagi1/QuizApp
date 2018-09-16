@@ -174,26 +174,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/znajomi"
-                app:layout_constraintBottom_toBottomOf="@id/znajomi"
+                app:layout_constraintEnd_toStartOf="@id/add_friend"
+                app:layout_constraintBottom_toBottomOf="@id/add_friend"
                 android:text="Premium" />
 
             <Button
-                android:id="@+id/znajomi"
+                android:id="@+id/add_friend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:text="@string/znajomi" />
+                android:text="Add friend" />
 
             <Button
                 android:id="@+id/logout_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/znajomi"
-                app:layout_constraintBottom_toBottomOf="@id/znajomi"
+                app:layout_constraintStart_toEndOf="@id/add_friend"
+                app:layout_constraintBottom_toBottomOf="@id/add_friend"
                 android:text="@string/wyloguj" />
         </android.support.constraint.ConstraintLayout>
 

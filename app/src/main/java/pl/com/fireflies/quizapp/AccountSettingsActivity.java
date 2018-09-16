@@ -3,6 +3,8 @@ package pl.com.fireflies.quizapp;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -10,14 +12,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.inputmethod.EditorInfo;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +35,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -38,6 +50,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
     private ImageView avatar_image;
     private ProgressDialog progressDialog;
     private AlertDialog dialog;
+    private Button add_friend;
+    private boolean friend_found = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,6 +75,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
     @Override
     public void onClick(View v)
     {
+        AlertDialog.Builder builder;
+        View view;
         switch (v.getId())
         {
             case R.id.change_email:
@@ -90,16 +106,16 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                 break;
 
             case R.id.update_username:
-                AlertDialog.Builder builder;
                 if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(AccountSettingsActivity.this, android.R.style.Theme_Material_Dialog_Alert);
                 else builder = new AlertDialog.Builder(AccountSettingsActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
-                View view = getLayoutInflater().inflate(R.layout.dialog_update_username,null);
+                view = getLayoutInflater().inflate(R.layout.dialog_update_username,null);
                 final EditText name = (EditText) view.findViewById(R.id.name);
                 Button update = (Button) view.findViewById(R.id.update);
                 update.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(name.getText().toString()).build();
+                        DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("name").setValue(name.getText().toString());
                         DataHolder.firebaseUser.updateProfile(profile)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -119,6 +135,54 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                 builder.setView(view);
                 dialog = builder.create();
                 dialog.show();
+                break;
+            case R.id.add_friend:
+                if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(AccountSettingsActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                else builder = new AlertDialog.Builder(AccountSettingsActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
+                view = getLayoutInflater().inflate(R.layout.dialog_friend_find,null);
+                final TextInputEditText name2 = (TextInputEditText) view.findViewById(R.id.name_t);
+                final Button button = (Button) view.findViewById(R.id.button);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DataHolder.firebaseDatabase.child("users").addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    if (snapshot.child("name").getValue() != null)
+                                    {
+                                        if (snapshot.child("name").getValue().toString().equals(name2.getText().toString()))
+                                        {
+                                            DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("friendList")
+                                                    .child(snapshot.getKey()).setValue(snapshot.child("name").getValue());
+                                            Toast.makeText(AccountSettingsActivity.this,snapshot.child("name").getValue()+" have been added into your friendlist",Toast.LENGTH_SHORT).show();
+                                            friend_found = true;
+                                            dialog.dismiss();
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                Toast.makeText(AccountSettingsActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                builder.setView(view);
+                dialog = builder.create();
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.show();
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        if (friend_found) Toast.makeText(AccountSettingsActivity.this,"Friend have been added...", Toast.LENGTH_SHORT).show();
+                        else Toast.makeText(AccountSettingsActivity.this, "Sorry, we couldn't find user with this name...", Toast.LENGTH_SHORT).show();
+                        friend_found = false;
+                    }
+                });
                 break;
         }
     }
@@ -237,5 +301,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
         }
         Button update_username = (Button) findViewById(R.id.update_username);
         update_username.setOnClickListener(this);
+        add_friend = (Button) findViewById(R.id.add_friend);
+        add_friend.setOnClickListener(this);
     }
 }

@@ -103,6 +103,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         Toast.makeText(RegisterActivity.this, "Rejestracja powiodła się.", Toast.LENGTH_SHORT).show();
                         DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("level").setValue("1");
                         DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("currency").setValue("0");
+                        DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("name").setValue(login_edit.getText().toString());
                         DataHolder.firebaseAuth // Send verification email
                                 .signInWithEmailAndPassword(email_edit.getText().toString(), password_edit.getText().toString())
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {

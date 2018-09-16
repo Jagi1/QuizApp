@@ -27,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MyQuizzesActivity extends AppCompatActivity implements View.OnClickListener, ListView.OnItemLongClickListener {
+public class MyQuizzesActivity extends AppCompatActivity implements View.OnClickListener, ListView.OnItemLongClickListener, ListView.OnItemClickListener {
     private Intent intent;
     private ListView listView;
     private CustomAdapter adapter;
@@ -139,6 +139,13 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
         return false;
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        startActivity(new Intent(MyQuizzesActivity.this, PlayQuiz.class)
+                .putExtra("name", array.get(i))
+                .putExtra("category", catArray.get(i)));
+    }
+
     class CustomAdapter extends BaseAdapter {
 
         @Override
@@ -188,5 +195,6 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
         adapter = new CustomAdapter();
         listView.setAdapter(adapter);
         listView.setOnItemLongClickListener(this);
+        listView.setOnItemClickListener(this);
     }
 }

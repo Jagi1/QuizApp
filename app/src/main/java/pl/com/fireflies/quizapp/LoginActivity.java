@@ -190,6 +190,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 @Override
                                 public void onClick(View view) {
                                     UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(name.getText().toString()).build();
+                                    DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("name").setValue(name.getText().toString());
                                     DataHolder.firebaseUser.updateProfile(profile)
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
