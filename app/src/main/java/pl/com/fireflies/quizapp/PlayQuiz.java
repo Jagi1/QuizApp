@@ -9,7 +9,6 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +27,6 @@ public class PlayQuiz extends AppCompatActivity implements View.OnClickListener
     private ImageView image;
     private Button prev, next;
     private ArrayList<Pair<String, ArrayList<String>>> questions;
-    private String question_name;
     private ArrayList<Button> buttons;
     private TextView textQuestion;
     private int iter = 0, score = 0;
@@ -60,7 +58,7 @@ public class PlayQuiz extends AppCompatActivity implements View.OnClickListener
                         {
                             if (snapshot.getKey() != null && snapshot.getKey().equals("metadata"))
                                 continue;
-                            questions.add(new Pair<String, ArrayList<String>>(snapshot.getKey(), new ArrayList<String>())); // Add new set question / answers
+                            questions.add(new Pair<>(snapshot.getKey(), new ArrayList<String>())); // Add new set question / answers
                             textQuestion.setText(snapshot.getKey()); // Write questions
                             for (DataSnapshot mySnapshot : snapshot.getChildren()) // Write answers
                                 if (mySnapshot.getValue() != null)
@@ -68,7 +66,7 @@ public class PlayQuiz extends AppCompatActivity implements View.OnClickListener
                             ++iter;
                         }
                         textQuestion.setText(questions.get(0).first); // Set first pair of question and answers
-                        question_number.setText("1/"+(iter+1));
+                        question_number.setText(getString(R.string.q_no,1,iter+1));
                         DataHolder.storageReference.child("quizzesImages").child(quiz_name.getText().toString()).child("image0").getBytes(1024*1024 * 3)
                                 .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                                     @Override
@@ -107,13 +105,13 @@ public class PlayQuiz extends AppCompatActivity implements View.OnClickListener
 
     protected void initViews()
     {
-        quiz_name = (TextView) findViewById(R.id.nameQuiz);
-        image = (ImageView) findViewById(R.id.image);
+        quiz_name = findViewById(R.id.nameQuiz);
+        image = findViewById(R.id.image);
         questions = new ArrayList<>();
-        prev = (Button) findViewById(R.id.button_prev);
-        next = (Button) findViewById(R.id.button_next);
-        question_number = (TextView) findViewById(R.id.question_id);
-        textQuestion = (TextView) findViewById(R.id.question);
+        prev = findViewById(R.id.button_prev);
+        next = findViewById(R.id.button_next);
+        question_number = findViewById(R.id.question_id);
+        textQuestion = findViewById(R.id.question);
         buttons = new ArrayList<Button>() {{
            add((Button) findViewById(R.id.ans1));
            add((Button) findViewById(R.id.ans2));
@@ -148,9 +146,9 @@ public class PlayQuiz extends AppCompatActivity implements View.OnClickListener
                 if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(PlayQuiz.this, android.R.style.Theme_Material_Dialog_Alert);
                 else builder = new AlertDialog.Builder(PlayQuiz.this, android.R.style.Theme_Material_Light_Dialog_Alert);
                 View view1 = getLayoutInflater().inflate(R.layout.dialog_quiz_result,null);
-                TextView punktacja = (TextView)view1.findViewById(R.id.punktacja);
-                Button play_again = (Button)view1.findViewById(R.id.play_again);
-                Button back = (Button)view1.findViewById(R.id.back);
+                TextView punktacja = view1.findViewById(R.id.punktacja);
+                Button play_again = view1.findViewById(R.id.play_again);
+                Button back = view1.findViewById(R.id.back);
                 punktacja.setText(String.valueOf(score));
                 play_again.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -194,7 +192,7 @@ public class PlayQuiz extends AppCompatActivity implements View.OnClickListener
             else
             {
                 textQuestion.setText(questions.get(iter).first);
-                question_number.setText((iter+1)+"/"+questions.size());
+                question_number.setText(getString(R.string.q_no,iter+1,questions.size()));
                 DataHolder.storageReference.child("quizzesImages").child(quiz_name.getText().toString()).child("image"+iter).getBytes(1024*1024 * 3)
                         .addOnSuccessListener(new OnSuccessListener<byte[]>() {
                             @Override

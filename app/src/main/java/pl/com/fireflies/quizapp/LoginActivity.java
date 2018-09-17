@@ -12,7 +12,6 @@ import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -27,17 +26,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.storage.StorageReference;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener
 {
-    private TextInputLayout inputLayout;
     private TextInputEditText login_edit, password_edit;
     private Button login_button, register_button;
     private ProgressDialog progressDialog;
@@ -67,14 +62,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     protected void initViews()
     {
-        login_edit = (TextInputEditText) findViewById(R.id.login_edit_2);
-        inputLayout = (TextInputLayout) findViewById(R.id.login_edit);
-        password_edit = (TextInputEditText) findViewById(R.id.password_edit_2);
-        login_button = (Button) findViewById(R.id.login_button);register_button = (Button) findViewById(R.id.register_button);
+        login_edit = findViewById(R.id.login_edit_2);
+        password_edit = findViewById(R.id.password_edit_2);
+        login_button = findViewById(R.id.login_button);register_button = findViewById(R.id.register_button);
         login_button.setOnClickListener(this);
         register_button.setOnClickListener(this);
-        checkBox = (CheckBox) findViewById(R.id.remember_check_box);
-        ImageView logo = (ImageView)findViewById(R.id.logo_image);
+        checkBox = findViewById(R.id.remember_check_box);
+        ImageView logo = findViewById(R.id.logo_image);
         if (DataHolder.getInstance().dark_theme)
         {
             logo.setImageResource(R.drawable.iluminati_logo_dark);
@@ -184,8 +178,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Dialog_Alert);
                             else builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
                             View view = getLayoutInflater().inflate(R.layout.dialog_update_username,null);
-                            final EditText name = (EditText) view.findViewById(R.id.name);
-                            Button update = (Button) view.findViewById(R.id.update);
+                            final EditText name = view.findViewById(R.id.name);
+                            Button update = view.findViewById(R.id.update);
                             update.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {

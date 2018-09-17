@@ -7,15 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,10 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MyQuizzesActivity extends AppCompatActivity implements View.OnClickListener, ListView.OnItemLongClickListener, ListView.OnItemClickListener {
-    private Intent intent;
-    private ListView listView;
-    private CustomAdapter adapter;
+public class MyQuizzesActivity extends AppCompatActivity implements ListView.OnItemLongClickListener, ListView.OnItemClickListener {
     private int number_of_quizzes = 0;
     private ArrayList<String> array = new ArrayList<String>();
     private ArrayList<String> catArray = new ArrayList<String>();
@@ -59,7 +53,7 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
                     }
                 }
                 if (number_of_quizzes == 0) {
-                    /**
+                    /*
                      * TODO: Swap AlertDialog layout to custom one.
                      * */
                     AlertDialog alertDialog;
@@ -97,14 +91,6 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
         super.onRestart();
         if (DataHolder.getInstance().theme_changed) recreate();
         MyQuizzesActivity.this.finish();
-    }
-
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-
-        }
     }
 
     @Override
@@ -166,7 +152,7 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View row = convertView;
-            ViewHolder holder = null;
+            ViewHolder holder;
             if (row == null) {
                 LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 row = inflater.inflate(R.layout.listview_myquizzes, parent, false);
@@ -185,14 +171,14 @@ public class MyQuizzesActivity extends AppCompatActivity implements View.OnClick
         TextView text;
         int position;
         ViewHolder(View v, int position) {
-            text = (TextView) v.findViewById(R.id.item);
+            text = v.findViewById(R.id.item);
             this.position = position;
         }
     }
 
     protected void initViews() {
-        listView = (ListView) findViewById(R.id.list);
-        adapter = new CustomAdapter();
+        ListView listView = findViewById(R.id.list);
+        CustomAdapter adapter = new CustomAdapter();
         listView.setAdapter(adapter);
         listView.setOnItemLongClickListener(this);
         listView.setOnItemClickListener(this);

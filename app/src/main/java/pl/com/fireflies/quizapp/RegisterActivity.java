@@ -15,13 +15,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
@@ -79,11 +76,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      * Method used to initialize layout views in one place.
      * */
     protected void initViews() {
-        login_edit = (TextInputEditText) findViewById(R.id.login_edit_2);
-        email_edit = (TextInputEditText) findViewById(R.id.email_edit_2);
-        password_edit = (TextInputEditText) findViewById(R.id.password_edit_2);
-        date_button = (Button) findViewById(R.id.date_button);
-        Button register_button = (Button) findViewById(R.id.register_button);
+        login_edit = findViewById(R.id.login_edit_2);
+        email_edit = findViewById(R.id.email_edit_2);
+        password_edit = findViewById(R.id.password_edit_2);
+        date_button = findViewById(R.id.date_button);
+        Button register_button = findViewById(R.id.register_button);
         register_button.setOnClickListener(this);
         date_button.setOnClickListener(this);
     }

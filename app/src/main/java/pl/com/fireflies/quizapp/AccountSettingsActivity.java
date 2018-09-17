@@ -3,11 +3,9 @@ package pl.com.fireflies.quizapp;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,17 +14,11 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +31,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
@@ -50,7 +41,6 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
     private ImageView avatar_image;
     private ProgressDialog progressDialog;
     private AlertDialog dialog;
-    private Button add_friend;
     private boolean friend_found = false;
 
     @Override
@@ -80,7 +70,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
         switch (v.getId())
         {
             case R.id.change_email:
-                EditText text = (EditText) findViewById(R.id.email_edit);
+                EditText text = findViewById(R.id.email_edit);
                 String stringNewEmail = String.valueOf(text.getText());
                 DataHolder.firebaseUser
                         .updateEmail(stringNewEmail)
@@ -109,8 +99,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                 if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(AccountSettingsActivity.this, android.R.style.Theme_Material_Dialog_Alert);
                 else builder = new AlertDialog.Builder(AccountSettingsActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
                 view = getLayoutInflater().inflate(R.layout.dialog_update_username,null);
-                final EditText name = (EditText) view.findViewById(R.id.name);
-                Button update = (Button) view.findViewById(R.id.update);
+                final EditText name = view.findViewById(R.id.name);
+                Button update = view.findViewById(R.id.update);
                 update.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -140,8 +130,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                 if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(AccountSettingsActivity.this, android.R.style.Theme_Material_Dialog_Alert);
                 else builder = new AlertDialog.Builder(AccountSettingsActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
                 view = getLayoutInflater().inflate(R.layout.dialog_friend_find,null);
-                final TextInputEditText name2 = (TextInputEditText) view.findViewById(R.id.name_t);
-                final Button button = (Button) view.findViewById(R.id.button);
+                final TextInputEditText name2 = view.findViewById(R.id.name_t);
+                final Button button = view.findViewById(R.id.button);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -255,7 +245,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot
                                     .getTotalByteCount());
-                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                            progressDialog.setMessage(getString(R.string.upload_info,(int)progress));
                         }
                     });
         }
@@ -278,30 +268,27 @@ public class AccountSettingsActivity extends AppCompatActivity implements View.O
            add((Button) findViewById(R.id.change_avatar));
         }};
         for (Button button : buttons) button.setOnClickListener(this);
-        avatar_image = (ImageView) findViewById(R.id.avatar);
+        avatar_image = findViewById(R.id.avatar);
         avatar_image.setImageBitmap(DataHolder.getInstance().avatarBitmap);
-        TextView loginText = (TextView) findViewById(R.id.username);
+        TextView loginText = findViewById(R.id.username);
         progressDialog = new ProgressDialog(this);
         if(DataHolder.getInstance().dark_theme)
         {
-            cards.get(0).setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkRed));
-            cards.get(1).setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark1));
-            cards.get(2).setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDark2));
-            cards.get(3).setCardBackgroundColor(getResources().getColor(R.color.colorMaterialDarkYellow));
+            cards.get(0).setCardBackgroundColor(getColor(R.color.colorMaterialDarkRed));
+            cards.get(1).setCardBackgroundColor(getColor(R.color.colorMaterialDark1));
+            cards.get(2).setCardBackgroundColor(getColor(R.color.colorMaterialDark2));
+            cards.get(3).setCardBackgroundColor(getColor(R.color.colorMaterialDarkYellow));
         }
         if (DataHolder.firebaseUser != null)
         {
-            String name = DataHolder.firebaseUser.getDisplayName();
-            String email = DataHolder.firebaseUser.getEmail();
-            // Check if user's email is verified
             if (DataHolder.firebaseUser.getDisplayName() == null)
-                loginText.setText("Username is not set yet...");
+                loginText.setText(R.string.username_info);
             else
                 loginText.setText(DataHolder.firebaseUser.getDisplayName());
         }
-        Button update_username = (Button) findViewById(R.id.update_username);
+        Button update_username = findViewById(R.id.update_username);
         update_username.setOnClickListener(this);
-        add_friend = (Button) findViewById(R.id.add_friend);
+        Button add_friend = findViewById(R.id.add_friend);
         add_friend.setOnClickListener(this);
     }
 }

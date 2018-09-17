@@ -19,13 +19,11 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
 public class ChallengesActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button btnChoose, btnUpload;
     private ImageView imageView;
     private Uri uriFilePath;
 
@@ -42,11 +40,11 @@ public class ChallengesActivity extends AppCompatActivity implements View.OnClic
         if (DataHolder.getInstance().dark_theme) getWindow().setBackgroundDrawableResource(R.drawable.background_dark);
         else getWindow().setBackgroundDrawableResource(R.drawable.background);
 
-        initViews(); // inicjalizacja widokow
+        initViews();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case DataHolder.STORAGE_PERMISSION_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -54,7 +52,6 @@ public class ChallengesActivity extends AppCompatActivity implements View.OnClic
                 } else {
                     Toast.makeText(this, "Pozwolenie nie zostało przyznane.", Toast.LENGTH_SHORT).show();
                 }
-                return;
             }
         }
     }
@@ -77,9 +74,9 @@ public class ChallengesActivity extends AppCompatActivity implements View.OnClic
     }
 
     protected void initViews() {
-        btnChoose = (Button) findViewById(R.id.btnChoose);
-        btnUpload = (Button) findViewById(R.id.btnUpload);
-        imageView = (ImageView) findViewById(R.id.imgView);
+        Button btnChoose = findViewById(R.id.btnChoose);
+        Button btnUpload = findViewById(R.id.btnUpload);
+        imageView = findViewById(R.id.imgView);
         btnChoose.setOnClickListener(this);
         btnUpload.setOnClickListener(this);
     }
@@ -112,10 +109,7 @@ public class ChallengesActivity extends AppCompatActivity implements View.OnClic
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
 
-            final StorageReference refStoragePath = DataHolder.getInstance().storageReference
-                    .child("images").child(uriFilePath.getLastPathSegment());
-
-            UploadTask uploadTask = refStoragePath.putFile(uriFilePath);
+            UploadTask uploadTask = DataHolder.storageReference.child("images").child(uriFilePath.getLastPathSegment()).putFile(uriFilePath);
             uploadTask
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override

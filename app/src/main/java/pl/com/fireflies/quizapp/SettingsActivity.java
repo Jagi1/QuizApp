@@ -2,7 +2,6 @@ package pl.com.fireflies.quizapp;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -10,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ListView;
 import android.widget.Switch;
 
 import java.util.ArrayList;
@@ -88,7 +86,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             add((CardView) findViewById(R.id.card2));
         }};
         for (CardView card : cards) card.setOnClickListener(this);
-        Switch theme_switch = (Switch) findViewById(R.id.theme);
+        Switch theme_switch = findViewById(R.id.theme);
         theme_switch.setChecked(getSharedPreferences(PREF_VAR, 0).getBoolean("dark_theme", false));
         theme_switch.setOnCheckedChangeListener(this);
         if (DataHolder.getInstance().dark_theme) theme_switch.setChecked(true);

@@ -6,28 +6,19 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.Toolbar;
-import android.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,7 +30,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
@@ -48,12 +38,9 @@ import java.util.ArrayList;
 public class NewQuizActivity extends AppCompatActivity implements View.OnClickListener
 {
     private ImageView image1View;
-    private Button addQuizButton, clearFormButton, chooseImage1;
     private ArrayList<String> textsQuestions;
     private ArrayList<ArrayList<String>> textsAnswers;
     private Uri uriFilePath;
-    private String image1URL;
-    private LinearLayoutCompat layout;
     private Spinner dialogSpinner_01, dialogSpinner_02;
     private EditText dialogEdit_01;
     private Button dialogButton_01;
@@ -65,8 +52,6 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     private AlertDialog.Builder builder;
     private Boolean isSelected_01 = false, isSelected_02 = false;
     private boolean canFinish = false;
-    private boolean clicked;
-    private int it;
     private Button next, prev;
     private TextView qID;
     private TextInputEditText question_input;
@@ -88,11 +73,11 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
         if (DataHolder.getInstance().dark_theme) builder = new AlertDialog.Builder(NewQuizActivity.this, android.R.style.Theme_Material_Dialog_Alert);
         else builder = new AlertDialog.Builder(NewQuizActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert);
         final View view = getLayoutInflater().inflate(R.layout.dialog_new_quiz,null,false);
-        dialogSpinner_01 = (Spinner)view.findViewById(R.id.spinner_01);
-        dialogSpinner_02 = (Spinner)view.findViewById(R.id.spinner_02);
-        dialogEdit_01 = (EditText)view.findViewById(R.id.edit_01);
-        dialogButton_01 = (Button)view.findViewById(R.id.button_01);
-        dialogArray_01 = new ArrayList<String>();
+        dialogSpinner_01 = view.findViewById(R.id.spinner_01);
+        dialogSpinner_02 = view.findViewById(R.id.spinner_02);
+        dialogEdit_01 = view.findViewById(R.id.edit_01);
+        dialogButton_01 = view.findViewById(R.id.button_01);
+        dialogArray_01 = new ArrayList<>();
         dialogArray_02 = new ArrayList<String>() {{ add("5"); add("6"); add("7"); add("8"); add("9"); add("10");}};
         DataHolder.firebaseDatabase.child("quizy").addValueEventListener(new ValueEventListener() {
             @Override
@@ -116,8 +101,8 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     protected void helpFunction(View view) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(NewQuizActivity.this, android.R.layout.simple_spinner_item, dialogArray_01);
-        ArrayAdapter<String> adapter_02 = new ArrayAdapter<String>(NewQuizActivity.this, android.R.layout.simple_spinner_item, dialogArray_02);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(NewQuizActivity.this, android.R.layout.simple_spinner_item, dialogArray_01);
+        ArrayAdapter<String> adapter_02 = new ArrayAdapter<>(NewQuizActivity.this, android.R.layout.simple_spinner_item, dialogArray_02);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         adapter_02.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -134,7 +119,6 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                int xd = 1;
             }
         });
 
@@ -147,7 +131,6 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                int xd = 1;
             }
         });
         builder.setView(view);
@@ -160,7 +143,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                 {
                     quizName = dialogEdit_01.getText().toString();
                     alertDialog.dismiss();
-                    qID.setText("Pytanie "+(iter+1)+"/"+amountOfQuestions);
+                    qID.setText(getString(R.string.question_no,iter+1,amountOfQuestions));
                     prev.setVisibility(View.VISIBLE);
                     next.setVisibility(View.VISIBLE);
                     qID.setVisibility(View.VISIBLE);
@@ -235,7 +218,7 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                         if (images.get(iter) != null) image1View.setImageURI(images.get(iter));
                         else image1View.setImageURI(images.get(iter));
                         question_input.setText(textsQuestions.get(iter));
-                        qID.setText("Pytanie "+(iter+1)+"/"+amountOfQuestions);
+                        qID.setText(getString(R.string.question_no,iter+1,amountOfQuestions));
                         int i = 0;
                         for (TextInputEditText answer : ans)
                         {
@@ -243,8 +226,8 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                             ++i;
                         }
                     }
-                    if (iter == amountOfQuestions-1) next.setText("Add quiz");
-                    else next.setText("Next");
+                    if (iter == amountOfQuestions-1) next.setText(R.string.add_quiz);
+                    else next.setText(R.string.next);
                     question_input.clearFocus();
                     for (TextInputEditText answer : ans)
                         answer.clearFocus();
@@ -262,13 +245,13 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
                     --iter;
                     if (images.get(iter) != null) image1View.setImageURI(images.get(iter));
                     else image1View.setImageResource(0);
-                    qID.setText("Pytanie "+(iter+1)+"/"+amountOfQuestions);
+                    qID.setText(getString(R.string.question_no,iter+1,amountOfQuestions));
                     for (TextInputEditText answer : ans)
                     {
                         answer.setText(textsAnswers.get(iter).get(i));
                         ++i;
                     }
-                    next.setText("Next");
+                    next.setText(R.string.next);
                     question_input.clearFocus();
                     for (TextInputEditText answer : ans)
                         answer.clearFocus();
@@ -309,10 +292,6 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-            image1URL = DataHolder.storageReference
-                    .child("images")
-                    .child(uriFilePath.getLastPathSegment())
-                    .toString();
             DataHolder.storageReference
                     .child("images")
                     .child(uriFilePath.getLastPathSegment())
@@ -378,27 +357,22 @@ public class NewQuizActivity extends AppCompatActivity implements View.OnClickLi
 //        pathName.child(questionquiz1.getText().toString()).child("image1").setValue(image1URL);
     }
 
-    private void clearForm() {
-
-    }
-
     protected void initViews()
     {
-        image1View = (ImageView) findViewById(R.id.image);
-        question_input = (TextInputEditText) findViewById(R.id.question_t);
+        image1View = findViewById(R.id.image);
+        question_input = findViewById(R.id.question_t);
         ans = new ArrayList<TextInputEditText>() {{
            add((TextInputEditText) findViewById(R.id.ans1_t));
            add((TextInputEditText) findViewById(R.id.ans2_t));
            add((TextInputEditText) findViewById(R.id.ans3_t));
            add((TextInputEditText) findViewById(R.id.ans4_t));
         }};
-        prev = (Button) findViewById(R.id.button_prev);
-        next = (Button) findViewById(R.id.button_next);
+        prev = findViewById(R.id.button_prev);
+        next = findViewById(R.id.button_next);
         image1View.setOnClickListener(this);
         next.setOnClickListener(this);
         prev.setOnClickListener(this);
-        qID = (TextView) findViewById(R.id.question_id);
-        layout = (LinearLayoutCompat) findViewById(R.id.layout);
+        qID = findViewById(R.id.question_id);
         prev.setVisibility(View.INVISIBLE);
         next.setVisibility(View.INVISIBLE);
         qID.setVisibility(View.INVISIBLE);

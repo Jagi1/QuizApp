@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class SelectCategories extends AppCompatActivity {
@@ -43,7 +41,7 @@ public class SelectCategories extends AppCompatActivity {
             {
                 int i = 1;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    LinearLayout linearLayout = (LinearLayout) findViewById(R.id.linear);
+                    LinearLayout linearLayout = findViewById(R.id.linear);
                     Button btn = new Button(SelectCategories.this);
                     btn.setText(snapshot.getKey());
                     btn.setTag(snapshot.getKey());

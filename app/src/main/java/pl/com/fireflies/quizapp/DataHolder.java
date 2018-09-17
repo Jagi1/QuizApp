@@ -5,13 +5,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +27,7 @@ public class DataHolder {
     public static FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     // Pobieranie informacji o zalogowanym uzytkowniku
     public static FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-    public static FirebaseStorage storage = FirebaseStorage.getInstance();
+    private static FirebaseStorage storage = FirebaseStorage.getInstance();
     // Wskaznik do Storage w Firebase (informacje o uzytkownikach)
 //    public static StorageReference storageReference = storage.getReferenceFromUrl("gs://quiza2018.appspot.com");
     public static StorageReference storageReference = storage.getReference();
@@ -45,9 +40,8 @@ public class DataHolder {
     public boolean play_again = false;
     // zmienna Bitmap przechowuje zdjecie zaladowane z serwera
     public Bitmap avatarBitmap;
-    public boolean isAvatar = false;
 
-    public static final DataHolder getInstance() {
+    public static DataHolder getInstance() {
         return singleton;
     }
 
