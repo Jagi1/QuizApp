@@ -101,6 +101,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("level").setValue("1");
                         DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("currency").setValue("0");
                         DataHolder.firebaseDatabase.child("users").child(DataHolder.firebaseUser.getUid()).child("name").setValue(login_edit.getText().toString());
+                        DataHolder.storageReference.child("user").child(DataHolder.firebaseUser.getUid());
                         DataHolder.firebaseAuth // Send verification email
                                 .signInWithEmailAndPassword(email_edit.getText().toString(), password_edit.getText().toString())
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
