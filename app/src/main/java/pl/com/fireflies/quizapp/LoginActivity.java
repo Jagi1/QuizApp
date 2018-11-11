@@ -212,7 +212,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
-                        Log.e("ERROR_avatar", "blad");
+                        LoginActivity.this.startActivity(new Intent(LoginActivity.this, UserPanelActivity.class));
                     }
                 });
     }
